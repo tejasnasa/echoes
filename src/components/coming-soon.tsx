@@ -1,6 +1,5 @@
 "use client";
 
-import { section } from "framer-motion/client";
 import styles from "./coming-soon.module.css";
 import { motion } from "framer-motion";
 
