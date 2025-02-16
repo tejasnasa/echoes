@@ -11,6 +11,7 @@ function RouteComponent() {
       <Link to="/home">home </Link>
       <Link to="/signup">signup </Link>
       <Link to="/login">login </Link>
+      <Link to="/posts">posts </Link>
       <Outlet />
     </div>
   );
