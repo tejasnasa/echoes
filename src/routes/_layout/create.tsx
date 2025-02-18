@@ -1,44 +1,32 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
-import { createPost, fetchPosts } from "../../api/fetchPost";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createPost } from "../../api/fetchPost";
+import PostForm from "../../components/PostForm";
 
 export const Route = createFileRoute("/_layout/create")({
   component: RouteComponent,
 });
 
+const defaultUser = { text: "", images: [] };
+
 function RouteComponent() {
   const queryClient = useQueryClient();
-
-  // Queries
-  const query = useQuery({ queryKey: ["posts"], queryFn: fetchPosts });
+  const navigate = useNavigate();
 
   // Mutations
-  const mutation = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: createPost,
     onSuccess: () => {
-      // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ["posts"] });
+      navigate({ to: "/home" });
     },
   });
 
   return (
-    <div>
-      <ul>
-        {query.data?.responseObject.map((todo) => (
-          <li key={todo.id}>{todo.text}</li>
-        ))}
-      </ul>
-
-      <button
-        onClick={() => {
-          mutation.mutate({
-            images: [],
-            text: "Do Laundry",
-          });
-        }}
-      >
-        Add Todo
-      </button>
-    </div>
+    <PostForm
+      user={defaultUser}
+      onSubmit={(formData) => mutate(formData)}
+      isPending={isPending}
+    />
   );
 }
