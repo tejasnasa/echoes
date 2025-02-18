@@ -15,11 +15,10 @@ import { Route as LayoutImport } from './routes/_layout'
 import { Route as LayoutIndexImport } from './routes/_layout/index'
 import { Route as LayoutUserImport } from './routes/_layout/user'
 import { Route as LayoutSignupImport } from './routes/_layout/signup'
-import { Route as LayoutPostsImport } from './routes/_layout/posts'
 import { Route as LayoutLoginImport } from './routes/_layout/login'
 import { Route as LayoutHomeImport } from './routes/_layout/home'
 import { Route as LayoutAboutImport } from './routes/_layout/about'
-import { Route as LayoutPostPostIdImport } from './routes/_layout/post.$postId'
+import { Route as LayoutPostPostSerIdImport } from './routes/_layout/post.$postSerId'
 
 // Create/Update Routes
 
@@ -46,12 +45,6 @@ const LayoutSignupRoute = LayoutSignupImport.update({
   getParentRoute: () => LayoutRoute,
 } as any)
 
-const LayoutPostsRoute = LayoutPostsImport.update({
-  id: '/posts',
-  path: '/posts',
-  getParentRoute: () => LayoutRoute,
-} as any)
-
 const LayoutLoginRoute = LayoutLoginImport.update({
   id: '/login',
   path: '/login',
@@ -70,9 +63,9 @@ const LayoutAboutRoute = LayoutAboutImport.update({
   getParentRoute: () => LayoutRoute,
 } as any)
 
-const LayoutPostPostIdRoute = LayoutPostPostIdImport.update({
-  id: '/post/$postId',
-  path: '/post/$postId',
+const LayoutPostPostSerIdRoute = LayoutPostPostSerIdImport.update({
+  id: '/post/$postSerId',
+  path: '/post/$postSerId',
   getParentRoute: () => LayoutRoute,
 } as any)
 
@@ -108,13 +101,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutLoginImport
       parentRoute: typeof LayoutImport
     }
-    '/_layout/posts': {
-      id: '/_layout/posts'
-      path: '/posts'
-      fullPath: '/posts'
-      preLoaderRoute: typeof LayoutPostsImport
-      parentRoute: typeof LayoutImport
-    }
     '/_layout/signup': {
       id: '/_layout/signup'
       path: '/signup'
@@ -136,11 +122,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutIndexImport
       parentRoute: typeof LayoutImport
     }
-    '/_layout/post/$postId': {
-      id: '/_layout/post/$postId'
-      path: '/post/$postId'
-      fullPath: '/post/$postId'
-      preLoaderRoute: typeof LayoutPostPostIdImport
+    '/_layout/post/$postSerId': {
+      id: '/_layout/post/$postSerId'
+      path: '/post/$postSerId'
+      fullPath: '/post/$postSerId'
+      preLoaderRoute: typeof LayoutPostPostSerIdImport
       parentRoute: typeof LayoutImport
     }
   }
@@ -152,22 +138,20 @@ interface LayoutRouteChildren {
   LayoutAboutRoute: typeof LayoutAboutRoute
   LayoutHomeRoute: typeof LayoutHomeRoute
   LayoutLoginRoute: typeof LayoutLoginRoute
-  LayoutPostsRoute: typeof LayoutPostsRoute
   LayoutSignupRoute: typeof LayoutSignupRoute
   LayoutUserRoute: typeof LayoutUserRoute
   LayoutIndexRoute: typeof LayoutIndexRoute
-  LayoutPostPostIdRoute: typeof LayoutPostPostIdRoute
+  LayoutPostPostSerIdRoute: typeof LayoutPostPostSerIdRoute
 }
 
 const LayoutRouteChildren: LayoutRouteChildren = {
   LayoutAboutRoute: LayoutAboutRoute,
   LayoutHomeRoute: LayoutHomeRoute,
   LayoutLoginRoute: LayoutLoginRoute,
-  LayoutPostsRoute: LayoutPostsRoute,
   LayoutSignupRoute: LayoutSignupRoute,
   LayoutUserRoute: LayoutUserRoute,
   LayoutIndexRoute: LayoutIndexRoute,
-  LayoutPostPostIdRoute: LayoutPostPostIdRoute,
+  LayoutPostPostSerIdRoute: LayoutPostPostSerIdRoute,
 }
 
 const LayoutRouteWithChildren =
@@ -178,22 +162,20 @@ export interface FileRoutesByFullPath {
   '/about': typeof LayoutAboutRoute
   '/home': typeof LayoutHomeRoute
   '/login': typeof LayoutLoginRoute
-  '/posts': typeof LayoutPostsRoute
   '/signup': typeof LayoutSignupRoute
   '/user': typeof LayoutUserRoute
   '/': typeof LayoutIndexRoute
-  '/post/$postId': typeof LayoutPostPostIdRoute
+  '/post/$postSerId': typeof LayoutPostPostSerIdRoute
 }
 
 export interface FileRoutesByTo {
   '/about': typeof LayoutAboutRoute
   '/home': typeof LayoutHomeRoute
   '/login': typeof LayoutLoginRoute
-  '/posts': typeof LayoutPostsRoute
   '/signup': typeof LayoutSignupRoute
   '/user': typeof LayoutUserRoute
   '/': typeof LayoutIndexRoute
-  '/post/$postId': typeof LayoutPostPostIdRoute
+  '/post/$postSerId': typeof LayoutPostPostSerIdRoute
 }
 
 export interface FileRoutesById {
@@ -202,11 +184,10 @@ export interface FileRoutesById {
   '/_layout/about': typeof LayoutAboutRoute
   '/_layout/home': typeof LayoutHomeRoute
   '/_layout/login': typeof LayoutLoginRoute
-  '/_layout/posts': typeof LayoutPostsRoute
   '/_layout/signup': typeof LayoutSignupRoute
   '/_layout/user': typeof LayoutUserRoute
   '/_layout/': typeof LayoutIndexRoute
-  '/_layout/post/$postId': typeof LayoutPostPostIdRoute
+  '/_layout/post/$postSerId': typeof LayoutPostPostSerIdRoute
 }
 
 export interface FileRouteTypes {
@@ -216,32 +197,29 @@ export interface FileRouteTypes {
     | '/about'
     | '/home'
     | '/login'
-    | '/posts'
     | '/signup'
     | '/user'
     | '/'
-    | '/post/$postId'
+    | '/post/$postSerId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/about'
     | '/home'
     | '/login'
-    | '/posts'
     | '/signup'
     | '/user'
     | '/'
-    | '/post/$postId'
+    | '/post/$postSerId'
   id:
     | '__root__'
     | '/_layout'
     | '/_layout/about'
     | '/_layout/home'
     | '/_layout/login'
-    | '/_layout/posts'
     | '/_layout/signup'
     | '/_layout/user'
     | '/_layout/'
-    | '/_layout/post/$postId'
+    | '/_layout/post/$postSerId'
   fileRoutesById: FileRoutesById
 }
 
@@ -272,11 +250,10 @@ export const routeTree = rootRoute
         "/_layout/about",
         "/_layout/home",
         "/_layout/login",
-        "/_layout/posts",
         "/_layout/signup",
         "/_layout/user",
         "/_layout/",
-        "/_layout/post/$postId"
+        "/_layout/post/$postSerId"
       ]
     },
     "/_layout/about": {
@@ -291,10 +268,6 @@ export const routeTree = rootRoute
       "filePath": "_layout/login.tsx",
       "parent": "/_layout"
     },
-    "/_layout/posts": {
-      "filePath": "_layout/posts.tsx",
-      "parent": "/_layout"
-    },
     "/_layout/signup": {
       "filePath": "_layout/signup.tsx",
       "parent": "/_layout"
@@ -307,8 +280,8 @@ export const routeTree = rootRoute
       "filePath": "_layout/index.tsx",
       "parent": "/_layout"
     },
-    "/_layout/post/$postId": {
-      "filePath": "_layout/post.$postId.tsx",
+    "/_layout/post/$postSerId": {
+      "filePath": "_layout/post.$postSerId.tsx",
       "parent": "/_layout"
     }
   }

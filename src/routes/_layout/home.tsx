@@ -1,45 +1,35 @@
-import { useQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
-import { getPosts } from "../../api/fetchPost";
+import { useQueryClient } from "@tanstack/react-query";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { fetchPost, useAllPosts } from "../../api/fetchPost";
 
 export const Route = createFileRoute("/_layout/home")({
   component: RouteComponent,
 });
 
-interface PostType {
-  serialId: number;
-  text: string;
-  images: string[];
-  created_at: Date;
-  user: {
-    fullname: string;
-    username: string;
-    id: string;
-    profile_pic: string;
-  };
-}
-
 function RouteComponent() {
-  const { data, isLoading } = useQuery({
-    queryKey: ["posts"],
-    queryFn: getPosts,
-  });
+  const queryClient = useQueryClient();
+  const { data, isLoading } = useAllPosts();
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  const prefetchPost = (postSerId: number) => {
+    queryClient.prefetchQuery({
+      queryKey: ["post", postSerId],
+      queryFn: () => fetchPost(postSerId),
+      staleTime: 5 * 60 * 1000,
+    });
+  };
+
+  if (isLoading) return <div>Loading...</div>;
 
   return (
     <div>
-      Hello "/_layout/posts"!
-      <section>
-        {data?.map((post: PostType) => (
-          <div key={post.serialId}>
-            <h1>{post.user.fullname}</h1>
-            <p>{post.text}</p>
-          </div>
-        ))}
-      </section>
+      {data?.responseObject.map((post) => (
+        <div key={post.id} onMouseEnter={() => prefetchPost(post.serialId)}>
+          <Link params={{ postSerId: String(post.serialId) }} to="/post/$postSerId">
+            <h3>{post.user.fullname}</h3>
+            <div>{post.text}</div>
+          </Link>
+        </div>
+      ))}
     </div>
   );
 }
