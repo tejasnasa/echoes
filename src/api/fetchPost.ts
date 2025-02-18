@@ -90,3 +90,16 @@ export const usePost = (postSerId: number) => {
     },
   });
 };
+
+export const createPost = async (data: { text: string; images: string[] }) => {
+  const response = await fetch(`${import.meta.env.VITE_BASE_URL}/post/create`, {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+      Authorization: `Bearer ${import.meta.env.VITE_TEST_TOKEN}`,
+      "Content-Type": "application/json",
+    },
+  }).then((res) => res.json());
+  
+  return response;
+};
