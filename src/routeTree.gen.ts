@@ -13,12 +13,13 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as LayoutImport } from './routes/_layout'
 import { Route as LayoutIndexImport } from './routes/_layout/index'
-import { Route as LayoutUserImport } from './routes/_layout/user'
 import { Route as LayoutSignupImport } from './routes/_layout/signup'
 import { Route as LayoutLoginImport } from './routes/_layout/login'
 import { Route as LayoutHomeImport } from './routes/_layout/home'
+import { Route as LayoutFindImport } from './routes/_layout/find'
 import { Route as LayoutCreateImport } from './routes/_layout/create'
 import { Route as LayoutAboutImport } from './routes/_layout/about'
+import { Route as LayoutUsersUserSerIdImport } from './routes/_layout/users.$userSerId'
 import { Route as LayoutPostPostSerIdImport } from './routes/_layout/post.$postSerId'
 
 // Create/Update Routes
@@ -31,12 +32,6 @@ const LayoutRoute = LayoutImport.update({
 const LayoutIndexRoute = LayoutIndexImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => LayoutRoute,
-} as any)
-
-const LayoutUserRoute = LayoutUserImport.update({
-  id: '/user',
-  path: '/user',
   getParentRoute: () => LayoutRoute,
 } as any)
 
@@ -58,6 +53,12 @@ const LayoutHomeRoute = LayoutHomeImport.update({
   getParentRoute: () => LayoutRoute,
 } as any)
 
+const LayoutFindRoute = LayoutFindImport.update({
+  id: '/find',
+  path: '/find',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
 const LayoutCreateRoute = LayoutCreateImport.update({
   id: '/create',
   path: '/create',
@@ -67,6 +68,12 @@ const LayoutCreateRoute = LayoutCreateImport.update({
 const LayoutAboutRoute = LayoutAboutImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
+const LayoutUsersUserSerIdRoute = LayoutUsersUserSerIdImport.update({
+  id: '/users/$userSerId',
+  path: '/users/$userSerId',
   getParentRoute: () => LayoutRoute,
 } as any)
 
@@ -101,6 +108,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutCreateImport
       parentRoute: typeof LayoutImport
     }
+    '/_layout/find': {
+      id: '/_layout/find'
+      path: '/find'
+      fullPath: '/find'
+      preLoaderRoute: typeof LayoutFindImport
+      parentRoute: typeof LayoutImport
+    }
     '/_layout/home': {
       id: '/_layout/home'
       path: '/home'
@@ -122,13 +136,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutSignupImport
       parentRoute: typeof LayoutImport
     }
-    '/_layout/user': {
-      id: '/_layout/user'
-      path: '/user'
-      fullPath: '/user'
-      preLoaderRoute: typeof LayoutUserImport
-      parentRoute: typeof LayoutImport
-    }
     '/_layout/': {
       id: '/_layout/'
       path: '/'
@@ -143,6 +150,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutPostPostSerIdImport
       parentRoute: typeof LayoutImport
     }
+    '/_layout/users/$userSerId': {
+      id: '/_layout/users/$userSerId'
+      path: '/users/$userSerId'
+      fullPath: '/users/$userSerId'
+      preLoaderRoute: typeof LayoutUsersUserSerIdImport
+      parentRoute: typeof LayoutImport
+    }
   }
 }
 
@@ -151,23 +165,25 @@ declare module '@tanstack/react-router' {
 interface LayoutRouteChildren {
   LayoutAboutRoute: typeof LayoutAboutRoute
   LayoutCreateRoute: typeof LayoutCreateRoute
+  LayoutFindRoute: typeof LayoutFindRoute
   LayoutHomeRoute: typeof LayoutHomeRoute
   LayoutLoginRoute: typeof LayoutLoginRoute
   LayoutSignupRoute: typeof LayoutSignupRoute
-  LayoutUserRoute: typeof LayoutUserRoute
   LayoutIndexRoute: typeof LayoutIndexRoute
   LayoutPostPostSerIdRoute: typeof LayoutPostPostSerIdRoute
+  LayoutUsersUserSerIdRoute: typeof LayoutUsersUserSerIdRoute
 }
 
 const LayoutRouteChildren: LayoutRouteChildren = {
   LayoutAboutRoute: LayoutAboutRoute,
   LayoutCreateRoute: LayoutCreateRoute,
+  LayoutFindRoute: LayoutFindRoute,
   LayoutHomeRoute: LayoutHomeRoute,
   LayoutLoginRoute: LayoutLoginRoute,
   LayoutSignupRoute: LayoutSignupRoute,
-  LayoutUserRoute: LayoutUserRoute,
   LayoutIndexRoute: LayoutIndexRoute,
   LayoutPostPostSerIdRoute: LayoutPostPostSerIdRoute,
+  LayoutUsersUserSerIdRoute: LayoutUsersUserSerIdRoute,
 }
 
 const LayoutRouteWithChildren =
@@ -177,23 +193,25 @@ export interface FileRoutesByFullPath {
   '': typeof LayoutRouteWithChildren
   '/about': typeof LayoutAboutRoute
   '/create': typeof LayoutCreateRoute
+  '/find': typeof LayoutFindRoute
   '/home': typeof LayoutHomeRoute
   '/login': typeof LayoutLoginRoute
   '/signup': typeof LayoutSignupRoute
-  '/user': typeof LayoutUserRoute
   '/': typeof LayoutIndexRoute
   '/post/$postSerId': typeof LayoutPostPostSerIdRoute
+  '/users/$userSerId': typeof LayoutUsersUserSerIdRoute
 }
 
 export interface FileRoutesByTo {
   '/about': typeof LayoutAboutRoute
   '/create': typeof LayoutCreateRoute
+  '/find': typeof LayoutFindRoute
   '/home': typeof LayoutHomeRoute
   '/login': typeof LayoutLoginRoute
   '/signup': typeof LayoutSignupRoute
-  '/user': typeof LayoutUserRoute
   '/': typeof LayoutIndexRoute
   '/post/$postSerId': typeof LayoutPostPostSerIdRoute
+  '/users/$userSerId': typeof LayoutUsersUserSerIdRoute
 }
 
 export interface FileRoutesById {
@@ -201,12 +219,13 @@ export interface FileRoutesById {
   '/_layout': typeof LayoutRouteWithChildren
   '/_layout/about': typeof LayoutAboutRoute
   '/_layout/create': typeof LayoutCreateRoute
+  '/_layout/find': typeof LayoutFindRoute
   '/_layout/home': typeof LayoutHomeRoute
   '/_layout/login': typeof LayoutLoginRoute
   '/_layout/signup': typeof LayoutSignupRoute
-  '/_layout/user': typeof LayoutUserRoute
   '/_layout/': typeof LayoutIndexRoute
   '/_layout/post/$postSerId': typeof LayoutPostPostSerIdRoute
+  '/_layout/users/$userSerId': typeof LayoutUsersUserSerIdRoute
 }
 
 export interface FileRouteTypes {
@@ -215,33 +234,36 @@ export interface FileRouteTypes {
     | ''
     | '/about'
     | '/create'
+    | '/find'
     | '/home'
     | '/login'
     | '/signup'
-    | '/user'
     | '/'
     | '/post/$postSerId'
+    | '/users/$userSerId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/about'
     | '/create'
+    | '/find'
     | '/home'
     | '/login'
     | '/signup'
-    | '/user'
     | '/'
     | '/post/$postSerId'
+    | '/users/$userSerId'
   id:
     | '__root__'
     | '/_layout'
     | '/_layout/about'
     | '/_layout/create'
+    | '/_layout/find'
     | '/_layout/home'
     | '/_layout/login'
     | '/_layout/signup'
-    | '/_layout/user'
     | '/_layout/'
     | '/_layout/post/$postSerId'
+    | '/_layout/users/$userSerId'
   fileRoutesById: FileRoutesById
 }
 
@@ -271,12 +293,13 @@ export const routeTree = rootRoute
       "children": [
         "/_layout/about",
         "/_layout/create",
+        "/_layout/find",
         "/_layout/home",
         "/_layout/login",
         "/_layout/signup",
-        "/_layout/user",
         "/_layout/",
-        "/_layout/post/$postSerId"
+        "/_layout/post/$postSerId",
+        "/_layout/users/$userSerId"
       ]
     },
     "/_layout/about": {
@@ -285,6 +308,10 @@ export const routeTree = rootRoute
     },
     "/_layout/create": {
       "filePath": "_layout/create.tsx",
+      "parent": "/_layout"
+    },
+    "/_layout/find": {
+      "filePath": "_layout/find.tsx",
       "parent": "/_layout"
     },
     "/_layout/home": {
@@ -299,16 +326,16 @@ export const routeTree = rootRoute
       "filePath": "_layout/signup.tsx",
       "parent": "/_layout"
     },
-    "/_layout/user": {
-      "filePath": "_layout/user.tsx",
-      "parent": "/_layout"
-    },
     "/_layout/": {
       "filePath": "_layout/index.tsx",
       "parent": "/_layout"
     },
     "/_layout/post/$postSerId": {
       "filePath": "_layout/post.$postSerId.tsx",
+      "parent": "/_layout"
+    },
+    "/_layout/users/$userSerId": {
+      "filePath": "_layout/users.$userSerId.tsx",
       "parent": "/_layout"
     }
   }

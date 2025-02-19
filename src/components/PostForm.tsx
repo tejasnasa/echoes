@@ -1,4 +1,8 @@
 import { SubmitHandler, useForm } from "react-hook-form";
+import { z } from "zod";
+import { postSchema } from "../utils/definitions";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 
 type PostFormInputs = {
   text: string;
@@ -12,9 +16,7 @@ const PostForm = ({
   onSubmit: SubmitHandler<PostFormInputs>;
   isPending: boolean;
 }) => {
-  const { register, handleSubmit } = useForm<PostFormInputs>({
-    defaultValues: { text: "", images: [] },
-  });
+  
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

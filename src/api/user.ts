@@ -6,27 +6,19 @@ interface User {
   fullname: string;
   profile_pic: string | null;
   bio: string | null;
+  cover_pic: string | null;
+  post: Post[];
 }
 
 interface Post {
-  id: string;
   serialId: number;
   text: string | null;
   images: string[] | null;
-  createdAt: string;
-  user: User;
 }
 
-export const fetchPosts = async (): Promise<Post[]> => {
-  const response = await fetch(`${import.meta.env.VITE_BASE_URL}/post`, {
-    credentials: "include",
-  }).then((res) => res.json());
-  return response.responseObject;
-};
-
-export const fetchPost = async (postSerId: number): Promise<Post> => {
+export const fetchUsers = async (): Promise<User[]> => {
   const response = await fetch(
-    `${import.meta.env.VITE_BASE_URL}/post/get/${postSerId}`,
+    `${import.meta.env.VITE_BASE_URL}/user/recommended/10`,
     {
       credentials: "include",
     }
@@ -34,30 +26,40 @@ export const fetchPost = async (postSerId: number): Promise<Post> => {
   return response.responseObject;
 };
 
-export const useAllPosts = () => {
-  return useQuery<Post[]>({
-    queryKey: ["posts"],
-    queryFn: fetchPosts,
+export const fetchUser = async (userSerId: number): Promise<User> => {
+  const response = await fetch(
+    `${import.meta.env.VITE_BASE_URL}/user/get/${userSerId}`,
+    {
+      credentials: "include",
+    }
+  ).then((res) => res.json());
+  return response.responseObject;
+};
+
+export const useAllUsers = () => {
+  return useQuery<User[]>({
+    queryKey: ["users"],
+    queryFn: fetchUsers,
     staleTime: 5 * 60 * 1000,
   });
 };
 
-export const usePost = (postSerId: number) => {
+export const useUser = (userSerId: number) => {
   const queryClient = useQueryClient();
 
-  return useQuery<Post>({
-    queryKey: ["post", postSerId],
+  return useQuery<User>({
+    queryKey: ["user", userSerId],
     queryFn: async () => {
-      const response = await fetchPost(postSerId);
+      const response = await fetchUser(userSerId);
       return response;
     },
     staleTime: 5 * 60 * 1000,
     initialData: () => {
-      const postsData = queryClient.getQueryData<Post[]>(["posts"]);
+      const usersData = queryClient.getQueryData<User[]>(["users"]);
 
-      if (!postsData) return undefined;
+      if (!usersData) return undefined;
 
-      const post = postsData.find((post) => post.serialId === postSerId);
+      const post = usersData.find((user) => user.serialId === userSerId);
 
       if (post) {
         return post;
@@ -72,6 +74,7 @@ export const createPost = async (data: { text: string; images: string[] }) => {
     method: "POST",
     body: JSON.stringify(data),
     headers: {
+      Authorization: `Bearer ${import.meta.env.VITE_TEST_TOKEN}`,
       "Content-Type": "application/json",
     },
     credentials: "include",

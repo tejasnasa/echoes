@@ -2,10 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { usePost } from "../../api/fetchPost";
 
 export const Route = createFileRoute("/_layout/post/$postSerId")({
-  component: PostComponent,
+  component: RouteComponent,
 });
 
-function PostComponent() {
+function RouteComponent() {
   const { postSerId } = Route.useParams();
   const { data, isLoading } = usePost(Number(postSerId));
 
@@ -13,8 +13,8 @@ function PostComponent() {
 
   return (
     <div>
-      <h3>{data?.responseObject.user.fullname}</h3>
-      <div>{data?.responseObject.text}</div>
+      <h3>{data?.user.fullname}</h3>
+      <div>{data?.text}</div>
     </div>
   );
 }
