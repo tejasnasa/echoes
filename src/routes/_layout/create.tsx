@@ -7,8 +7,6 @@ export const Route = createFileRoute("/_layout/create")({
   component: RouteComponent,
 });
 
-const defaultUser = { text: "", images: [] };
-
 function RouteComponent() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -24,7 +22,6 @@ function RouteComponent() {
 
   return (
     <PostForm
-      user={defaultUser}
       onSubmit={(formData) => mutate(formData)}
       isPending={isPending}
     />

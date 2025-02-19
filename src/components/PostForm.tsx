@@ -1,21 +1,19 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 
-type LoginFormInputs = {
+type PostFormInputs = {
   text: string;
   images: string[];
 };
 
 const PostForm = ({
-  user,
   onSubmit,
   isPending,
 }: {
-  user: LoginFormInputs;
-  onSubmit: SubmitHandler<LoginFormInputs>;
+  onSubmit: SubmitHandler<PostFormInputs>;
   isPending: boolean;
 }) => {
-  const { register, handleSubmit } = useForm<LoginFormInputs>({
-    defaultValues: user,
+  const { register, handleSubmit } = useForm<PostFormInputs>({
+    defaultValues: { text: "", images: [] },
   });
 
   return (
