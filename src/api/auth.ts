@@ -14,6 +14,7 @@ export const login = async (data: LoginFormInputs) => {
   const response = await fetch(`${import.meta.env.VITE_BASE_URL}/auth/login`, {
     method: "POST",
     body: JSON.stringify(data),
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },

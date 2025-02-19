@@ -29,6 +29,7 @@ export const fetchPosts = async (): Promise<ServerResponse<Post[]>> => {
     headers: {
       Authorization: `Bearer ${import.meta.env.VITE_TEST_TOKEN}`,
     },
+    credentials: "include"
   }).then((res) => res.json());
   console.log(response);
   return response;
@@ -43,6 +44,7 @@ export const fetchPost = async (
       headers: {
         Authorization: `Bearer ${import.meta.env.VITE_TEST_TOKEN}`,
       },
+      credentials: "include"
     }
   ).then((res) => res.json());
   console.log(response);
@@ -99,6 +101,7 @@ export const createPost = async (data: { text: string; images: string[] }) => {
       Authorization: `Bearer ${import.meta.env.VITE_TEST_TOKEN}`,
       "Content-Type": "application/json",
     },
+    credentials: "include"
   }).then((res) => res.json());
   
   return response;
