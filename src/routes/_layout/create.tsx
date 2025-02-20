@@ -6,6 +6,7 @@ import { z } from "zod";
 import { postSchema } from "../../utils/definitions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 export const Route = createFileRoute("/_layout/create")({
   component: RouteComponent,
@@ -14,40 +15,35 @@ export const Route = createFileRoute("/_layout/create")({
 function RouteComponent() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null);
 
-  // Mutations
   const { mutate, isPending } = useMutation({
     mutationFn: createPost,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
       navigate({ to: "/home" });
     },
+    onError: (error: Error) => {
+      setError(error.message);
+    },
   });
 
-  const { register, handleSubmit } = useForm<z.infer<typeof postSchema>>({
+  const form = useForm<z.infer<typeof postSchema>>({
     resolver: zodResolver(postSchema),
     defaultValues: { text: "", images: [] },
   });
 
-  const [error, setError] = useState<string | null>(null);
-
-  async function onSubmit(values: z.infer<typeof loginFormSchema>) {
-    try {
-      if (!values.usernameOrEmail || !values.password) {
-        throw new Error("All fields are required.");
-      }
-
-      await mutate(formData);
-    } catch (error: any) {
-      console.error(error.message);
-      setError(error.message);
-    }
-  }
+  const onSubmit = (values: z.infer<typeof postSchema>) => {
+    setError(null);
+    mutate(values);
+  };
 
   return (
     <PostForm
-      onSubmit={onSubmit}
+      form={form}
       isPending={isPending}
+      onSubmit={onSubmit}
+      error={error}
     />
   );
 }

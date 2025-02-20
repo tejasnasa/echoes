@@ -1,28 +1,31 @@
-import { SubmitHandler, useForm } from "react-hook-form";
+import { UseFormReturn, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import { postSchema } from "../utils/definitions";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
 
-type PostFormInputs = {
-  text: string;
-  images: string[];
+type PostFormProps = {
+  onSubmit: SubmitHandler<z.infer<typeof postSchema>>;
+  isPending: boolean;
+  form: UseFormReturn<z.infer<typeof postSchema>>;
+  error: string | null;
 };
 
-const PostForm = ({
-  onSubmit,
-  isPending,
-}: {
-  onSubmit: SubmitHandler<PostFormInputs>;
-  isPending: boolean;
-}) => {
-  
+const PostForm = ({ isPending, form, onSubmit, error }: PostFormProps) => {
+  const {
+    register,
+    formState: { errors },
+  } = form;
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input type="text" {...register("text")} />
+    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <div>
+        <input {...register("text")} />
+        {errors.text && <p>{errors.text.message}</p>}
+      </div>
+
+      {error && <p>{error}</p>}
+
       <button type="submit" disabled={isPending}>
-        {isPending ? "Logging in..." : "Login"}
+        {isPending ? "Creating post..." : "Create Post"}
       </button>
     </form>
   );
