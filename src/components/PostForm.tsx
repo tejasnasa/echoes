@@ -16,7 +16,7 @@ const PostForm = ({ isPending, form, onSubmit, error }: PostFormProps) => {
   } = form;
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+    <form onSubmit={form.handleSubmit(onSubmit)}>
       <div>
         <input {...register("text")} />
         {errors.text && <p>{errors.text.message}</p>}
