@@ -24,7 +24,7 @@ export const login = async (data: LoginFormInputs) => {
     throw new Error(response.message);
   }
 
-  return response;
+  return response.responseObject;
 };
 
 export const signup = async (data: SignupFormInputs) => {
@@ -37,4 +37,18 @@ export const signup = async (data: SignupFormInputs) => {
   }).then((res) => res.json());
 
   return response;
+};
+
+export const isAuthenticated = async () => {
+  const response = await fetch(`${import.meta.env.VITE_BASE_URL}/self/whoami`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+  }).then((res) => res.json());
+
+  console.log(response)
+
+  return response.responseObject;
 };

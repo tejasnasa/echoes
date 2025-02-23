@@ -11,11 +11,10 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as SignupImport } from './routes/signup'
+import { Route as LoginImport } from './routes/login'
 import { Route as LayoutImport } from './routes/_layout'
 import { Route as LayoutIndexImport } from './routes/_layout/index'
-import { Route as LayoutSignupImport } from './routes/_layout/signup'
-import { Route as LayoutLoginImport } from './routes/_layout/login'
-import { Route as LayoutHomeImport } from './routes/_layout/home'
 import { Route as LayoutFindImport } from './routes/_layout/find'
 import { Route as LayoutCreateImport } from './routes/_layout/create'
 import { Route as LayoutAboutImport } from './routes/_layout/about'
@@ -23,6 +22,18 @@ import { Route as LayoutUsersUserSerIdImport } from './routes/_layout/users.$use
 import { Route as LayoutPostPostSerIdImport } from './routes/_layout/post.$postSerId'
 
 // Create/Update Routes
+
+const SignupRoute = SignupImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const LoginRoute = LoginImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const LayoutRoute = LayoutImport.update({
   id: '/_layout',
@@ -32,24 +43,6 @@ const LayoutRoute = LayoutImport.update({
 const LayoutIndexRoute = LayoutIndexImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => LayoutRoute,
-} as any)
-
-const LayoutSignupRoute = LayoutSignupImport.update({
-  id: '/signup',
-  path: '/signup',
-  getParentRoute: () => LayoutRoute,
-} as any)
-
-const LayoutLoginRoute = LayoutLoginImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => LayoutRoute,
-} as any)
-
-const LayoutHomeRoute = LayoutHomeImport.update({
-  id: '/home',
-  path: '/home',
   getParentRoute: () => LayoutRoute,
 } as any)
 
@@ -94,6 +87,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutImport
       parentRoute: typeof rootRoute
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginImport
+      parentRoute: typeof rootRoute
+    }
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupImport
+      parentRoute: typeof rootRoute
+    }
     '/_layout/about': {
       id: '/_layout/about'
       path: '/about'
@@ -113,27 +120,6 @@ declare module '@tanstack/react-router' {
       path: '/find'
       fullPath: '/find'
       preLoaderRoute: typeof LayoutFindImport
-      parentRoute: typeof LayoutImport
-    }
-    '/_layout/home': {
-      id: '/_layout/home'
-      path: '/home'
-      fullPath: '/home'
-      preLoaderRoute: typeof LayoutHomeImport
-      parentRoute: typeof LayoutImport
-    }
-    '/_layout/login': {
-      id: '/_layout/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LayoutLoginImport
-      parentRoute: typeof LayoutImport
-    }
-    '/_layout/signup': {
-      id: '/_layout/signup'
-      path: '/signup'
-      fullPath: '/signup'
-      preLoaderRoute: typeof LayoutSignupImport
       parentRoute: typeof LayoutImport
     }
     '/_layout/': {
@@ -166,9 +152,6 @@ interface LayoutRouteChildren {
   LayoutAboutRoute: typeof LayoutAboutRoute
   LayoutCreateRoute: typeof LayoutCreateRoute
   LayoutFindRoute: typeof LayoutFindRoute
-  LayoutHomeRoute: typeof LayoutHomeRoute
-  LayoutLoginRoute: typeof LayoutLoginRoute
-  LayoutSignupRoute: typeof LayoutSignupRoute
   LayoutIndexRoute: typeof LayoutIndexRoute
   LayoutPostPostSerIdRoute: typeof LayoutPostPostSerIdRoute
   LayoutUsersUserSerIdRoute: typeof LayoutUsersUserSerIdRoute
@@ -178,9 +161,6 @@ const LayoutRouteChildren: LayoutRouteChildren = {
   LayoutAboutRoute: LayoutAboutRoute,
   LayoutCreateRoute: LayoutCreateRoute,
   LayoutFindRoute: LayoutFindRoute,
-  LayoutHomeRoute: LayoutHomeRoute,
-  LayoutLoginRoute: LayoutLoginRoute,
-  LayoutSignupRoute: LayoutSignupRoute,
   LayoutIndexRoute: LayoutIndexRoute,
   LayoutPostPostSerIdRoute: LayoutPostPostSerIdRoute,
   LayoutUsersUserSerIdRoute: LayoutUsersUserSerIdRoute,
@@ -191,24 +171,22 @@ const LayoutRouteWithChildren =
 
 export interface FileRoutesByFullPath {
   '': typeof LayoutRouteWithChildren
+  '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
   '/about': typeof LayoutAboutRoute
   '/create': typeof LayoutCreateRoute
   '/find': typeof LayoutFindRoute
-  '/home': typeof LayoutHomeRoute
-  '/login': typeof LayoutLoginRoute
-  '/signup': typeof LayoutSignupRoute
   '/': typeof LayoutIndexRoute
   '/post/$postSerId': typeof LayoutPostPostSerIdRoute
   '/users/$userSerId': typeof LayoutUsersUserSerIdRoute
 }
 
 export interface FileRoutesByTo {
+  '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
   '/about': typeof LayoutAboutRoute
   '/create': typeof LayoutCreateRoute
   '/find': typeof LayoutFindRoute
-  '/home': typeof LayoutHomeRoute
-  '/login': typeof LayoutLoginRoute
-  '/signup': typeof LayoutSignupRoute
   '/': typeof LayoutIndexRoute
   '/post/$postSerId': typeof LayoutPostPostSerIdRoute
   '/users/$userSerId': typeof LayoutUsersUserSerIdRoute
@@ -217,12 +195,11 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/_layout': typeof LayoutRouteWithChildren
+  '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
   '/_layout/about': typeof LayoutAboutRoute
   '/_layout/create': typeof LayoutCreateRoute
   '/_layout/find': typeof LayoutFindRoute
-  '/_layout/home': typeof LayoutHomeRoute
-  '/_layout/login': typeof LayoutLoginRoute
-  '/_layout/signup': typeof LayoutSignupRoute
   '/_layout/': typeof LayoutIndexRoute
   '/_layout/post/$postSerId': typeof LayoutPostPostSerIdRoute
   '/_layout/users/$userSerId': typeof LayoutUsersUserSerIdRoute
@@ -232,35 +209,32 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | ''
+    | '/login'
+    | '/signup'
     | '/about'
     | '/create'
     | '/find'
-    | '/home'
-    | '/login'
-    | '/signup'
     | '/'
     | '/post/$postSerId'
     | '/users/$userSerId'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/login'
+    | '/signup'
     | '/about'
     | '/create'
     | '/find'
-    | '/home'
-    | '/login'
-    | '/signup'
     | '/'
     | '/post/$postSerId'
     | '/users/$userSerId'
   id:
     | '__root__'
     | '/_layout'
+    | '/login'
+    | '/signup'
     | '/_layout/about'
     | '/_layout/create'
     | '/_layout/find'
-    | '/_layout/home'
-    | '/_layout/login'
-    | '/_layout/signup'
     | '/_layout/'
     | '/_layout/post/$postSerId'
     | '/_layout/users/$userSerId'
@@ -269,10 +243,14 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   LayoutRoute: typeof LayoutRouteWithChildren
+  LoginRoute: typeof LoginRoute
+  SignupRoute: typeof SignupRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   LayoutRoute: LayoutRouteWithChildren,
+  LoginRoute: LoginRoute,
+  SignupRoute: SignupRoute,
 }
 
 export const routeTree = rootRoute
@@ -285,7 +263,9 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/_layout"
+        "/_layout",
+        "/login",
+        "/signup"
       ]
     },
     "/_layout": {
@@ -294,13 +274,16 @@ export const routeTree = rootRoute
         "/_layout/about",
         "/_layout/create",
         "/_layout/find",
-        "/_layout/home",
-        "/_layout/login",
-        "/_layout/signup",
         "/_layout/",
         "/_layout/post/$postSerId",
         "/_layout/users/$userSerId"
       ]
+    },
+    "/login": {
+      "filePath": "login.tsx"
+    },
+    "/signup": {
+      "filePath": "signup.tsx"
     },
     "/_layout/about": {
       "filePath": "_layout/about.tsx",
@@ -312,18 +295,6 @@ export const routeTree = rootRoute
     },
     "/_layout/find": {
       "filePath": "_layout/find.tsx",
-      "parent": "/_layout"
-    },
-    "/_layout/home": {
-      "filePath": "_layout/home.tsx",
-      "parent": "/_layout"
-    },
-    "/_layout/login": {
-      "filePath": "_layout/login.tsx",
-      "parent": "/_layout"
-    },
-    "/_layout/signup": {
-      "filePath": "_layout/signup.tsx",
       "parent": "/_layout"
     },
     "/_layout/": {
