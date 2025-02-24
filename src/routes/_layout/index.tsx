@@ -30,7 +30,7 @@ function RouteComponent() {
   if (isLoading) return <div>Loading...</div>;
 
   return (
-    <div>
+    <div className="dark:bg-black dark:text-white bg-white text-red-500">
       {data?.map((post) => (
         <div key={post.serialId}>
           <Link

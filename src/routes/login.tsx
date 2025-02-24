@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
-import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import LoginForm from "./../components/LoginForm";
-import { isAuthenticated, login } from "./../api/auth";
+import { login } from "./../api/auth";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { loginSchema } from "./../utils/definitions";
@@ -9,13 +9,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 
 export const Route = createFileRoute("/login")({
-  beforeLoad: async () => {
-    if ((await isAuthenticated()).success) {
-      throw redirect({
-        to: "/",
-      });
-    }
-  },
+  // beforeLoad: async () => {
+  //   if ((await isAuthenticated()).success) {
+  //     throw redirect({
+  //       to: "/",
+  //     });
+  //   }
+  // },
   component: RouteComponent,
 });
 
