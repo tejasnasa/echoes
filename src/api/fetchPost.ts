@@ -1,14 +1,14 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-interface User {
+export interface User {
   serialId: number;
   username: string;
   fullname: string;
-  profile_pic: string | null;
+  profile_pic: string | undefined;
   bio: string | null;
 }
 
-interface Post {
+export interface Post {
   id: string;
   serialId: number;
   text: string | null;

@@ -21,7 +21,7 @@ function RouteComponent() {
     mutationFn: createPost,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
-      navigate({ to: "/home" });
+      navigate({ to: "/" });
     },
     onError: (error: Error) => {
       setError(error.message);
