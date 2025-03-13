@@ -64,9 +64,12 @@ function RouteComponent() {
           <a className="flex m-2 ml-4 p-2 items-center hover:bg-white/5 rounded-xl transition duration-200">
             <Mail size={32} /> &ensp;&ensp; Whispers
           </a>
-          <a className="flex m-2 ml-4 p-2 items-center hover:bg-white/5 rounded-xl transition duration-200">
+          <Link
+            to="/archive"
+            className="flex m-2 ml-4 p-2 items-center hover:bg-white/5 rounded-xl transition duration-200"
+          >
             <Bookmark size={32} /> &ensp;&ensp; Archive
-          </a>
+          </Link>
           <Link
             to="/settings"
             className={`flex m-2 ml-4 p-2 items-center hover:bg-white/5 rounded-xl transition duration-200 ${location.pathname === "/settings" && "font-black text-xl"}`}

@@ -19,6 +19,7 @@ import { Route as LayoutSettingsImport } from './routes/_layout/settings'
 import { Route as LayoutFindImport } from './routes/_layout/find'
 import { Route as LayoutExploreImport } from './routes/_layout/explore'
 import { Route as LayoutCreateImport } from './routes/_layout/create'
+import { Route as LayoutArchiveImport } from './routes/_layout/archive'
 import { Route as LayoutUserUserSerIdImport } from './routes/_layout/user.$userSerId'
 import { Route as LayoutPostPostSerIdImport } from './routes/_layout/post.$postSerId'
 
@@ -71,6 +72,12 @@ const LayoutCreateRoute = LayoutCreateImport.update({
   getParentRoute: () => LayoutRoute,
 } as any)
 
+const LayoutArchiveRoute = LayoutArchiveImport.update({
+  id: '/archive',
+  path: '/archive',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
 const LayoutUserUserSerIdRoute = LayoutUserUserSerIdImport.update({
   id: '/user/$userSerId',
   path: '/user/$userSerId',
@@ -107,6 +114,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/signup'
       preLoaderRoute: typeof SignupImport
       parentRoute: typeof rootRoute
+    }
+    '/_layout/archive': {
+      id: '/_layout/archive'
+      path: '/archive'
+      fullPath: '/archive'
+      preLoaderRoute: typeof LayoutArchiveImport
+      parentRoute: typeof LayoutImport
     }
     '/_layout/create': {
       id: '/_layout/create'
@@ -163,6 +177,7 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface LayoutRouteChildren {
+  LayoutArchiveRoute: typeof LayoutArchiveRoute
   LayoutCreateRoute: typeof LayoutCreateRoute
   LayoutExploreRoute: typeof LayoutExploreRoute
   LayoutFindRoute: typeof LayoutFindRoute
@@ -173,6 +188,7 @@ interface LayoutRouteChildren {
 }
 
 const LayoutRouteChildren: LayoutRouteChildren = {
+  LayoutArchiveRoute: LayoutArchiveRoute,
   LayoutCreateRoute: LayoutCreateRoute,
   LayoutExploreRoute: LayoutExploreRoute,
   LayoutFindRoute: LayoutFindRoute,
@@ -189,6 +205,7 @@ export interface FileRoutesByFullPath {
   '': typeof LayoutRouteWithChildren
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/archive': typeof LayoutArchiveRoute
   '/create': typeof LayoutCreateRoute
   '/explore': typeof LayoutExploreRoute
   '/find': typeof LayoutFindRoute
@@ -201,6 +218,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/archive': typeof LayoutArchiveRoute
   '/create': typeof LayoutCreateRoute
   '/explore': typeof LayoutExploreRoute
   '/find': typeof LayoutFindRoute
@@ -215,6 +233,7 @@ export interface FileRoutesById {
   '/_layout': typeof LayoutRouteWithChildren
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/_layout/archive': typeof LayoutArchiveRoute
   '/_layout/create': typeof LayoutCreateRoute
   '/_layout/explore': typeof LayoutExploreRoute
   '/_layout/find': typeof LayoutFindRoute
@@ -230,6 +249,7 @@ export interface FileRouteTypes {
     | ''
     | '/login'
     | '/signup'
+    | '/archive'
     | '/create'
     | '/explore'
     | '/find'
@@ -241,6 +261,7 @@ export interface FileRouteTypes {
   to:
     | '/login'
     | '/signup'
+    | '/archive'
     | '/create'
     | '/explore'
     | '/find'
@@ -253,6 +274,7 @@ export interface FileRouteTypes {
     | '/_layout'
     | '/login'
     | '/signup'
+    | '/_layout/archive'
     | '/_layout/create'
     | '/_layout/explore'
     | '/_layout/find'
@@ -293,6 +315,7 @@ export const routeTree = rootRoute
     "/_layout": {
       "filePath": "_layout.tsx",
       "children": [
+        "/_layout/archive",
         "/_layout/create",
         "/_layout/explore",
         "/_layout/find",
@@ -307,6 +330,10 @@ export const routeTree = rootRoute
     },
     "/signup": {
       "filePath": "signup.tsx"
+    },
+    "/_layout/archive": {
+      "filePath": "_layout/archive.tsx",
+      "parent": "/_layout"
     },
     "/_layout/create": {
       "filePath": "_layout/create.tsx",
