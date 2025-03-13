@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useUser } from "../../api/user";
 
-export const Route = createFileRoute("/_layout/users/$userSerId")({
+export const Route = createFileRoute("/_layout/user/$userSerId")({
   component: RouteComponent,
 });
 
