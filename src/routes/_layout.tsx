@@ -65,7 +65,7 @@ function RouteComponent() {
             <Mail size={32} /> &ensp;&ensp; Whispers
           </a>
           <a className="flex m-2 ml-4 p-2 items-center hover:bg-white/5 rounded-xl transition duration-200">
-            <Bookmark size={32} /> &ensp;&ensp; Captures
+            <Bookmark size={32} /> &ensp;&ensp; Archive
           </a>
           <Link
             to="/settings"

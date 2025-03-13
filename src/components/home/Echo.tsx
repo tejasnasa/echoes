@@ -7,8 +7,8 @@ import pfp2 from "../../assets/pfp/2.avif";
 import pfp3 from "../../assets/pfp/3.jpg";
 import pfp4 from "../../assets/pfp/4.jpg";
 import pfp5 from "../../assets/pfp/5.jpg";
-import timeAgo from "../../utils/datetime";
-import { AudioLines, Bookmark, Heart, Waves } from "lucide-react";
+import { timeAgo } from "../../utils/datetime";
+import { AudioLines, Bookmark, Ellipsis, Heart, Waves } from "lucide-react";
 
 const randomPic = () => {
   const pics = [pfp1, pfp2, pfp3, pfp4, pfp5];
@@ -44,7 +44,7 @@ const Echo = ({ post }: { post: Post }) => {
       className="m-16 text-lg"
       key={post.serialId}
     >
-      <div className="flex justify-between">
+      <div className="flex justify-between items-center">
         <Link
           to="/user/$userSerId"
           params={{ userSerId: String(post.user.serialId) }}
@@ -63,9 +63,15 @@ const Echo = ({ post }: { post: Post }) => {
             <h4 className="text-gray-300">@{post.user.username}</h4>
           </div>
         </Link>
-        <div dangerouslySetInnerHTML={{ __html: timeAgo(post.createdAt) }} />
+        <div className="flex items-center text-gray-300">
+          <div
+            dangerouslySetInnerHTML={{ __html: timeAgo(post.createdAt) }}
+            className=" m-4"
+          />
+          <Ellipsis />
+        </div>
       </div>
-      <div className="m-4">
+      <div className="my-4">
         {post.text}
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio,
         veniam quaerat cupiditate iure aliquid facilis, ad porro earum a

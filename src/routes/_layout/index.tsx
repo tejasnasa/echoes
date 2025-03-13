@@ -12,16 +12,16 @@ function RouteComponent() {
 
   if (isLoading)
     return (
-      <div className="mx-72 mt-4 h-dvh">
+      <main className="mx-72 mt-4 h-dvh">
         <div className="loader">
           <div className="inner-circle"></div>
         </div>
-      </div>
+      </main>
     );
 
   return (
-    <div className="mx-72 mt-4">
+    <main className="mx-72 mt-4">
       {data?.map((post) => <Echo post={post} />)}
-    </div>
+    </main>
   );
 }

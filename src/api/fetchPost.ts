@@ -13,7 +13,7 @@ export interface Post {
   serialId: number;
   text: string | null;
   images: string[] | null;
-  createdAt: string;
+  createdAt: Date;
   user: User;
 }
 
