@@ -16,6 +16,7 @@ import { Route as LoginImport } from './routes/login'
 import { Route as LayoutImport } from './routes/_layout'
 import { Route as LayoutIndexImport } from './routes/_layout/index'
 import { Route as LayoutSettingsImport } from './routes/_layout/settings'
+import { Route as LayoutSearchImport } from './routes/_layout/search'
 import { Route as LayoutFindImport } from './routes/_layout/find'
 import { Route as LayoutExploreImport } from './routes/_layout/explore'
 import { Route as LayoutCreateImport } from './routes/_layout/create'
@@ -51,6 +52,12 @@ const LayoutIndexRoute = LayoutIndexImport.update({
 const LayoutSettingsRoute = LayoutSettingsImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
+const LayoutSearchRoute = LayoutSearchImport.update({
+  id: '/search',
+  path: '/search',
   getParentRoute: () => LayoutRoute,
 } as any)
 
@@ -143,6 +150,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutFindImport
       parentRoute: typeof LayoutImport
     }
+    '/_layout/search': {
+      id: '/_layout/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof LayoutSearchImport
+      parentRoute: typeof LayoutImport
+    }
     '/_layout/settings': {
       id: '/_layout/settings'
       path: '/settings'
@@ -181,6 +195,7 @@ interface LayoutRouteChildren {
   LayoutCreateRoute: typeof LayoutCreateRoute
   LayoutExploreRoute: typeof LayoutExploreRoute
   LayoutFindRoute: typeof LayoutFindRoute
+  LayoutSearchRoute: typeof LayoutSearchRoute
   LayoutSettingsRoute: typeof LayoutSettingsRoute
   LayoutIndexRoute: typeof LayoutIndexRoute
   LayoutPostPostSerIdRoute: typeof LayoutPostPostSerIdRoute
@@ -192,6 +207,7 @@ const LayoutRouteChildren: LayoutRouteChildren = {
   LayoutCreateRoute: LayoutCreateRoute,
   LayoutExploreRoute: LayoutExploreRoute,
   LayoutFindRoute: LayoutFindRoute,
+  LayoutSearchRoute: LayoutSearchRoute,
   LayoutSettingsRoute: LayoutSettingsRoute,
   LayoutIndexRoute: LayoutIndexRoute,
   LayoutPostPostSerIdRoute: LayoutPostPostSerIdRoute,
@@ -209,6 +225,7 @@ export interface FileRoutesByFullPath {
   '/create': typeof LayoutCreateRoute
   '/explore': typeof LayoutExploreRoute
   '/find': typeof LayoutFindRoute
+  '/search': typeof LayoutSearchRoute
   '/settings': typeof LayoutSettingsRoute
   '/': typeof LayoutIndexRoute
   '/post/$postSerId': typeof LayoutPostPostSerIdRoute
@@ -222,6 +239,7 @@ export interface FileRoutesByTo {
   '/create': typeof LayoutCreateRoute
   '/explore': typeof LayoutExploreRoute
   '/find': typeof LayoutFindRoute
+  '/search': typeof LayoutSearchRoute
   '/settings': typeof LayoutSettingsRoute
   '/': typeof LayoutIndexRoute
   '/post/$postSerId': typeof LayoutPostPostSerIdRoute
@@ -237,6 +255,7 @@ export interface FileRoutesById {
   '/_layout/create': typeof LayoutCreateRoute
   '/_layout/explore': typeof LayoutExploreRoute
   '/_layout/find': typeof LayoutFindRoute
+  '/_layout/search': typeof LayoutSearchRoute
   '/_layout/settings': typeof LayoutSettingsRoute
   '/_layout/': typeof LayoutIndexRoute
   '/_layout/post/$postSerId': typeof LayoutPostPostSerIdRoute
@@ -253,6 +272,7 @@ export interface FileRouteTypes {
     | '/create'
     | '/explore'
     | '/find'
+    | '/search'
     | '/settings'
     | '/'
     | '/post/$postSerId'
@@ -265,6 +285,7 @@ export interface FileRouteTypes {
     | '/create'
     | '/explore'
     | '/find'
+    | '/search'
     | '/settings'
     | '/'
     | '/post/$postSerId'
@@ -278,6 +299,7 @@ export interface FileRouteTypes {
     | '/_layout/create'
     | '/_layout/explore'
     | '/_layout/find'
+    | '/_layout/search'
     | '/_layout/settings'
     | '/_layout/'
     | '/_layout/post/$postSerId'
@@ -319,6 +341,7 @@ export const routeTree = rootRoute
         "/_layout/create",
         "/_layout/explore",
         "/_layout/find",
+        "/_layout/search",
         "/_layout/settings",
         "/_layout/",
         "/_layout/post/$postSerId",
@@ -345,6 +368,10 @@ export const routeTree = rootRoute
     },
     "/_layout/find": {
       "filePath": "_layout/find.tsx",
+      "parent": "/_layout"
+    },
+    "/_layout/search": {
+      "filePath": "_layout/search.tsx",
       "parent": "/_layout"
     },
     "/_layout/settings": {
