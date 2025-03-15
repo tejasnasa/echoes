@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import CreateModal from "../components/CreateModal";
+import SearchModal from "../components/SearchModal";
 
 export const Route = createFileRoute("/_layout")({
   component: RouteComponent,
@@ -36,14 +37,23 @@ export const Route = createFileRoute("/_layout")({
 
 function RouteComponent() {
   const location = useLocation();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
 
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
+  const handleOpenCreateModal = () => {
+    setIsCreateModalOpen(true);
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
+  const handleCloseCreateModal = () => {
+    setIsCreateModalOpen(false);
+  };
+
+  const handleOpenSearchModal = () => {
+    setIsSearchModalOpen(true);
+  };
+
+  const handleCloseSearchModal = () => {
+    setIsSearchModalOpen(false);
   };
 
   return (
@@ -60,9 +70,12 @@ function RouteComponent() {
           >
             <House size={32} /> &ensp;&ensp; Home
           </Link>
-          <a className="flex m-2 ml-4 p-2 items-center hover:bg-white/5 rounded-xl transition duration-200">
+          <button
+            onClick={handleOpenSearchModal}
+            className={`flex m-2 ml-4 p-2 items-center hover:bg-white/5 rounded-xl transition duration-200 w-[90%] ${isSearchModalOpen && "font-black text-xl"}`}
+          >
             <Search size={32} /> &ensp;&ensp; Search
-          </a>
+          </button>
           <Link
             to="/explore"
             className={`flex m-2 ml-4 p-2 items-center hover:bg-white/5 rounded-xl transition duration-200 ${location.pathname === "/explore" && "font-black text-xl"}`}
@@ -77,7 +90,7 @@ function RouteComponent() {
           </a>
           <Link
             to="/archive"
-            className="flex m-2 ml-4 p-2 items-center hover:bg-white/5 rounded-xl transition duration-200"
+            className={`flex m-2 ml-4 p-2 items-center hover:bg-white/5 rounded-xl transition duration-200 ${location.pathname === "/archive" && "font-black text-xl"}`}
           >
             <Bookmark size={32} /> &ensp;&ensp; Archive
           </Link>
@@ -89,11 +102,19 @@ function RouteComponent() {
           </Link>
           <button
             className="flex m-2 ml-4 p-2 items-center hover:bg-white/90 rounded-lg transition duration-200 bg-gradient-to-r from-green-400 to-indigo-600 text-white font-semibold w-[80%]"
-            onClick={handleOpenModal}
+            onClick={handleOpenCreateModal}
           >
             <AudioLines size={32} /> &ensp;&ensp; Echo
           </button>
-          <CreateModal isOpen={isModalOpen} onClose={handleCloseModal} />
+
+          <CreateModal
+            isOpen={isCreateModalOpen}
+            onClose={handleCloseCreateModal}
+          />
+          <SearchModal
+            isOpen={isSearchModalOpen}
+            onClose={handleCloseSearchModal}
+          />
         </div>
 
         <div>

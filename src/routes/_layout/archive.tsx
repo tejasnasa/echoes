@@ -33,13 +33,13 @@ function RouteComponent() {
       <div className="flex justify-around text-2xl">
         <button
           onClick={viewCaptures}
-          className={`border-b-[1px] w-5/12 pb-2 ${tab === "captures" && "border-b-4"}`}
+          className={`w-5/12 pb-2 ${tab === "captures" ? "border-b-4 " : "border-b-[1px]"}`}
         >
           Captures
         </button>
         <button
           onClick={viewresonates}
-          className={`border-b-[1px] w-5/12 pb-2 ${tab === "resonates" && "border-b-4"}`}
+          className={`w-5/12 pb-2 ${tab === "resonates"  ? "border-b-4 " : "border-b-[1px]"}`}
         >
           Resonates
         </button>

@@ -46,7 +46,7 @@ const CreateModal = ({ isOpen, onClose }: CreateModalProps) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-100 flex items-center justify-center">
+    <section className="fixed inset-0 z-100 flex items-center justify-center">
       <img
         src={logo}
         alt=""
@@ -77,7 +77,7 @@ const CreateModal = ({ isOpen, onClose }: CreateModalProps) => {
           {isPending ? "Echoing...." : "Submit"}
         </button>
       </form>
-    </div>
+    </section>
   );
 };
 
