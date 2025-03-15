@@ -21,8 +21,8 @@ import { Route as LayoutFindImport } from './routes/_layout/find'
 import { Route as LayoutExploreImport } from './routes/_layout/explore'
 import { Route as LayoutCreateImport } from './routes/_layout/create'
 import { Route as LayoutArchiveImport } from './routes/_layout/archive'
-import { Route as LayoutUserUserSerIdImport } from './routes/_layout/user.$userSerId'
-import { Route as LayoutPostPostSerIdImport } from './routes/_layout/post.$postSerId'
+import { Route as LayoutUUserSerIdImport } from './routes/_layout/u.$userSerId'
+import { Route as LayoutEPostSerIdImport } from './routes/_layout/e.$postSerId'
 
 // Create/Update Routes
 
@@ -85,15 +85,15 @@ const LayoutArchiveRoute = LayoutArchiveImport.update({
   getParentRoute: () => LayoutRoute,
 } as any)
 
-const LayoutUserUserSerIdRoute = LayoutUserUserSerIdImport.update({
-  id: '/user/$userSerId',
-  path: '/user/$userSerId',
+const LayoutUUserSerIdRoute = LayoutUUserSerIdImport.update({
+  id: '/u/$userSerId',
+  path: '/u/$userSerId',
   getParentRoute: () => LayoutRoute,
 } as any)
 
-const LayoutPostPostSerIdRoute = LayoutPostPostSerIdImport.update({
-  id: '/post/$postSerId',
-  path: '/post/$postSerId',
+const LayoutEPostSerIdRoute = LayoutEPostSerIdImport.update({
+  id: '/e/$postSerId',
+  path: '/e/$postSerId',
   getParentRoute: () => LayoutRoute,
 } as any)
 
@@ -171,18 +171,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutIndexImport
       parentRoute: typeof LayoutImport
     }
-    '/_layout/post/$postSerId': {
-      id: '/_layout/post/$postSerId'
-      path: '/post/$postSerId'
-      fullPath: '/post/$postSerId'
-      preLoaderRoute: typeof LayoutPostPostSerIdImport
+    '/_layout/e/$postSerId': {
+      id: '/_layout/e/$postSerId'
+      path: '/e/$postSerId'
+      fullPath: '/e/$postSerId'
+      preLoaderRoute: typeof LayoutEPostSerIdImport
       parentRoute: typeof LayoutImport
     }
-    '/_layout/user/$userSerId': {
-      id: '/_layout/user/$userSerId'
-      path: '/user/$userSerId'
-      fullPath: '/user/$userSerId'
-      preLoaderRoute: typeof LayoutUserUserSerIdImport
+    '/_layout/u/$userSerId': {
+      id: '/_layout/u/$userSerId'
+      path: '/u/$userSerId'
+      fullPath: '/u/$userSerId'
+      preLoaderRoute: typeof LayoutUUserSerIdImport
       parentRoute: typeof LayoutImport
     }
   }
@@ -198,8 +198,8 @@ interface LayoutRouteChildren {
   LayoutSearchRoute: typeof LayoutSearchRoute
   LayoutSettingsRoute: typeof LayoutSettingsRoute
   LayoutIndexRoute: typeof LayoutIndexRoute
-  LayoutPostPostSerIdRoute: typeof LayoutPostPostSerIdRoute
-  LayoutUserUserSerIdRoute: typeof LayoutUserUserSerIdRoute
+  LayoutEPostSerIdRoute: typeof LayoutEPostSerIdRoute
+  LayoutUUserSerIdRoute: typeof LayoutUUserSerIdRoute
 }
 
 const LayoutRouteChildren: LayoutRouteChildren = {
@@ -210,8 +210,8 @@ const LayoutRouteChildren: LayoutRouteChildren = {
   LayoutSearchRoute: LayoutSearchRoute,
   LayoutSettingsRoute: LayoutSettingsRoute,
   LayoutIndexRoute: LayoutIndexRoute,
-  LayoutPostPostSerIdRoute: LayoutPostPostSerIdRoute,
-  LayoutUserUserSerIdRoute: LayoutUserUserSerIdRoute,
+  LayoutEPostSerIdRoute: LayoutEPostSerIdRoute,
+  LayoutUUserSerIdRoute: LayoutUUserSerIdRoute,
 }
 
 const LayoutRouteWithChildren =
@@ -228,8 +228,8 @@ export interface FileRoutesByFullPath {
   '/search': typeof LayoutSearchRoute
   '/settings': typeof LayoutSettingsRoute
   '/': typeof LayoutIndexRoute
-  '/post/$postSerId': typeof LayoutPostPostSerIdRoute
-  '/user/$userSerId': typeof LayoutUserUserSerIdRoute
+  '/e/$postSerId': typeof LayoutEPostSerIdRoute
+  '/u/$userSerId': typeof LayoutUUserSerIdRoute
 }
 
 export interface FileRoutesByTo {
@@ -242,8 +242,8 @@ export interface FileRoutesByTo {
   '/search': typeof LayoutSearchRoute
   '/settings': typeof LayoutSettingsRoute
   '/': typeof LayoutIndexRoute
-  '/post/$postSerId': typeof LayoutPostPostSerIdRoute
-  '/user/$userSerId': typeof LayoutUserUserSerIdRoute
+  '/e/$postSerId': typeof LayoutEPostSerIdRoute
+  '/u/$userSerId': typeof LayoutUUserSerIdRoute
 }
 
 export interface FileRoutesById {
@@ -258,8 +258,8 @@ export interface FileRoutesById {
   '/_layout/search': typeof LayoutSearchRoute
   '/_layout/settings': typeof LayoutSettingsRoute
   '/_layout/': typeof LayoutIndexRoute
-  '/_layout/post/$postSerId': typeof LayoutPostPostSerIdRoute
-  '/_layout/user/$userSerId': typeof LayoutUserUserSerIdRoute
+  '/_layout/e/$postSerId': typeof LayoutEPostSerIdRoute
+  '/_layout/u/$userSerId': typeof LayoutUUserSerIdRoute
 }
 
 export interface FileRouteTypes {
@@ -275,8 +275,8 @@ export interface FileRouteTypes {
     | '/search'
     | '/settings'
     | '/'
-    | '/post/$postSerId'
-    | '/user/$userSerId'
+    | '/e/$postSerId'
+    | '/u/$userSerId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
@@ -288,8 +288,8 @@ export interface FileRouteTypes {
     | '/search'
     | '/settings'
     | '/'
-    | '/post/$postSerId'
-    | '/user/$userSerId'
+    | '/e/$postSerId'
+    | '/u/$userSerId'
   id:
     | '__root__'
     | '/_layout'
@@ -302,8 +302,8 @@ export interface FileRouteTypes {
     | '/_layout/search'
     | '/_layout/settings'
     | '/_layout/'
-    | '/_layout/post/$postSerId'
-    | '/_layout/user/$userSerId'
+    | '/_layout/e/$postSerId'
+    | '/_layout/u/$userSerId'
   fileRoutesById: FileRoutesById
 }
 
@@ -344,8 +344,8 @@ export const routeTree = rootRoute
         "/_layout/search",
         "/_layout/settings",
         "/_layout/",
-        "/_layout/post/$postSerId",
-        "/_layout/user/$userSerId"
+        "/_layout/e/$postSerId",
+        "/_layout/u/$userSerId"
       ]
     },
     "/login": {
@@ -382,12 +382,12 @@ export const routeTree = rootRoute
       "filePath": "_layout/index.tsx",
       "parent": "/_layout"
     },
-    "/_layout/post/$postSerId": {
-      "filePath": "_layout/post.$postSerId.tsx",
+    "/_layout/e/$postSerId": {
+      "filePath": "_layout/e.$postSerId.tsx",
       "parent": "/_layout"
     },
-    "/_layout/user/$userSerId": {
-      "filePath": "_layout/user.$userSerId.tsx",
+    "/_layout/u/$userSerId": {
+      "filePath": "_layout/u.$userSerId.tsx",
       "parent": "/_layout"
     }
   }

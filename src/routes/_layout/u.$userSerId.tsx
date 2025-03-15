@@ -3,7 +3,7 @@ import { useUser } from "../../api/user";
 import coverimg from "../../assets/pfp/cover.jpg";
 import pfp from "../../assets/logos/logo.png";
 
-export const Route = createFileRoute("/_layout/user/$userSerId")({
+export const Route = createFileRoute("/_layout/u/$userSerId")({
   component: RouteComponent,
 });
 

@@ -28,7 +28,7 @@ function RouteComponent() {
           onMouseEnter={() => prefetchUser(user.serialId)}
         >
           <Link
-            to="/user/$userSerId"
+            to="/u/$userSerId"
             params={{ userSerId: String(user.serialId) }}
           >
             <h3>{user.fullname}</h3>

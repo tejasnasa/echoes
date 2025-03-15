@@ -11,7 +11,7 @@ import pfp4 from "../../assets/pfp/4.jpg";
 import pfp5 from "../../assets/pfp/5.jpg";
 import Echo from "../../components/home/Echo";
 
-export const Route = createFileRoute("/_layout/post/$postSerId")({
+export const Route = createFileRoute("/_layout/e/$postSerId")({
   component: RouteComponent,
 });
 
@@ -42,7 +42,7 @@ function RouteComponent() {
     <main className="flex mt-4 mx-64 flex-col">
       <div className="flex justify-between">
         <Link
-          to="/user/$userSerId"
+          to="/u/$userSerId"
           params={{ userSerId: String(data?.user.serialId) }}
           onMouseEnter={() => prefetchUser(data!.user.serialId)}
           className="flex items-center"

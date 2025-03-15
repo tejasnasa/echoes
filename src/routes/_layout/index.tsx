@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useAllPosts } from "../../api/fetchPost";
-import "../../utils/loader";
 import Echo from "../../components/home/Echo";
 
 export const Route = createFileRoute("/_layout/")({

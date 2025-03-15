@@ -11,7 +11,7 @@ import { useForm } from "react-hook-form";
 export const Route = createFileRoute("/_layout/create")({
   component: RouteComponent,
 });
-
+ 
 function RouteComponent() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();

@@ -39,14 +39,14 @@ const Echo = ({ post }: { post: Post }) => {
   return (
     <Link
       params={{ postSerId: String(post.serialId) }}
-      to="/post/$postSerId"
+      to="/e/$postSerId"
       onMouseEnter={() => prefetchPost(post.serialId)}
       className="m-16 text-lg"
       key={post.serialId}
     >
       <div className="flex justify-between items-center">
         <Link
-          to="/user/$userSerId"
+          to="/u/$userSerId"
           params={{ userSerId: String(post.user.serialId) }}
           onMouseEnter={() => prefetchUser(post.user.serialId)}
           className="flex items-center"
@@ -71,21 +71,17 @@ const Echo = ({ post }: { post: Post }) => {
           <Ellipsis />
         </div>
       </div>
-      <div className="my-4">
+      <div className="mt-4 mb-2 break-words">
         {post.text}
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio,
         veniam quaerat cupiditate iure aliquid facilis, ad porro earum a
         consectetur obcaecati ullam? Ducimus modi dolores fugit, iure dolore
         expedita eum.
-        <img
-          src="https://pbs.twimg.com/media/GlwWSJHbIAAT69c?format=jpg&name=large"
-          alt=""
-          className="mt-3"
-        />
+        <img src={post.images?.[0]} alt="" className="mt-1" />
       </div>
 
       <div className="flex justify-around mb-8">
-        <button className="flex items-center relative group">
+        <button className="flex items-center relative group z-10">
           <Heart
             size={30}
             fill="#4CA5A6"

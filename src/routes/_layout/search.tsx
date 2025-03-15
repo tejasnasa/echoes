@@ -58,7 +58,7 @@ function RouteComponent() {
         {userData?.map((user) => (
           <div className="flex justify-between items-center my-4">
             <Link
-              to="/user/$userSerId"
+              to="/u/$userSerId"
               params={{ userSerId: String(user.serialId) }}
               onMouseEnter={() => prefetchUser(user.serialId)}
               className="flex items-center"

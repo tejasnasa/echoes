@@ -17,6 +17,8 @@ import {
   Mail,
   Search,
 } from "lucide-react";
+import { useState } from "react";
+import CreateModal from "../components/CreateModal";
 
 export const Route = createFileRoute("/_layout")({
   component: RouteComponent,
@@ -34,6 +36,15 @@ export const Route = createFileRoute("/_layout")({
 
 function RouteComponent() {
   const location = useLocation();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <div className="bg-[#111628] text-white text-lg flex">
@@ -76,17 +87,18 @@ function RouteComponent() {
           >
             <Bolt size={32} /> &ensp;&ensp; Settings
           </Link>
-          <Link
-            to="/create"
-            className="flex m-2 ml-4 p-2 items-center hover:bg-white/90 rounded-xl transition duration-200 bg-gradient-to-r from-green-400 to-indigo-600 text-white mt-4 font-semibold"
+          <button
+            className="flex m-2 ml-4 p-2 items-center hover:bg-white/90 rounded-lg transition duration-200 bg-gradient-to-r from-green-400 to-indigo-600 text-white font-semibold w-[80%]"
+            onClick={handleOpenModal}
           >
             <AudioLines size={32} /> &ensp;&ensp; Echo
-          </Link>
+          </button>
+          <CreateModal isOpen={isModalOpen} onClose={handleCloseModal} />
         </div>
 
         <div>
           <Link
-            to="/user/$userSerId"
+            to="/u/$userSerId"
             params={{ userSerId: "1" }}
             className="flex items-center"
           >
@@ -103,7 +115,7 @@ function RouteComponent() {
         </div>
       </section>
 
-      <section className=" w-[80%] ml-auto">
+      <section className="w-[80%] ml-auto">
         <Outlet />
       </section>
     </div>
