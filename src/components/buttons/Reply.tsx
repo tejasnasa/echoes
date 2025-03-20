@@ -16,7 +16,7 @@ const Reply = () => {
         strokeWidth={2}
         className="transition-transform duration-200"
       />{" "}
-      &nbsp; 522
+      &nbsp;
       <span className="absolute bottom-8 left-1/4 opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-cyan-500 text-sm bg-gray-600">
         &nbsp;echo&nbsp;
       </span>

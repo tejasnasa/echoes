@@ -15,12 +15,19 @@ export interface Post {
   images: string[] | null;
   createdAt: Date;
   user: User;
+  likeCount: number;
+  repostCount: number;
+  bookmarkCount: number;
+  likedByUser: boolean;
+  repostedByUser: boolean;
+  bookmarkedByUser: boolean;
 }
 
 export const fetchPosts = async (): Promise<Post[]> => {
   const response = await fetch(`${import.meta.env.VITE_BASE_URL}/post`, {
     credentials: "include",
   }).then((res) => res.json());
+  console.log(response.responseObject);
   return response.responseObject;
 };
 

@@ -8,7 +8,7 @@ import pfp3 from "../../assets/pfp/3.jpg";
 import pfp4 from "../../assets/pfp/4.jpg";
 import pfp5 from "../../assets/pfp/5.jpg";
 import { timeAgo } from "../../utils/datetime";
-import { Ellipsis } from "lucide-react";
+import { Share2 } from "lucide-react";
 import Like from "../buttons/Like";
 import Repost from "../buttons/Repost";
 import Capture from "../buttons/Capture";
@@ -42,6 +42,42 @@ const Echo = ({ post }: { post: Post }) => {
 
   return (
     <>
+      <div className="flex justify-between items-center mt-8">
+        <Link
+          to="/u/$userSerId"
+          params={{ userSerId: String(post.user.serialId) }}
+          onMouseEnter={() => prefetchUser(post.user.serialId)}
+          className="flex items-center"
+        >
+          <img
+            src={post.user.profile_pic || randomPic()}
+            alt=""
+            className="h-16 rounded-full mr-4 hover:opacity-85 transition duration-300"
+          />
+          <div>
+            <h3 className="font-semibold hover:underline transition duration-300">
+              {post.user.fullname}
+            </h3>
+            <h4 className="text-gray-300">@{post.user.username}</h4>
+          </div>
+        </Link>
+        <div className="flex items-center text-gray-300">
+          <div
+            dangerouslySetInnerHTML={{ __html: timeAgo(post.createdAt) }}
+            className=" hover:underline"
+          />
+          <button
+            className="hover:bg-white/10 rounded-full m-2 flex items-center justify-center transition mr-0"
+            onClick={() => {
+              navigator.clipboard.writeText(
+                `http://localhost:5173/e/${post.serialId}`
+              );
+            }}
+          >
+            <Share2 size={24} className="m-3" />
+          </button>
+        </div>
+      </div>
       <Link
         params={{ postSerId: String(post.serialId) }}
         to="/e/$postSerId"
@@ -49,34 +85,6 @@ const Echo = ({ post }: { post: Post }) => {
         className="text-lg"
         key={post.serialId}
       >
-        <div className="flex justify-between items-center">
-          <Link
-            to="/u/$userSerId"
-            params={{ userSerId: String(post.user.serialId) }}
-            onMouseEnter={() => prefetchUser(post.user.serialId)}
-            className="flex items-center"
-          >
-            <img
-              src={post.user.profile_pic || randomPic()}
-              alt=""
-              className="h-16 rounded-full mr-4 hover:opacity-85 transition duration-300"
-            />
-            <div>
-              <h3 className="font-semibold hover:underline transition duration-300">
-                {post.user.fullname}
-              </h3>
-              <h4 className="text-gray-300">@{post.user.username}</h4>
-            </div>
-          </Link>
-          <div className="flex items-center text-gray-300">
-            <div
-              dangerouslySetInnerHTML={{ __html: timeAgo(post.createdAt) }}
-              className=" m-4"
-            />
-            <Ellipsis />
-          </div>
-        </div>
-
         <div className="mt-4 break-words">
           {post.text}
           {post.images?.length === 1 && (
@@ -137,11 +145,11 @@ const Echo = ({ post }: { post: Post }) => {
           )}
         </div>
       </Link>
-      <div className="flex justify-around mb-6  qq mt-3">
-        <Like />
+      <div className="flex justify-around mb-6 mt-3">
+        <Like count={post.likeCount} byUser={post.likedByUser}/>
         <Reply />
-        <Repost />
-        <Capture />
+        <Repost count={post.repostCount} byUser={post.repostedByUser}/>
+        <Capture count={post.bookmarkCount} byUser={post.bookmarkedByUser}/>
       </div>
     </>
   );

@@ -1,14 +1,25 @@
 import { Bookmark } from "lucide-react";
 import { useState } from "react";
 
-const Capture = () => {
-  const [active, setActive] = useState(false);
+const Capture = ({
+  count = 0,
+  byUser,
+}: {
+  count?: number;
+  byUser: boolean;
+}) => {
+  const [active, setActive] = useState(byUser);
+  const [value, setValue] = useState(count);
+
+  const toggle = () => {
+    setActive((prev) => !prev);
+    setValue((prev) => (active ? prev - 1 : prev + 1));
+  };
+
   return (
     <button
       className={`flex items-center relative group ${active ? "text-[#4CA5A6]" : undefined} px-4 py-2`}
-      onClick={() => {
-        setActive((value) => !value);
-      }}
+      onClick={toggle}
     >
       <Bookmark
         size={30}
@@ -16,7 +27,7 @@ const Capture = () => {
         strokeWidth={2}
         className="transition-transform duration-200"
       />
-      &nbsp; 1k
+      &nbsp; {value}
       <span className="absolute bottom-8 opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-cyan-500 text-sm bg-gray-600">
         &nbsp;capture&nbsp;
       </span>
