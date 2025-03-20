@@ -30,12 +30,8 @@ export const loginSchema = z.object({
   password: z.string().min(8, { message: "Enter a valid password" }).trim(),
 });
 
-export const postSchema = z
-  .object({
-    text: z.string(),
-    images: z.string().array(),
-    postAboveId: z.string().optional(),
-  })
-  .refine((data) => data.text.trim().length > 0 || data.images.length > 0, {
-    message: "Red",
-  });
+export const postSchema = z.object({
+  text: z.string(),
+  images: z.string().array(),
+  postAboveId: z.string().optional(),
+});

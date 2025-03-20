@@ -48,5 +48,7 @@ export const isAuthenticated = async () => {
     credentials: "include",
   }).then((res) => res.json());
 
-  return response.responseObject;
+  console.log(response);
+
+  return response;
 };

@@ -1,15 +1,17 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useAllPosts, usePost } from "../../api/fetchPost";
+import { usePost } from "../../api/fetchPost";
 import { useQueryClient } from "@tanstack/react-query";
 import { fetchUser } from "../../api/user";
 import { formatDateTime } from "../../utils/datetime";
-import { AudioLines, Bookmark, Heart, Waves } from "lucide-react";
 import pfp1 from "../../assets/pfp/1.jpg";
 import pfp2 from "../../assets/pfp/2.avif";
 import pfp3 from "../../assets/pfp/3.jpg";
 import pfp4 from "../../assets/pfp/4.jpg";
 import pfp5 from "../../assets/pfp/5.jpg";
-import Echo from "../../components/home/Echo";
+import Like from "../../components/buttons/Like";
+import Reply from "../../components/buttons/Reply";
+import Repost from "../../components/buttons/Repost";
+import Capture from "../../components/buttons/Capture";
 
 export const Route = createFileRoute("/_layout/e/$postSerId")({
   component: RouteComponent,
@@ -26,7 +28,6 @@ function RouteComponent() {
   const { postSerId } = Route.useParams();
   const queryClient = useQueryClient();
   const { data, isLoading } = usePost(Number(postSerId));
-  const { data: replyData } = useAllPosts();
 
   const prefetchUser = (userSerId: number) => {
     queryClient.prefetchQuery({
@@ -60,16 +61,27 @@ function RouteComponent() {
           </div>
         </Link>
       </div>
-      <div className="mt-4 mb-2 ">
+      <div className="mt-4">
         {data?.text}
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio,
-        veniam quaerat cupiditate iure aliquid facilis, ad porro earum a
-        consectetur obcaecati ullam? Ducimus modi dolores fugit, iure dolore
-        expedita eum.
         <img
-          src="https://pbs.twimg.com/media/GlwWSJHbIAAT69c?format=jpg&name=large"
+          src={data?.images?.[0]}
           alt=""
-          className="mt-3"
+          className="mt-1 w-full rounded-xl overflow-hidden py-1"
+        />
+        <img
+          src={data?.images?.[1]}
+          alt=""
+          className="mt-1 w-full rounded-xl overflow-hidden py-1"
+        />
+        <img
+          src={data?.images?.[2]}
+          alt=""
+          className="mt-1 w-full rounded-xl overflow-hidden py-1"
+        />
+        <img
+          src={data?.images?.[3]}
+          alt=""
+          className="mt-1 w-full rounded-xl overflow-hidden py-1"
         />
       </div>
       <div className="text-gray-300 mb-6">
@@ -77,46 +89,10 @@ function RouteComponent() {
       </div>
 
       <div className="flex justify-around mb-8">
-        <button className="flex items-center relative group">
-          <Heart
-            size={30}
-            fill="#4CA5A6"
-            strokeWidth={0}
-            className="transition-transform duration-200"
-          />
-          &nbsp; 51k
-          <span className="absolute bottom-8 opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-cyan-500 text-sm bg-gray-600">
-            &nbsp;resonate&nbsp;
-          </span>
-        </button>
-
-        <button className="flex items-center relative group">
-          <AudioLines size={28} className="transition-transform duration-200" />{" "}
-          &nbsp; 522
-          <span className="absolute bottom-8 left-1/4 opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-cyan-500 text-sm bg-gray-600">
-            &nbsp;echo&nbsp;
-          </span>
-        </button>
-
-        <button className="flex items-center relative group">
-          <Waves size={28} className="transition-transform duration-200" />{" "}
-          &nbsp; 4k
-          <span className="absolute bottom-8 opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-cyan-500 text-sm bg-gray-600">
-            &nbsp;reverberate&nbsp;
-          </span>
-        </button>
-
-        <button className="flex items-center relative group">
-          <Bookmark size={28} className="transition-transform duration-200" />{" "}
-          &nbsp; 1k
-          <span className="absolute bottom-8 opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-cyan-500 text-sm bg-gray-600">
-            &nbsp;capture&nbsp;
-          </span>
-        </button>
-      </div>
-
-      <div className="space-y-4">
-        {replyData?.map((post) => <Echo key={post.id} post={post} />)}
+        <Like />
+        <Reply />
+        <Repost />
+        <Capture />
       </div>
     </main>
   );

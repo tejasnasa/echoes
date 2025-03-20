@@ -5,7 +5,6 @@ import {
   redirect,
   useLocation,
 } from "@tanstack/react-router";
-import { isAuthenticated } from "../api/auth";
 import logo from "../assets/logos/logo.png";
 import {
   AudioLines,
@@ -20,16 +19,52 @@ import {
 import { useState } from "react";
 import CreateModal from "../components/CreateModal";
 import SearchModal from "../components/SearchModal";
+import { isAuthenticated } from "../api/auth";
 
+import { QueryClient } from "@tanstack/react-query";
+import { useAuth } from "../api/self";
+
+interface Authresult {
+  success: boolean;
+  message: string;
+  responseObject: {
+    fullname: string;
+    profile_pic: string;
+    serialId: number;
+    username: string;
+  };
+  statusCode: number;
+  accessToken: string | undefined;
+}
+
+// Modify your route
 export const Route = createFileRoute("/_layout")({
   component: RouteComponent,
-  beforeLoad: async ({ location }) => {
-    if ((await isAuthenticated()).success) {
+  beforeLoad: async () => {
+    // Access the query client - you'll need to set this up in your app
+    const queryClient = new QueryClient();
+
+    // Try to get cached data first
+    const cachedAuth = queryClient.getQueryData<Authresult>(["auth"]);
+
+    if (cachedAuth) {
+      if (cachedAuth.success === false) {
+        throw redirect({
+          to: "/login",
+        });
+      }
+      return;
+    }
+
+    // If no cached data, fetch it
+    const auth = await isAuthenticated();
+
+    // Store in cache for future use
+    queryClient.setQueryData(["auth"], auth);
+
+    if (auth.success === false) {
       throw redirect({
         to: "/login",
-        search: {
-          redirect: location.href,
-        },
       });
     }
   },
@@ -37,6 +72,7 @@ export const Route = createFileRoute("/_layout")({
 
 function RouteComponent() {
   const location = useLocation();
+  const { data, isLoading, isError } = useAuth();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
 
@@ -55,6 +91,15 @@ function RouteComponent() {
   const handleCloseSearchModal = () => {
     setIsSearchModalOpen(false);
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  // Handle error state
+  if (isError || !data) {
+    return <div>Error loading authentication data</div>;
+  }
 
   return (
     <div className="bg-[#111628] text-white text-lg flex">
@@ -120,7 +165,7 @@ function RouteComponent() {
         <div>
           <Link
             to="/u/$userSerId"
-            params={{ userSerId: "1" }}
+            params={{ userSerId: data.responseObject.serialId }}
             className="flex items-center"
           >
             <img
@@ -129,8 +174,12 @@ function RouteComponent() {
               className="h-12 m-6 mr-4 rounded-full border-white border-2"
             />
             <div className="text-sm">
-              <div className="font-semibold">Tejas Nasa</div>
-              <div className="text-gray-400">@tejasnasa</div>
+              <div className="font-semibold">
+                @{data.responseObject.username}
+              </div>
+              <div className="text-gray-400">
+                {data.responseObject.fullname}
+              </div>
             </div>
           </Link>
         </div>

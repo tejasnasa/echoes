@@ -10,7 +10,7 @@ const router = createRouter({
   defaultPreload: "intent",
 });
 
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 // Register things for typesafety
 declare module "@tanstack/react-router" {

@@ -8,7 +8,11 @@ import pfp3 from "../../assets/pfp/3.jpg";
 import pfp4 from "../../assets/pfp/4.jpg";
 import pfp5 from "../../assets/pfp/5.jpg";
 import { timeAgo } from "../../utils/datetime";
-import { AudioLines, Bookmark, Ellipsis, Heart, Waves } from "lucide-react";
+import { Ellipsis } from "lucide-react";
+import Like from "../buttons/Like";
+import Repost from "../buttons/Repost";
+import Capture from "../buttons/Capture";
+import Reply from "../buttons/Reply";
 
 const randomPic = () => {
   const pics = [pfp1, pfp2, pfp3, pfp4, pfp5];
@@ -37,88 +41,109 @@ const Echo = ({ post }: { post: Post }) => {
   };
 
   return (
-    <Link
-      params={{ postSerId: String(post.serialId) }}
-      to="/e/$postSerId"
-      onMouseEnter={() => prefetchPost(post.serialId)}
-      className="m-16 text-lg"
-      key={post.serialId}
-    >
-      <div className="flex justify-between items-center">
-        <Link
-          to="/u/$userSerId"
-          params={{ userSerId: String(post.user.serialId) }}
-          onMouseEnter={() => prefetchUser(post.user.serialId)}
-          className="flex items-center"
-        >
-          <img
-            src={post.user.profile_pic || randomPic()}
-            alt=""
-            className="h-16 rounded-full mr-4 hover:opacity-85 transition duration-300"
-          />
-          <div>
-            <h3 className="font-semibold hover:underline transition duration-300">
-              {post.user.fullname}
-            </h3>
-            <h4 className="text-gray-300">@{post.user.username}</h4>
+    <>
+      <Link
+        params={{ postSerId: String(post.serialId) }}
+        to="/e/$postSerId"
+        onMouseEnter={() => prefetchPost(post.serialId)}
+        className="text-lg"
+        key={post.serialId}
+      >
+        <div className="flex justify-between items-center">
+          <Link
+            to="/u/$userSerId"
+            params={{ userSerId: String(post.user.serialId) }}
+            onMouseEnter={() => prefetchUser(post.user.serialId)}
+            className="flex items-center"
+          >
+            <img
+              src={post.user.profile_pic || randomPic()}
+              alt=""
+              className="h-16 rounded-full mr-4 hover:opacity-85 transition duration-300"
+            />
+            <div>
+              <h3 className="font-semibold hover:underline transition duration-300">
+                {post.user.fullname}
+              </h3>
+              <h4 className="text-gray-300">@{post.user.username}</h4>
+            </div>
+          </Link>
+          <div className="flex items-center text-gray-300">
+            <div
+              dangerouslySetInnerHTML={{ __html: timeAgo(post.createdAt) }}
+              className=" m-4"
+            />
+            <Ellipsis />
           </div>
-        </Link>
-        <div className="flex items-center text-gray-300">
-          <div
-            dangerouslySetInnerHTML={{ __html: timeAgo(post.createdAt) }}
-            className=" m-4"
-          />
-          <Ellipsis />
         </div>
+
+        <div className="mt-4 break-words">
+          {post.text}
+          {post.images?.length === 1 && (
+            <img
+              src={post.images?.[0]}
+              alt=""
+              className="mt-1 w-full rounded-xl overflow-hidden"
+            />
+          )}
+          {post.images?.length === 2 && (
+            <div className="w-full flex gap-1 mt-1 rounded-xl overflow-hidden">
+              <img src={post.images?.[0]} alt="" className="w-1/2" />
+              <img src={post.images?.[1]} alt="" className="w-1/2" />
+            </div>
+          )}
+          {post.images?.length === 3 && (
+            <div className="w-full gap-1 grid grid-cols-3 grid-rows-2 rounded-xl overflow-hidden">
+              <img
+                src={post.images?.[0]}
+                alt=""
+                className="col-span-2 row-span-2 object-cover w-full aspect-square"
+              />
+              <img
+                src={post.images?.[1]}
+                alt=""
+                className="col-span-1 object-cover w-full aspect-square"
+              />
+              <img
+                src={post.images?.[2]}
+                alt=""
+                className="col-span-1 object-cover w-full aspect-square"
+              />
+            </div>
+          )}
+          {post.images?.length === 4 && (
+            <div className="w-full gap-1 grid grid-cols-2 grid-rows-2 rounded-xl overflow-hidden">
+              <img
+                src={post.images?.[0]}
+                alt=""
+                className="col-span-1 object-cover w-full aspect-square"
+              />
+              <img
+                src={post.images?.[1]}
+                alt=""
+                className="col-span-1 object-cover w-full aspect-square"
+              />
+              <img
+                src={post.images?.[2]}
+                alt=""
+                className="col-span-1 object-cover w-full aspect-square"
+              />
+              <img
+                src={post.images?.[3]}
+                alt=""
+                className="col-span-1 object-cover w-full aspect-square"
+              />
+            </div>
+          )}
+        </div>
+      </Link>
+      <div className="flex justify-around mb-6  qq mt-3">
+        <Like />
+        <Reply />
+        <Repost />
+        <Capture />
       </div>
-      <div className="mt-4 mb-2 break-words">
-        {post.text}
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio,
-        veniam quaerat cupiditate iure aliquid facilis, ad porro earum a
-        consectetur obcaecati ullam? Ducimus modi dolores fugit, iure dolore
-        expedita eum.
-        <img src={post.images?.[0]} alt="" className="mt-1" />
-      </div>
-
-      <div className="flex justify-around mb-8">
-        <button className="flex items-center relative group z-10">
-          <Heart
-            size={30}
-            fill="#4CA5A6"
-            strokeWidth={0}
-            className="transition-transform duration-200"
-          />
-          &nbsp; 51k
-          <span className="absolute bottom-8 opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-cyan-500 text-sm bg-gray-600">
-            &nbsp;resonate&nbsp;
-          </span>
-        </button>
-
-        <button className="flex items-center relative group">
-          <AudioLines size={28} className="transition-transform duration-200" />{" "}
-          &nbsp; 522
-          <span className="absolute bottom-8 left-1/4 opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-cyan-500 text-sm bg-gray-600">
-            &nbsp;echo&nbsp;
-          </span>
-        </button>
-
-        <button className="flex items-center relative group">
-          <Waves size={28} className="transition-transform duration-200" />{" "}
-          &nbsp; 4k
-          <span className="absolute bottom-8 opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-cyan-500 text-sm bg-gray-600">
-            &nbsp;reverberate&nbsp;
-          </span>
-        </button>
-
-        <button className="flex items-center relative group">
-          <Bookmark size={28} className="transition-transform duration-200" />{" "}
-          &nbsp; 1k
-          <span className="absolute bottom-8 opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-cyan-500 text-sm bg-gray-600">
-            &nbsp;capture&nbsp;
-          </span>
-        </button>
-      </div>
-    </Link>
+    </>
   );
 };
 
