@@ -1,4 +1,5 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery} from "@tanstack/react-query";
+import { queryClient } from "../main";
 
 export interface User {
   serialId: number;
@@ -38,6 +39,7 @@ export const fetchPost = async (postSerId: number): Promise<Post> => {
       credentials: "include",
     }
   ).then((res) => res.json());
+  console.log(response.responseObject);
   return response.responseObject;
 };
 
@@ -50,7 +52,6 @@ export const useAllPosts = () => {
 };
 
 export const usePost = (postSerId: number) => {
-  const queryClient = useQueryClient();
 
   return useQuery<Post>({
     queryKey: ["post", postSerId],
@@ -86,3 +87,4 @@ export const createPost = async (data: { text: string; images: string[] }) => {
 
   return response.responseObject;
 };
+

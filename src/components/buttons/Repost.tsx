@@ -1,13 +1,33 @@
 import { Waves } from "lucide-react";
 import { useState } from "react";
+import { queryClient } from "../../main";
 
-const Repost = ({ count = 0, byUser }: { count?: number; byUser: boolean }) => {
+const Repost = ({
+  count = 0,
+  byUser,
+  postSerId,
+}: {
+  count?: number;
+  byUser?: boolean;
+  postSerId?: number;
+}) => {
   const [active, setActive] = useState(byUser);
   const [value, setValue] = useState(count);
 
   const toggle = () => {
     setActive((prev) => !prev);
     setValue((prev) => (active ? prev - 1 : prev + 1));
+
+    fetch(`${import.meta.env.VITE_BASE_URL}/repost/${postSerId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    });
+
+    queryClient.invalidateQueries({ queryKey: ["posts"] });
+    queryClient.refetchQueries({ queryKey: ["posts"] });
   };
 
   return (

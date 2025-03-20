@@ -20,9 +20,10 @@ import { useState } from "react";
 import CreateModal from "../components/CreateModal";
 import SearchModal from "../components/SearchModal";
 import { isAuthenticated } from "../api/auth";
-
-import { QueryClient } from "@tanstack/react-query";
 import { useAuth } from "../api/self";
+import { queryClient } from "../main";
+import { usePreloadImage } from "../api/misc";
+import logo2 from ".././assets/logos/logo2.jpg";
 
 interface Authresult {
   success: boolean;
@@ -41,10 +42,6 @@ interface Authresult {
 export const Route = createFileRoute("/_layout")({
   component: RouteComponent,
   beforeLoad: async () => {
-    // Access the query client - you'll need to set this up in your app
-    const queryClient = new QueryClient();
-
-    // Try to get cached data first
     const cachedAuth = queryClient.getQueryData<Authresult>(["auth"]);
 
     if (cachedAuth) {
@@ -55,11 +52,7 @@ export const Route = createFileRoute("/_layout")({
       }
       return;
     }
-
-    // If no cached data, fetch it
     const auth = await isAuthenticated();
-
-    // Store in cache for future use
     queryClient.setQueryData(["auth"], auth);
 
     if (auth.success === false) {
@@ -71,6 +64,7 @@ export const Route = createFileRoute("/_layout")({
 });
 
 function RouteComponent() {
+  usePreloadImage(logo2);
   const location = useLocation();
   const { data, isLoading, isError } = useAuth();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -96,7 +90,6 @@ function RouteComponent() {
     return <div>Loading...</div>;
   }
 
-  // Handle error state
   if (isError || !data) {
     return <div>Error loading authentication data</div>;
   }
@@ -178,7 +171,7 @@ function RouteComponent() {
                 @{data.responseObject.username}
               </div>
               <div className="text-gray-400">
-                {data.responseObject.fullname}
+                &nbsp;{data.responseObject.fullname}
               </div>
             </div>
           </Link>

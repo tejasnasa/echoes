@@ -1,4 +1,3 @@
-import { useQueryClient } from "@tanstack/react-query";
 import {  Search } from "lucide-react";
 import { fetchUser, useAllUsers } from "../api/user";
 import { Link } from "@tanstack/react-router";
@@ -7,6 +6,7 @@ import pfp2 from ".././assets/pfp/2.avif";
 import pfp3 from ".././assets/pfp/3.jpg";
 import pfp4 from ".././assets/pfp/4.jpg";
 import pfp5 from ".././assets/pfp/5.jpg";
+import { queryClient } from "../main";
 
 const randomPic = () => {
   const pics = [pfp1, pfp2, pfp3, pfp4, pfp5];
@@ -21,8 +21,6 @@ interface CreateModalProps {
 }
 
 const SearchModal = ({ isOpen, onClose }: CreateModalProps) => {
-  const queryClient = useQueryClient();
-
   const { data } = useAllUsers();
 
   const prefetchUser = (userSerId: number) => {

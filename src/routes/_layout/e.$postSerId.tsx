@@ -89,10 +89,22 @@ function RouteComponent() {
       </div>
 
       <div className="flex justify-around mb-8">
-        <Like count={data?.likeCount} />
+      <Like
+          count={data?.likeCount}
+          byUser={data?.likedByUser}
+          postSerId={data?.serialId}
+        />
         <Reply />
-        <Repost count={data?.repostCount} />
-        <Capture count={data?.bookmarkCount} />
+        <Repost
+          count={data?.repostCount}
+          byUser={data?.repostedByUser}
+          postSerId={data?.serialId}
+        />
+        <Capture
+          count={data?.bookmarkCount}
+          byUser={data?.bookmarkedByUser}
+          postSerId={data?.serialId}
+        />
       </div>
     </main>
   );

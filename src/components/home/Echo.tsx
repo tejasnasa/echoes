@@ -1,6 +1,5 @@
 import { Link } from "@tanstack/react-router";
 import { fetchPost, Post } from "../../api/fetchPost";
-import { useQueryClient } from "@tanstack/react-query";
 import { fetchUser } from "../../api/user";
 import pfp1 from "../../assets/pfp/1.jpg";
 import pfp2 from "../../assets/pfp/2.avif";
@@ -13,6 +12,7 @@ import Like from "../buttons/Like";
 import Repost from "../buttons/Repost";
 import Capture from "../buttons/Capture";
 import Reply from "../buttons/Reply";
+import { queryClient } from "../../main";
 
 const randomPic = () => {
   const pics = [pfp1, pfp2, pfp3, pfp4, pfp5];
@@ -22,8 +22,6 @@ const randomPic = () => {
 };
 
 const Echo = ({ post }: { post: Post }) => {
-  const queryClient = useQueryClient();
-
   const prefetchPost = (postSerId: number) => {
     queryClient.prefetchQuery({
       queryKey: ["post", postSerId],
@@ -146,10 +144,22 @@ const Echo = ({ post }: { post: Post }) => {
         </div>
       </Link>
       <div className="flex justify-around mb-6 mt-3">
-        <Like count={post.likeCount} byUser={post.likedByUser}/>
+        <Like
+          count={post.likeCount}
+          byUser={post.likedByUser}
+          postSerId={post.serialId}
+        />
         <Reply />
-        <Repost count={post.repostCount} byUser={post.repostedByUser}/>
-        <Capture count={post.bookmarkCount} byUser={post.bookmarkedByUser}/>
+        <Repost
+          count={post.repostCount}
+          byUser={post.repostedByUser}
+          postSerId={post.serialId}
+        />
+        <Capture
+          count={post.bookmarkCount}
+          byUser={post.bookmarkedByUser}
+          postSerId={post.serialId}
+        />
       </div>
     </>
   );

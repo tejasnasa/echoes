@@ -1,13 +1,33 @@
 import { Heart } from "lucide-react";
 import { useState } from "react";
+import { queryClient } from "../../main";
 
-const Like = ({ count = 0, byUser }: { count?: number; byUser: boolean }) => {
+const Like = ({
+  count = 0,
+  byUser,
+  postSerId,
+}: {
+  count?: number;
+  byUser?: boolean;
+  postSerId?: number;
+}) => {
   const [active, setActive] = useState(byUser);
   const [value, setValue] = useState(count);
 
-  const toggle = () => {
+  const toggle = async () => {
     setActive((prev) => !prev);
     setValue((prev) => (active ? prev - 1 : prev + 1));
+
+    await fetch(`${import.meta.env.VITE_BASE_URL}/like/${postSerId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    });
+
+    queryClient.invalidateQueries({ queryKey: ["posts"] });
+    queryClient.refetchQueries({ queryKey: ["posts"] });
   };
 
   return (

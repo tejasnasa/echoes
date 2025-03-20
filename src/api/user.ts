@@ -1,4 +1,5 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
+import { queryClient } from "../main";
 
 interface User {
   serialId: number;
@@ -45,8 +46,6 @@ export const useAllUsers = () => {
 };
 
 export const useUser = (userSerId: number) => {
-  const queryClient = useQueryClient();
-
   return useQuery<User>({
     queryKey: ["user", userSerId],
     queryFn: async () => {

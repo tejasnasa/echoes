@@ -48,6 +48,12 @@ export const isAuthenticated = async () => {
     credentials: "include",
   }).then((res) => res.json());
 
+  // const status = response.statusCode;
+
+  // if (status !== 200 || status !== 401 || status !== 403) {
+  //   throw new Error(JSON.stringify(response.responseObject));
+  // }
+
   console.log(response);
 
   return response;

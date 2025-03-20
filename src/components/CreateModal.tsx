@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import logo from ".././assets/logos/logo2.jpg";
 import { useState, useRef } from "react";
 import { createPost } from "../api/fetchPost";
@@ -8,6 +8,7 @@ import { postSchema } from "../utils/definitions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { X, UploadCloud, Loader2 } from "lucide-react";
 import { uploadToCloudinary } from "../api/post";
+import { queryClient } from "../main";
 
 interface CreateModalProps {
   isOpen: boolean;
@@ -15,7 +16,6 @@ interface CreateModalProps {
 }
 
 const CreateModal = ({ isOpen, onClose }: CreateModalProps) => {
-  const queryClient = useQueryClient();
   const [error, setError] = useState<string | null>(null);
   const [previews, setPreviews] = useState<string[]>([]);
   const [uploadingImages, setUploadingImages] = useState(false);
@@ -165,7 +165,6 @@ const CreateModal = ({ isOpen, onClose }: CreateModalProps) => {
           {errors.images && (
             <p className="text-red-500 ml-4">{errors.images.message}</p>
           )}
-          {error && <p className="text-red-500 ml-4">{error}</p>}
 
           <div className="m-4">
             <label
