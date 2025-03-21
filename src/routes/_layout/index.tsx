@@ -11,7 +11,7 @@ function RouteComponent() {
 
   if (isLoading)
     return (
-      <main className="mx-72 mt-4 h-dvh">
+      <main className="mx-80 mt-4 h-dvh">
         <div className="loader">
           <div className="inner-circle"></div>
         </div>
@@ -19,7 +19,7 @@ function RouteComponent() {
     );
 
   return (
-    <main className="mx-72 mt-4">
+    <main className="mx-72 mt-4 min-h-dvh">
       {data?.map((post) => <Echo post={post} />)}
     </main>
   );

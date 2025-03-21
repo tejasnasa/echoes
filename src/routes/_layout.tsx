@@ -95,7 +95,7 @@ function RouteComponent() {
   }
 
   return (
-    <div className="bg-[#111628] text-white text-lg flex">
+    <div className="bg-[#111628] text-white text-lg flex -z-20">
       <section className="w-[20%] h-dvh fixed pr-8 flex flex-col justify-between pl-10 border-r-[1px] border-gray-600">
         <div>
           <Link to="/">

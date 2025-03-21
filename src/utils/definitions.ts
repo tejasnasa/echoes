@@ -31,7 +31,7 @@ export const loginSchema = z.object({
 });
 
 export const postSchema = z.object({
-  text: z.string(),
-  images: z.string().array(),
+  text: z.string().max(100).default(""),
+  images: z.string().array().default([]),
   postAboveId: z.string().optional(),
 });

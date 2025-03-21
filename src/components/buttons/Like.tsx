@@ -32,7 +32,7 @@ const Like = ({
 
   return (
     <button
-      className={`flex items-center relative group ${
+      className={`flex items-center group ${
         active ? "text-[#4CA5A6]" : undefined
       } px-4 py-2`}
       onClick={toggle}

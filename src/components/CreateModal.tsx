@@ -1,14 +1,6 @@
-import { useMutation } from "@tanstack/react-query";
 import logo from ".././assets/logos/logo2.jpg";
-import { useState, useRef } from "react";
-import { createPost } from "../api/fetchPost";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { postSchema } from "../utils/definitions";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { X, UploadCloud, Loader2 } from "lucide-react";
-import { uploadToCloudinary } from "../api/post";
-import { queryClient } from "../main";
+import { useCreatePost } from "../api/fetchPost";
 
 interface CreateModalProps {
   isOpen: boolean;
@@ -16,108 +8,28 @@ interface CreateModalProps {
 }
 
 const CreateModal = ({ isOpen, onClose }: CreateModalProps) => {
-  const [error, setError] = useState<string | null>(null);
-  const [previews, setPreviews] = useState<string[]>([]);
-  const [uploadingImages, setUploadingImages] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
   const {
+    fileInputRef,
+    previews,
+    uploadingImages,
+    isPending,
+    watchText,
     register,
-    formState: { errors },
     handleSubmit,
-    reset,
-    setValue,
-    watch,
-  } = useForm<z.infer<typeof postSchema>>({
-    resolver: zodResolver(postSchema),
-    defaultValues: { text: "", images: [] },
-  });
-
-  const watchImages = watch("images");
-
-  const { mutate: uploadImage } = useMutation({
-    mutationFn: uploadToCloudinary,
-    onSuccess: (url) => {
-      const currentImages = watch("images") || [];
-      setValue("images", [...currentImages, url]);
-    },
-  });
-
-  const { mutate: createPostMutation, isPending } = useMutation({
-    mutationFn: createPost,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["posts"] });
-      reset({ text: "", images: [] });
-      setPreviews([]);
-      onClose();
-    },
-    onError: (error: Error) => {
-      setError(error.message);
-    },
-  });
-
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    setError(null);
-    const files = e.target.files;
-
-    if (!files || files.length === 0) return;
-
-    const currentCount = previews.length;
-    const selectedCount = files.length;
-
-    if (currentCount + selectedCount > 4) {
-      setError("Maximum 4 images allowed");
-      return;
-    }
-
-    setUploadingImages(true);
-
-    try {
-      const newPreviews = Array.from(files).map((file) =>
-        URL.createObjectURL(file)
-      );
-      setPreviews([...previews, ...newPreviews]);
-
-      const uploadPromises = Array.from(files).map((file) => {
-        return uploadImage(file);
-      });
-
-      await Promise.all(uploadPromises);
-      setUploadingImages(false);
-
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
-    } catch {
-      setError("Failed to upload images");
-      setUploadingImages(false);
-    }
-  };
-
-  const removeImage = (index: number) => {
-    const newPreviews = [...previews];
-    newPreviews.splice(index, 1);
-    setPreviews(newPreviews);
-
-    const currentImages = [...watchImages];
-    currentImages.splice(index, 1);
-    setValue("images", currentImages);
-  };
-
-  const onSubmit = (values: z.infer<typeof postSchema>) => {
-    setError(null);
-    createPostMutation(values);
-  };
+    handleFileChange,
+    removeImage,
+    onSubmit,
+  } = useCreatePost(onClose);
 
   if (!isOpen) return null;
 
   return (
-    <section className="fixed inset-0 z-100 flex items-center justify-center">
-      <div className="fixed inset-0 bg-black/50" onClick={onClose} />
+    <section className="fixed inset-0 z-50 flex items-center justify-center">
+      <div className="fixed inset-0 bg-black/50 z-30" onClick={onClose} />
       <img
         src={logo}
         alt=""
-        className={`fixed left-1/2 -top-[60%] h-[1400px] -translate-x-1/2 opacity-70 transition-all duration-1000 object-cover
+        className={`fixed left-1/2 -top-[60%] h-[1400px] -translate-x-1/2 opacity-70 transition-all duration-1000 object-cover z-40
           ${isPending ? "scale-150" : "scale-100"}`}
         onClick={onClose}
       />
@@ -129,7 +41,7 @@ const CreateModal = ({ isOpen, onClose }: CreateModalProps) => {
           <textarea
             {...register("text")}
             name="text"
-            className="w-[500px] h-64 m-4 bg-inherit focus:outline-none"
+            className="w-[500px] h-64 m-4 bg-inherit focus:outline-none min-h-32"
             placeholder="Echo your feelings to the world..."
           ></textarea>
 
@@ -159,25 +71,13 @@ const CreateModal = ({ isOpen, onClose }: CreateModalProps) => {
             </div>
           )}
 
-          {errors.text && (
-            <p className="text-red-500 ml-4">{errors.text.message}</p>
-          )}
-          {errors.images && (
-            <p className="text-red-500 ml-4">{errors.images.message}</p>
-          )}
-
-          <div className="m-4">
+          <div className="m-4 absolute left-0 bottom-0">
             <label
               className={`cursor-pointer flex items-center gap-2 ${
-                previews.length >= 4
-                  ? "bg-gray-500 opacity-50"
-                  : "bg-gray-700 hover:bg-gray-600"
+                previews.length >= 4 ? "bg-gray-500 opacity-50" : "bg-gray-700 "
               } p-2 rounded-md max-w-fit`}
             >
-              <UploadCloud size={20} />
-              <span>
-                {previews.length >= 4 ? "Max images reached" : "Add Images"}
-              </span>
+              <UploadCloud size={24} />
               <input
                 type="file"
                 ref={fileInputRef}
@@ -185,9 +85,15 @@ const CreateModal = ({ isOpen, onClose }: CreateModalProps) => {
                 accept="image/*"
                 multiple
                 className="hidden"
-                disabled={uploadingImages || previews.length >= 4}
+                disabled={previews.length >= 4}
               />
             </label>
+          </div>
+
+          <div
+            className={`m-4 text-xl absolute right-0 bottom-0 ${watchText?.length && watchText?.length >= 100 ? "text-red-500" : "text-gray-400"}`}
+          >
+            {watchText?.length || 0}
           </div>
         </div>
 

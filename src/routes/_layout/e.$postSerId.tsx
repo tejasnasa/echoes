@@ -12,6 +12,7 @@ import Like from "../../components/buttons/Like";
 import Reply from "../../components/buttons/Reply";
 import Repost from "../../components/buttons/Repost";
 import Capture from "../../components/buttons/Capture";
+import ReplyBlock from "../../components/ReplyBlock";
 
 export const Route = createFileRoute("/_layout/e/$postSerId")({
   component: RouteComponent,
@@ -40,7 +41,7 @@ function RouteComponent() {
   if (isLoading) return <div>Loading...</div>;
 
   return (
-    <main className="flex mt-4 mx-64 flex-col">
+    <main className="flex mt-4 mx-64 flex-col min-h-dvh">
       <div className="flex justify-between">
         <Link
           to="/u/$userSerId"
@@ -87,9 +88,8 @@ function RouteComponent() {
       <div className="text-gray-300 mb-6">
         {data?.createdAt ? formatDateTime(new Date(data.createdAt)) : ""}
       </div>
-
       <div className="flex justify-around mb-8">
-      <Like
+        <Like
           count={data?.likeCount}
           byUser={data?.likedByUser}
           postSerId={data?.serialId}
@@ -106,6 +106,7 @@ function RouteComponent() {
           postSerId={data?.serialId}
         />
       </div>
+      {data && <ReplyBlock postId={data.id} />}
     </main>
   );
 }
