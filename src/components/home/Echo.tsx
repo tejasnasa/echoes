@@ -152,7 +152,7 @@ const Echo = ({ post }: { post: Post }) => {
           byUser={post.likedByUser}
           postSerId={post.serialId}
         />
-        <Reply />
+        <Reply postSerId={post.serialId} />
         <Repost
           count={post.repostCount}
           byUser={post.repostedByUser}

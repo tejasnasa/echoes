@@ -38,7 +38,6 @@ interface Authresult {
   accessToken: string | undefined;
 }
 
-// Modify your route
 export const Route = createFileRoute("/_layout")({
   component: RouteComponent,
   beforeLoad: async () => {

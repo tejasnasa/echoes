@@ -1,5 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useAllPosts, usePost } from "../../api/fetchPost";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { fetchPost, useAllPosts, usePost } from "../../api/fetchPost";
 import { useQueryClient } from "@tanstack/react-query";
 import { fetchUser } from "../../api/user";
 import { formatDateTime } from "../../utils/datetime";
@@ -14,9 +14,19 @@ import Repost from "../../components/buttons/Repost";
 import Capture from "../../components/buttons/Capture";
 import ReplyBlock from "../../components/ReplyBlock";
 import Echo from "../../components/home/Echo";
+import { useEffect, useRef } from "react";
+import Loader from "../../components/Loader";
+import NotFound from "../../components/NotFound";
 
 export const Route = createFileRoute("/_layout/e/$postSerId")({
   component: RouteComponent,
+  loader: async ({ params: { postSerId } }) => {
+    const post = await fetchPost(Number(postSerId));
+    if (!post) {
+      throw notFound();
+    }
+    return { post };
+  },
 });
 
 const randomPic = () => {
@@ -26,12 +36,10 @@ const randomPic = () => {
   return pics[randomIndex];
 };
 
-import { useEffect, useRef } from "react";
-
 function RouteComponent() {
   const { postSerId } = Route.useParams();
   const queryClient = useQueryClient();
-  const { data, isLoading } = usePost(Number(postSerId));
+  const { data, isLoading, isError } = usePost(Number(postSerId));
   const { data: allPosts } = useAllPosts();
   const mainRef = useRef<HTMLDivElement>(null);
 
@@ -51,15 +59,24 @@ function RouteComponent() {
     }
   }, [parentPost]);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <main className="mx-auto mt-8 min-h-dvh">
+        <Loader />
+      </main>
+    );
+
+  if (isError || data === undefined) {
+    return <NotFound />;
+  }
 
   return (
-    <>
+    <main className="min-h-dvh">
       <div className="mx-64">{parentPost && <Echo post={parentPost} />}</div>
 
-      <main
+      <section
         ref={mainRef}
-        className={`flex mt-4 flex-col min-h-dvh ${parentPost ? "mx-80" : "mx-64"}`}
+        className={`flex mt-4 flex-col ${parentPost ? "mx-80" : "mx-64"}`}
       >
         {parentPost && (
           <div className="text-md mb-2 text-gray-400">Replying to...</div>
@@ -98,13 +115,13 @@ function RouteComponent() {
         <div className="text-gray-300 mb-6">
           {data?.createdAt ? formatDateTime(new Date(data.createdAt)) : ""}
         </div>
-        <div className="flex justify-around mb-8">
+        <div className="flex justify-around mb-8" id="#reply">
           <Like
             count={data?.likeCount}
             byUser={data?.likedByUser}
             postSerId={data?.serialId}
           />
-          <Reply />
+          <Reply postSerId={data?.serialId} />
           <Repost
             count={data?.repostCount}
             byUser={data?.repostedByUser}
@@ -117,7 +134,7 @@ function RouteComponent() {
           />
         </div>
         {data && <ReplyBlock postId={data.id} />}
-      </main>
-    </>
+      </section>
+    </main>
   );
 }

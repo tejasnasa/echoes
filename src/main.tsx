@@ -3,16 +3,25 @@ import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./index.css";
+import Loader from "./components/Loader";
+import NotFound from "./components/NotFound";
+import Error from "./components/Error";
 
-// Set up a Router instance
 const router = createRouter({
   routeTree,
   defaultPreload: "intent",
+  scrollRestoration: true,
+  defaultPendingComponent: () => (
+    <div className="pt-8 mx-auto bg-black h-dvh">
+      <Loader />
+    </div>
+  ),
+  defaultNotFoundComponent: () => <NotFound />,
+  defaultErrorComponent: ({error}) => <Error error={error} />,
 });
 
 export const queryClient = new QueryClient();
 
-// Register things for typesafety
 declare module "@tanstack/react-router" {
   interface Register {
     router: typeof router;
