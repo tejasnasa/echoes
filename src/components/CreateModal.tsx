@@ -19,7 +19,7 @@ const CreateModal = ({ isOpen, onClose }: CreateModalProps) => {
     handleFileChange,
     removeImage,
     onSubmit,
-  } = useCreatePost(onClose);
+  } = useCreatePost({ onClose: onClose });
 
   if (!isOpen) return null;
 
@@ -65,7 +65,7 @@ const CreateModal = ({ isOpen, onClose }: CreateModalProps) => {
               ))}
               {uploadingImages && (
                 <div className="w-24 h-24 flex items-center justify-center bg-gray-700 rounded-md">
-                  <Loader2 className="animate-spin" />
+                  <Loader2 />
                 </div>
               )}
             </div>

@@ -40,7 +40,9 @@ const Echo = ({ post }: { post: Post }) => {
 
   return (
     <section className="mt-8">
-      {post.postAboveId && <div className="text-md mb-2 text-gray-400">Replying to...</div>}
+      {post.postAboveId && (
+        <div className="text-md mb-2 text-gray-400">Replying to...</div>
+      )}
       <div className="flex justify-between items-center">
         <Link
           to="/u/$userSerId"

@@ -99,7 +99,13 @@ export const createPost = async (data: {
   return response.responseObject;
 };
 
-export const useCreatePost = (onClose?: () => void) => {
+export const useCreatePost = ({
+  onClose,
+  postId,
+}: {
+  onClose?: () => void;
+  postId?: string;
+}) => {
   const [previews, setPreviews] = useState<string[]>([]);
   const [uploadingImages, setUploadingImages] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -186,7 +192,11 @@ export const useCreatePost = (onClose?: () => void) => {
   };
 
   const onSubmit = (values: z.infer<typeof postSchema>) => {
-    createPostMutation(values);
+    createPostMutation({
+      text: values.text,
+      images: values.images,
+      postAboveId: postId,
+    });
   };
 
   return {
