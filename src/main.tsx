@@ -12,7 +12,7 @@ const router = createRouter({
   defaultPreload: "intent",
   scrollRestoration: true,
   defaultPendingComponent: () => (
-    <div className="pt-8 mx-auto bg-black h-dvh">
+    <div className="pt-8 flex justify-center items-center bg-[#111628] h-dvh">
       <Loader />
     </div>
   ),

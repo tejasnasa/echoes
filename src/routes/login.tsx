@@ -9,13 +9,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 
 export const Route = createFileRoute("/login")({
-  // beforeLoad: async () => {
-  //   if ((await isAuthenticated()).success) {
-  //     throw redirect({
-  //       to: "/",
-  //     });
-  //   }
-  // },
   component: RouteComponent,
 });
 
@@ -43,12 +36,15 @@ function RouteComponent() {
   };
 
   return (
-    <LoginForm
-      form={form}
-      isPending={isPending}
-      onSubmit={onSubmit}
-      responseError={responseError}
-      setResponseError={setResponseError}
-    />
+    <main className="h-dvh flex justify-center items-center">
+      <section className="bg-green-400 h-2/3 w-[500px]"></section>
+      <LoginForm
+        form={form}
+        isPending={isPending}
+        onSubmit={onSubmit}
+        responseError={responseError}
+        setResponseError={setResponseError}
+      />
+    </main>
   );
 }

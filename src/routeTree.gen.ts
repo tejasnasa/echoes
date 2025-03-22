@@ -13,6 +13,7 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as SignupImport } from './routes/signup'
 import { Route as LoginImport } from './routes/login'
+import { Route as ForgotpasswordImport } from './routes/forgotpassword'
 import { Route as LayoutImport } from './routes/_layout'
 import { Route as LayoutIndexImport } from './routes/_layout/index'
 import { Route as LayoutSettingsImport } from './routes/_layout/settings'
@@ -35,6 +36,12 @@ const SignupRoute = SignupImport.update({
 const LoginRoute = LoginImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ForgotpasswordRoute = ForgotpasswordImport.update({
+  id: '/forgotpassword',
+  path: '/forgotpassword',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -106,6 +113,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: ''
       preLoaderRoute: typeof LayoutImport
+      parentRoute: typeof rootRoute
+    }
+    '/forgotpassword': {
+      id: '/forgotpassword'
+      path: '/forgotpassword'
+      fullPath: '/forgotpassword'
+      preLoaderRoute: typeof ForgotpasswordImport
       parentRoute: typeof rootRoute
     }
     '/login': {
@@ -219,6 +233,7 @@ const LayoutRouteWithChildren =
 
 export interface FileRoutesByFullPath {
   '': typeof LayoutRouteWithChildren
+  '/forgotpassword': typeof ForgotpasswordRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/archive': typeof LayoutArchiveRoute
@@ -233,6 +248,7 @@ export interface FileRoutesByFullPath {
 }
 
 export interface FileRoutesByTo {
+  '/forgotpassword': typeof ForgotpasswordRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/archive': typeof LayoutArchiveRoute
@@ -249,6 +265,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/_layout': typeof LayoutRouteWithChildren
+  '/forgotpassword': typeof ForgotpasswordRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/_layout/archive': typeof LayoutArchiveRoute
@@ -266,6 +283,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | ''
+    | '/forgotpassword'
     | '/login'
     | '/signup'
     | '/archive'
@@ -279,6 +297,7 @@ export interface FileRouteTypes {
     | '/u/$userSerId'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/forgotpassword'
     | '/login'
     | '/signup'
     | '/archive'
@@ -293,6 +312,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_layout'
+    | '/forgotpassword'
     | '/login'
     | '/signup'
     | '/_layout/archive'
@@ -309,12 +329,14 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   LayoutRoute: typeof LayoutRouteWithChildren
+  ForgotpasswordRoute: typeof ForgotpasswordRoute
   LoginRoute: typeof LoginRoute
   SignupRoute: typeof SignupRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   LayoutRoute: LayoutRouteWithChildren,
+  ForgotpasswordRoute: ForgotpasswordRoute,
   LoginRoute: LoginRoute,
   SignupRoute: SignupRoute,
 }
@@ -330,6 +352,7 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/_layout",
+        "/forgotpassword",
         "/login",
         "/signup"
       ]
@@ -347,6 +370,9 @@ export const routeTree = rootRoute
         "/_layout/e/$postSerId",
         "/_layout/u/$userSerId"
       ]
+    },
+    "/forgotpassword": {
+      "filePath": "forgotpassword.tsx"
     },
     "/login": {
       "filePath": "login.tsx"

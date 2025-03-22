@@ -21,7 +21,7 @@ function RouteComponent() {
   if (isLoading) return <div>Loading...</div>;
 
   return (
-    <div>
+    <div className="min-h-dvh">
       {data?.map((user) => (
         <div
           key={user.serialId}
