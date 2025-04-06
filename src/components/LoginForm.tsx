@@ -5,7 +5,7 @@ import { Link } from "@tanstack/react-router";
 import { Eye } from "lucide-react";
 import { useState } from "react";
 
-type PostFormProps = {
+type LoginFormProps = {
   onSubmit: SubmitHandler<z.infer<typeof loginSchema>>;
   isPending: boolean;
   form: UseFormReturn<z.infer<typeof loginSchema>>;
@@ -13,13 +13,13 @@ type PostFormProps = {
   setResponseError: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
-const PostForm = ({
+const LoginForm = ({
   isPending,
   form,
   onSubmit,
   responseError,
   setResponseError,
-}: PostFormProps) => {
+}: LoginFormProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const {
     handleSubmit,
@@ -88,10 +88,13 @@ const PostForm = ({
         </div>
       </form>
       <div className="mx-auto">
-        Don't have an account? <Link to="/signup">Sign up</Link>
+        Don't have an account?{" "}
+        <Link to="/signup" className="text-[#4BCC8C]">
+          Sign up
+        </Link>
       </div>
     </section>
   );
 };
 
-export default PostForm;
+export default LoginForm;
