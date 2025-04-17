@@ -58,3 +58,15 @@ export const isAuthenticated = async () => {
 
   return response;
 };
+
+export const logout = async () => {
+  const response = await fetch(`${import.meta.env.VITE_BASE_URL}/self/logout`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+  }).then((res) => res.json());
+
+  console.log(response);
+};

@@ -10,7 +10,7 @@ const Reply = ({ postSerId }: { postSerId?: number }) => {
       className={`flex items-center group px-4 py-2`}
     >
       <AudioLines
-        size={30}
+        size={24}
         strokeWidth={2}
         className="transition-transform duration-200"
       />{" "}

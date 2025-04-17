@@ -1,5 +1,5 @@
 import logo from ".././assets/logos/logo2.jpg";
-import { X, UploadCloud, Loader2 } from "lucide-react";
+import { X, Loader2, ImageUp } from "lucide-react";
 import { useCreatePost } from "../api/fetchPost";
 
 interface CreateModalProps {
@@ -77,7 +77,7 @@ const CreateModal = ({ isOpen, onClose }: CreateModalProps) => {
                 previews.length >= 4 ? "bg-gray-500 opacity-50" : "bg-gray-700 "
               } p-2 rounded-md max-w-fit`}
             >
-              <UploadCloud size={24} />
+              <ImageUp size={24} />
               <input
                 type="file"
                 ref={fileInputRef}

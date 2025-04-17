@@ -38,7 +38,7 @@ const Like = ({
       onClick={toggle}
     >
       <Heart
-        size={30}
+        size={24}
         fill={active ? "#4CA5A6" : "transparent"}
         className="transition-transform duration-200"
       />

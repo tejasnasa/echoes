@@ -36,7 +36,7 @@ const Repost = ({
       onClick={toggle}
     >
       <Waves
-        size={30}
+        size={24}
         fill={active ? "#4CA5A6" : "transparent"}
         strokeWidth={2}
         className="transition-transform duration-200"
