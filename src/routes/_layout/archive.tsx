@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import Loader from "../../components/Loader";
 import ImageGrid from "../../components/ImageGrid";
 import randomPic from "../../utils/temp/randomPic";
-import { prefetchPost, prefetchUser } from "../../utils/prefetch";
+import { prefetchPost, prefetchUser } from "../../api/misc";
 
 export const Route = createFileRoute("/_layout/archive")({
   component: RouteComponent,

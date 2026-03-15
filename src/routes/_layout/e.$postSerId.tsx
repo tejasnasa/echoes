@@ -11,7 +11,7 @@ import { useEffect, useRef } from "react";
 import Loader from "../../components/Loader";
 import NotFound from "../../components/NotFound";
 import randomPic from "../../utils/temp/randomPic";
-import { prefetchUser } from "../../utils/prefetch";
+import { prefetchUser } from "../../api/misc";
 
 export const Route = createFileRoute("/_layout/e/$postSerId")({
   component: RouteComponent,

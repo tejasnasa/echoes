@@ -8,7 +8,7 @@ import Reply from "../buttons/Reply";
 import ShareOptions from "./ShareOptions";
 import ImageGrid from "../ImageGrid";
 import randomPic from "../../utils/temp/randomPic";
-import { prefetchPost, prefetchUser } from "../../utils/prefetch";
+import { prefetchPost, prefetchUser } from "../../api/misc";
 
 const Echo = ({ post }: { post: Post }) => {
   return (

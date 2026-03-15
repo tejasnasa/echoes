@@ -22,7 +22,7 @@ export const fetchUsers = async (): Promise<User[]> => {
     `${import.meta.env.VITE_BASE_URL}/user/recommended/10`,
     {
       credentials: "include",
-    }
+    },
   ).then((res) => res.json());
   return response.responseObject;
 };
@@ -32,7 +32,7 @@ export const fetchUser = async (userSerId: number): Promise<User> => {
     `${import.meta.env.VITE_BASE_URL}/user/get/${userSerId}`,
     {
       credentials: "include",
-    }
+    },
   ).then((res) => res.json());
   return response.responseObject;
 };
@@ -66,18 +66,4 @@ export const useUser = (userSerId: number) => {
       return undefined;
     },
   });
-};
-
-export const createPost = async (data: { text: string; images: string[] }) => {
-  const response = await fetch(`${import.meta.env.VITE_BASE_URL}/post/create`, {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: {
-      Authorization: `Bearer ${import.meta.env.VITE_TEST_TOKEN}`,
-      "Content-Type": "application/json",
-    },
-    credentials: "include",
-  }).then((res) => res.json());
-
-  return response.responseObject;
 };

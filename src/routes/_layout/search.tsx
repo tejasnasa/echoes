@@ -4,7 +4,7 @@ import Echo from "../../components/home/Echo";
 import { useAllPosts } from "../../api/fetchPost";
 import { useAllUsers } from "../../api/user";
 import randomPic from "../../utils/temp/randomPic";
-import { prefetchUser } from "../../utils/prefetch";
+import { prefetchUser } from "../../api/misc";
 
 export const Route = createFileRoute("/_layout/search")({
   component: RouteComponent,

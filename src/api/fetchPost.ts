@@ -45,7 +45,7 @@ export const fetchPost = async (postSerId: number): Promise<Post> => {
     `${import.meta.env.VITE_BASE_URL}/post/get/${postSerId}`,
     {
       credentials: "include",
-    }
+    },
   ).then((res) => res.json());
   console.log(response.responseObject);
   return response.responseObject;
@@ -131,7 +131,7 @@ export const useCreatePost = ({
 
         try {
           const uploadPromises = fileList.current.map((file) =>
-            uploadToCloudinary(file)
+            uploadToCloudinary(file),
           );
 
           const imageUrls = await Promise.all(uploadPromises);
@@ -147,7 +147,6 @@ export const useCreatePost = ({
       return createPost(values);
     },
     onSuccess: () => {
-      queryClient.refetchQueries({ queryKey: ["posts"] });
       queryClient.invalidateQueries({ queryKey: ["posts"] });
       reset({ text: "", images: [] });
       setPreviews([]);

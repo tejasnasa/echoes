@@ -2,7 +2,7 @@ import { Search } from "lucide-react";
 import { useAllUsers } from "../api/user";
 import { Link } from "@tanstack/react-router";
 import randomPic from "../utils/temp/randomPic";
-import { prefetchUser } from "../utils/prefetch";
+import { prefetchUser } from "../api/misc";
 
 interface CreateModalProps {
   isOpen: boolean;

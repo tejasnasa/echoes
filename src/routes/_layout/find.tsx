@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useAllUsers } from "../../api/user";
-import { prefetchUser } from "../../utils/prefetch";
+import { prefetchUser } from "../../api/misc";
 
 export const Route = createFileRoute("/_layout/find")({
   component: RouteComponent,
