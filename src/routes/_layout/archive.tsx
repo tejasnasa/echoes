@@ -10,6 +10,7 @@ import pfp2 from "../../assets/pfp/2.avif";
 import pfp3 from "../../assets/pfp/3.jpg";
 import pfp4 from "../../assets/pfp/4.jpg";
 import pfp5 from "../../assets/pfp/5.jpg";
+import ImageGrid from "../../components/ImageGrid";
 
 const randomPic = () => {
   const pics = [pfp1, pfp2, pfp3, pfp4, pfp5];
@@ -125,7 +126,7 @@ function RouteComponent() {
                     alt=""
                     className="h-16 rounded-full mr-4 hover:opacity-85 transition duration-300"
                   />
-                    <h4>@{post.user.username}</h4>
+                  <h4>@{post.user.username}</h4>
                 </Link>
               </div>
               <Link
@@ -135,65 +136,8 @@ function RouteComponent() {
                 className="text-lg"
                 key={post.serialId}
               >
-                <div className="mt-4 break-words">
-                  {post.text}
-                  {post.images?.length === 1 && (
-                    <img
-                      src={post.images?.[0]}
-                      alt=""
-                      className="mt-1 w-full rounded-xl overflow-hidden"
-                    />
-                  )}
-                  {post.images?.length === 2 && (
-                    <div className="w-full flex gap-1 mt-1 rounded-xl overflow-hidden">
-                      <img src={post.images?.[0]} alt="" className="w-1/2" />
-                      <img src={post.images?.[1]} alt="" className="w-1/2" />
-                    </div>
-                  )}
-                  {post.images?.length === 3 && (
-                    <div className="w-full gap-1 grid grid-cols-3 grid-rows-2 rounded-xl overflow-hidden">
-                      <img
-                        src={post.images?.[0]}
-                        alt=""
-                        className="col-span-2 row-span-2 object-cover w-full aspect-square"
-                      />
-                      <img
-                        src={post.images?.[1]}
-                        alt=""
-                        className="col-span-1 object-cover w-full aspect-square"
-                      />
-                      <img
-                        src={post.images?.[2]}
-                        alt=""
-                        className="col-span-1 object-cover w-full aspect-square"
-                      />
-                    </div>
-                  )}
-                  {post.images?.length === 4 && (
-                    <div className="w-full gap-1 grid grid-cols-2 grid-rows-2 rounded-xl overflow-hidden">
-                      <img
-                        src={post.images?.[0]}
-                        alt=""
-                        className="col-span-1 object-cover w-full aspect-square"
-                      />
-                      <img
-                        src={post.images?.[1]}
-                        alt=""
-                        className="col-span-1 object-cover w-full aspect-square"
-                      />
-                      <img
-                        src={post.images?.[2]}
-                        alt=""
-                        className="col-span-1 object-cover w-full aspect-square"
-                      />
-                      <img
-                        src={post.images?.[3]}
-                        alt=""
-                        className="col-span-1 object-cover w-full aspect-square"
-                      />
-                    </div>
-                  )}
-                </div>
+                <div className="mt-4 break-words">{post.text}</div>
+                <ImageGrid images={post.images} />
               </Link>
             </section>
           ))}
@@ -229,62 +173,7 @@ function RouteComponent() {
               >
                 <div className="mt-4 break-words">
                   {post.text}
-                  {post.images?.length === 1 && (
-                    <img
-                      src={post.images?.[0]}
-                      alt=""
-                      className="mt-1 w-full rounded-xl overflow-hidden"
-                    />
-                  )}
-                  {post.images?.length === 2 && (
-                    <div className="w-full flex gap-1 mt-1 rounded-xl overflow-hidden">
-                      <img src={post.images?.[0]} alt="" className="w-1/2" />
-                      <img src={post.images?.[1]} alt="" className="w-1/2" />
-                    </div>
-                  )}
-                  {post.images?.length === 3 && (
-                    <div className="w-full gap-1 grid grid-cols-3 grid-rows-2 rounded-xl overflow-hidden">
-                      <img
-                        src={post.images?.[0]}
-                        alt=""
-                        className="col-span-2 row-span-2 object-cover w-full aspect-square"
-                      />
-                      <img
-                        src={post.images?.[1]}
-                        alt=""
-                        className="col-span-1 object-cover w-full aspect-square"
-                      />
-                      <img
-                        src={post.images?.[2]}
-                        alt=""
-                        className="col-span-1 object-cover w-full aspect-square"
-                      />
-                    </div>
-                  )}
-                  {post.images?.length === 4 && (
-                    <div className="w-full gap-1 grid grid-cols-2 grid-rows-2 rounded-xl overflow-hidden">
-                      <img
-                        src={post.images?.[0]}
-                        alt=""
-                        className="col-span-1 object-cover w-full aspect-square"
-                      />
-                      <img
-                        src={post.images?.[1]}
-                        alt=""
-                        className="col-span-1 object-cover w-full aspect-square"
-                      />
-                      <img
-                        src={post.images?.[2]}
-                        alt=""
-                        className="col-span-1 object-cover w-full aspect-square"
-                      />
-                      <img
-                        src={post.images?.[3]}
-                        alt=""
-                        className="col-span-1 object-cover w-full aspect-square"
-                      />
-                    </div>
-                  )}
+                  <ImageGrid images={post.images} />
                 </div>
               </Link>
             </section>

@@ -13,6 +13,7 @@ import Capture from "../buttons/Capture";
 import Reply from "../buttons/Reply";
 import { queryClient } from "../../main";
 import ShareOptions from "./ShareOptions";
+import ImageGrid from "../ImageGrid";
 
 const randomPic = () => {
   const pics = [pfp1, pfp2, pfp3, pfp4, pfp5];
@@ -79,62 +80,7 @@ const Echo = ({ post }: { post: Post }) => {
       >
         <div className="mt-4 break-words">
           {post.text}
-          {post.images?.length === 1 && (
-            <img
-              src={post.images?.[0]}
-              alt=""
-              className="mt-1 w-full rounded-xl overflow-hidden"
-            />
-          )}
-          {post.images?.length === 2 && (
-            <div className="w-full flex gap-1 mt-1 rounded-xl overflow-hidden">
-              <img src={post.images?.[0]} alt="" className="w-1/2" />
-              <img src={post.images?.[1]} alt="" className="w-1/2" />
-            </div>
-          )}
-          {post.images?.length === 3 && (
-            <div className="w-full gap-1 grid grid-cols-3 grid-rows-2 rounded-xl overflow-hidden">
-              <img
-                src={post.images?.[0]}
-                alt=""
-                className="col-span-2 row-span-2 object-cover w-full aspect-square"
-              />
-              <img
-                src={post.images?.[1]}
-                alt=""
-                className="col-span-1 object-cover w-full aspect-square"
-              />
-              <img
-                src={post.images?.[2]}
-                alt=""
-                className="col-span-1 object-cover w-full aspect-square"
-              />
-            </div>
-          )}
-          {post.images?.length === 4 && (
-            <div className="w-full gap-1 grid grid-cols-2 grid-rows-2 rounded-xl overflow-hidden">
-              <img
-                src={post.images?.[0]}
-                alt=""
-                className="col-span-1 object-cover w-full aspect-square"
-              />
-              <img
-                src={post.images?.[1]}
-                alt=""
-                className="col-span-1 object-cover w-full aspect-square"
-              />
-              <img
-                src={post.images?.[2]}
-                alt=""
-                className="col-span-1 object-cover w-full aspect-square"
-              />
-              <img
-                src={post.images?.[3]}
-                alt=""
-                className="col-span-1 object-cover w-full aspect-square"
-              />
-            </div>
-          )}
+          <ImageGrid images={post.images} />
         </div>
       </Link>
       <div className="flex justify-around mb-6 mt-3">
