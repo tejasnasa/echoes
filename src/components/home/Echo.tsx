@@ -7,12 +7,12 @@ import pfp3 from "../../assets/pfp/3.jpg";
 import pfp4 from "../../assets/pfp/4.jpg";
 import pfp5 from "../../assets/pfp/5.jpg";
 import { timeAgo } from "../../utils/datetime";
-import { Share2 } from "lucide-react";
 import Like from "../buttons/Like";
 import Repost from "../buttons/Repost";
 import Capture from "../buttons/Capture";
 import Reply from "../buttons/Reply";
 import { queryClient } from "../../main";
+import ShareOptions from "./ShareOptions";
 
 const randomPic = () => {
   const pics = [pfp1, pfp2, pfp3, pfp4, pfp5];
@@ -67,16 +67,7 @@ const Echo = ({ post }: { post: Post }) => {
             dangerouslySetInnerHTML={{ __html: timeAgo(post.createdAt) }}
             className=" hover:underline"
           />
-          <button
-            className="hover:bg-white/10 rounded-full m-2 flex items-center justify-center transition mr-0"
-            onClick={() => {
-              navigator.clipboard.writeText(
-                `http://localhost:5173/e/${post.serialId}`
-              );
-            }}
-          >
-            <Share2 size={24} className="m-3" />
-          </button>
+          <ShareOptions serialId={post.serialId} />
         </div>
       </div>
       <Link
