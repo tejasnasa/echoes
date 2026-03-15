@@ -5,19 +5,8 @@ import Loader from "../../components/Loader";
 import { queryClient } from "../../main";
 import { fetchPost } from "../../api/fetchPost";
 import { fetchUser } from "../../api/user";
-import pfp1 from "../../assets/pfp/1.jpg";
-import pfp2 from "../../assets/pfp/2.avif";
-import pfp3 from "../../assets/pfp/3.jpg";
-import pfp4 from "../../assets/pfp/4.jpg";
-import pfp5 from "../../assets/pfp/5.jpg";
 import ImageGrid from "../../components/ImageGrid";
-
-const randomPic = () => {
-  const pics = [pfp1, pfp2, pfp3, pfp4, pfp5];
-  const randomIndex = Math.floor(Math.random() * pics.length);
-
-  return pics[randomIndex];
-};
+import randomPic from "../../utils/temp/randomPic";
 
 export const Route = createFileRoute("/_layout/archive")({
   component: RouteComponent,

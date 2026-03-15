@@ -1,19 +1,8 @@
-import {  Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { fetchUser, useAllUsers } from "../api/user";
 import { Link } from "@tanstack/react-router";
-import pfp1 from ".././assets/pfp/1.jpg";
-import pfp2 from ".././assets/pfp/2.avif";
-import pfp3 from ".././assets/pfp/3.jpg";
-import pfp4 from ".././assets/pfp/4.jpg";
-import pfp5 from ".././assets/pfp/5.jpg";
+import randomPic from "../utils/temp/randomPic";
 import { queryClient } from "../main";
-
-const randomPic = () => {
-  const pics = [pfp1, pfp2, pfp3, pfp4, pfp5];
-  const randomIndex = Math.floor(Math.random() * pics.length);
-
-  return pics[randomIndex];
-};
 
 interface CreateModalProps {
   isOpen: boolean;
@@ -66,7 +55,8 @@ const SearchModal = ({ isOpen, onClose }: CreateModalProps) => {
                 />
                 <h3 className="font-semibold hover:underline transition duration-300 text-[1.1rem]">
                   {user.fullname}
-                </h3>&nbsp; &nbsp;
+                </h3>
+                &nbsp; &nbsp;
                 <h4 className="text-gray-300 text-[1rem]">@{user.username}</h4>
               </Link>
             </div>

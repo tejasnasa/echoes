@@ -3,11 +3,6 @@ import { fetchPost, useAllPosts, usePost } from "../../api/fetchPost";
 import { useQueryClient } from "@tanstack/react-query";
 import { fetchUser } from "../../api/user";
 import { formatDateTime } from "../../utils/datetime";
-import pfp1 from "../../assets/pfp/1.jpg";
-import pfp2 from "../../assets/pfp/2.avif";
-import pfp3 from "../../assets/pfp/3.jpg";
-import pfp4 from "../../assets/pfp/4.jpg";
-import pfp5 from "../../assets/pfp/5.jpg";
 import Like from "../../components/buttons/Like";
 import Reply from "../../components/buttons/Reply";
 import Repost from "../../components/buttons/Repost";
@@ -17,6 +12,7 @@ import Echo from "../../components/home/Echo";
 import { useEffect, useRef } from "react";
 import Loader from "../../components/Loader";
 import NotFound from "../../components/NotFound";
+import randomPic from "../../utils/temp/randomPic";
 
 export const Route = createFileRoute("/_layout/e/$postSerId")({
   component: RouteComponent,
@@ -28,13 +24,6 @@ export const Route = createFileRoute("/_layout/e/$postSerId")({
     return { post };
   },
 });
-
-const randomPic = () => {
-  const pics = [pfp1, pfp2, pfp3, pfp4, pfp5];
-  const randomIndex = Math.floor(Math.random() * pics.length);
-
-  return pics[randomIndex];
-};
 
 function RouteComponent() {
   const { postSerId } = Route.useParams();

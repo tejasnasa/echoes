@@ -1,11 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { fetchPost, Post } from "../../api/fetchPost";
 import { fetchUser } from "../../api/user";
-import pfp1 from "../../assets/pfp/1.jpg";
-import pfp2 from "../../assets/pfp/2.avif";
-import pfp3 from "../../assets/pfp/3.jpg";
-import pfp4 from "../../assets/pfp/4.jpg";
-import pfp5 from "../../assets/pfp/5.jpg";
 import { timeAgo } from "../../utils/datetime";
 import Like from "../buttons/Like";
 import Repost from "../buttons/Repost";
@@ -14,13 +9,7 @@ import Reply from "../buttons/Reply";
 import { queryClient } from "../../main";
 import ShareOptions from "./ShareOptions";
 import ImageGrid from "../ImageGrid";
-
-const randomPic = () => {
-  const pics = [pfp1, pfp2, pfp3, pfp4, pfp5];
-  const randomIndex = Math.floor(Math.random() * pics.length);
-
-  return pics[randomIndex];
-};
+import randomPic from "../../utils/temp/randomPic";
 
 const Echo = ({ post }: { post: Post }) => {
   const prefetchPost = (postSerId: number) => {
