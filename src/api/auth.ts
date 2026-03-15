@@ -60,7 +60,7 @@ export const isAuthenticated = async () => {
 };
 
 export const logout = async () => {
-  const response = await fetch(`${import.meta.env.VITE_BASE_URL}/self/logout`, {
+  const response = await fetch(`${import.meta.env.VITE_BASE_URL}/auth/logout`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
