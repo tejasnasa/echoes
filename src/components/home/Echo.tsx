@@ -1,33 +1,16 @@
 import { Link } from "@tanstack/react-router";
-import { fetchPost, Post } from "../../api/fetchPost";
-import { fetchUser } from "../../api/user";
+import { Post } from "../../api/fetchPost";
 import { timeAgo } from "../../utils/datetime";
 import Like from "../buttons/Like";
 import Repost from "../buttons/Repost";
 import Capture from "../buttons/Capture";
 import Reply from "../buttons/Reply";
-import { queryClient } from "../../main";
 import ShareOptions from "./ShareOptions";
 import ImageGrid from "../ImageGrid";
 import randomPic from "../../utils/temp/randomPic";
+import { prefetchPost, prefetchUser } from "../../utils/prefetch";
 
 const Echo = ({ post }: { post: Post }) => {
-  const prefetchPost = (postSerId: number) => {
-    queryClient.prefetchQuery({
-      queryKey: ["post", postSerId],
-      queryFn: () => fetchPost(postSerId),
-      staleTime: 5 * 60 * 1000,
-    });
-  };
-
-  const prefetchUser = (userSerId: number) => {
-    queryClient.prefetchQuery({
-      queryKey: ["user", userSerId],
-      queryFn: () => fetchUser(userSerId),
-      staleTime: 5 * 60 * 1000,
-    });
-  };
-
   return (
     <section className="mt-8">
       {post.postAboveId && (

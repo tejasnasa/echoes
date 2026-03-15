@@ -2,27 +2,18 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Ellipsis, Search } from "lucide-react";
 import Echo from "../../components/home/Echo";
 import { useAllPosts } from "../../api/fetchPost";
-import { fetchUser, useAllUsers } from "../../api/user";
-import { useQueryClient } from "@tanstack/react-query";
+import { useAllUsers } from "../../api/user";
 import randomPic from "../../utils/temp/randomPic";
+import { prefetchUser } from "../../utils/prefetch";
 
 export const Route = createFileRoute("/_layout/search")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const queryClient = useQueryClient();
   const { data: postData, isLoading } = useAllPosts();
 
   const { data: userData } = useAllUsers();
-
-  const prefetchUser = (userSerId: number) => {
-    queryClient.prefetchQuery({
-      queryKey: ["user", userSerId],
-      queryFn: () => fetchUser(userSerId),
-      staleTime: 5 * 60 * 1000,
-    });
-  };
 
   if (isLoading)
     return (

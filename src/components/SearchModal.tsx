@@ -1,8 +1,8 @@
 import { Search } from "lucide-react";
-import { fetchUser, useAllUsers } from "../api/user";
+import { useAllUsers } from "../api/user";
 import { Link } from "@tanstack/react-router";
 import randomPic from "../utils/temp/randomPic";
-import { queryClient } from "../main";
+import { prefetchUser } from "../utils/prefetch";
 
 interface CreateModalProps {
   isOpen: boolean;
@@ -11,14 +11,6 @@ interface CreateModalProps {
 
 const SearchModal = ({ isOpen, onClose }: CreateModalProps) => {
   const { data } = useAllUsers();
-
-  const prefetchUser = (userSerId: number) => {
-    queryClient.prefetchQuery({
-      queryKey: ["user", userSerId],
-      queryFn: () => fetchUser(userSerId),
-      staleTime: 5 * 60 * 1000,
-    });
-  };
 
   if (!isOpen) return null;
 

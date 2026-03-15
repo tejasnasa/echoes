@@ -1,22 +1,13 @@
-import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { fetchUser, useAllUsers } from "../../api/user";
+import { useAllUsers } from "../../api/user";
+import { prefetchUser } from "../../utils/prefetch";
 
 export const Route = createFileRoute("/_layout/find")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const queryClient = useQueryClient();
   const { data, isLoading } = useAllUsers();
-
-  const prefetchUser = (userSerId: number) => {
-    queryClient.prefetchQuery({
-      queryKey: ["user", userSerId],
-      queryFn: () => fetchUser(userSerId),
-      staleTime: 5 * 60 * 1000,
-    });
-  };
 
   if (isLoading) return <div>Loading...</div>;
 

@@ -1,7 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { fetchPost, useAllPosts, usePost } from "../../api/fetchPost";
-import { useQueryClient } from "@tanstack/react-query";
-import { fetchUser } from "../../api/user";
 import { formatDateTime } from "../../utils/datetime";
 import Like from "../../components/buttons/Like";
 import Reply from "../../components/buttons/Reply";
@@ -13,6 +11,7 @@ import { useEffect, useRef } from "react";
 import Loader from "../../components/Loader";
 import NotFound from "../../components/NotFound";
 import randomPic from "../../utils/temp/randomPic";
+import { prefetchUser } from "../../utils/prefetch";
 
 export const Route = createFileRoute("/_layout/e/$postSerId")({
   component: RouteComponent,
@@ -27,20 +26,11 @@ export const Route = createFileRoute("/_layout/e/$postSerId")({
 
 function RouteComponent() {
   const { postSerId } = Route.useParams();
-  const queryClient = useQueryClient();
   const { data, isLoading, isError } = usePost(Number(postSerId));
   const { data: allPosts } = useAllPosts();
   const mainRef = useRef<HTMLDivElement>(null);
 
   const parentPost = allPosts?.find((post) => data?.postAboveId === post.id);
-
-  const prefetchUser = (userSerId: number) => {
-    queryClient.prefetchQuery({
-      queryKey: ["user", userSerId],
-      queryFn: () => fetchUser(userSerId),
-      staleTime: 5 * 60 * 1000,
-    });
-  };
 
   useEffect(() => {
     if (parentPost && mainRef.current) {

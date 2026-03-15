@@ -2,11 +2,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Loader from "../../components/Loader";
-import { queryClient } from "../../main";
-import { fetchPost } from "../../api/fetchPost";
-import { fetchUser } from "../../api/user";
 import ImageGrid from "../../components/ImageGrid";
 import randomPic from "../../utils/temp/randomPic";
+import { prefetchPost, prefetchUser } from "../../utils/prefetch";
 
 export const Route = createFileRoute("/_layout/archive")({
   component: RouteComponent,
@@ -46,22 +44,6 @@ function RouteComponent() {
         .then((data) => data.responseObject);
     },
   });
-
-  const prefetchPost = (postSerId: number) => {
-    queryClient.prefetchQuery({
-      queryKey: ["post", postSerId],
-      queryFn: () => fetchPost(postSerId),
-      staleTime: 5 * 60 * 1000,
-    });
-  };
-
-  const prefetchUser = (userSerId: number) => {
-    queryClient.prefetchQuery({
-      queryKey: ["user", userSerId],
-      queryFn: () => fetchUser(userSerId),
-      staleTime: 5 * 60 * 1000,
-    });
-  };
 
   const [tab, setTab] = useState<"captures" | "resonates">("captures");
 
