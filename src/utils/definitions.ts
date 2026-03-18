@@ -35,3 +35,41 @@ export const postSchema = z.object({
   images: z.string().array().default([]),
   postAboveId: z.string().optional(),
 });
+
+export const newPasswordSchema = z.object({
+  oldPassword: z
+    .string()
+    .min(8, { message: "Password must be at least 8 characters long" })
+    .regex(/[a-zA-Z]/, {
+      message: "Password must contain at least one letter.",
+    })
+    .regex(/[0-9]/, { message: "Password must contain at least one number." })
+    .regex(/[^a-zA-Z0-9]/, {
+      message: "Password must contain at least one special character.",
+    })
+    .trim(),
+
+  newPassword1: z
+    .string()
+    .min(8, { message: "Password must be at least 8 characters long" })
+    .regex(/[a-zA-Z]/, {
+      message: "Password must contain at least one letter.",
+    })
+    .regex(/[0-9]/, { message: "Password must contain at least one number." })
+    .regex(/[^a-zA-Z0-9]/, {
+      message: "Password must contain at least one special character.",
+    })
+    .trim(),
+
+  newPassword2: z
+    .string()
+    .min(8, { message: "Password must be at least 8 characters long" })
+    .regex(/[a-zA-Z]/, {
+      message: "Password must contain at least one letter.",
+    })
+    .regex(/[0-9]/, { message: "Password must contain at least one number." })
+    .regex(/[^a-zA-Z0-9]/, {
+      message: "Password must contain at least one special character.",
+    })
+    .trim(),
+});

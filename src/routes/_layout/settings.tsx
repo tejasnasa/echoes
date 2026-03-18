@@ -1,6 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { logout } from "../../api/auth";
 import { useState } from "react";
+import UpdateProfileForm from "../../components/UpdateProfileForm";
+import ChangePasswordForm from "../../components/ChangePasswordForm";
+import { useMutation } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import { newPasswordSchema } from "../../utils/definitions";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { changePassword } from "../../api/self";
 
 export const Route = createFileRoute("/_layout/settings")({
   component: RouteComponent,
@@ -10,6 +18,26 @@ function RouteComponent() {
   const [page, setPage] = useState<"editProfile" | "changePassword">(
     "editProfile"
   );
+  const [responseError, setResponseError] = useState<string | null>(null);
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: changePassword,
+    onSuccess: () => {
+      alert("Password updated!");
+    },
+    onError: (error) => {
+      setResponseError(error.message);
+    },
+  });
+
+  const form = useForm<z.infer<typeof newPasswordSchema>>({
+    resolver: zodResolver(newPasswordSchema),
+    defaultValues: { oldPassword: "", newPassword1: "", newPassword2: "" },
+  });
+
+  const onSubmit = (values: z.infer<typeof newPasswordSchema>) => {
+    mutate(values);
+  };
 
   return (
     <main className="min-h-dvh flex">
@@ -38,58 +66,19 @@ function RouteComponent() {
       {page === "editProfile" && (
         <section className="px-20 w-3/4">
           <h2 className="text-2xl m-8 ml-4 mt-20">Edit Profile</h2>
-          <form className="flex flex-col m-4 w-2/3">
-            <div className="flex flex-col">
-              <label htmlFor="bio" className="my-1 mr-4">
-                Bio
-              </label>
-              <textarea
-                name="text"
-                className="w-[600px] h-32 bg-inherit focus:outline-none min-h-32 max-h-32 border-[1px] border-gray-600 p-4"
-                placeholder="Echo your feelings to the world..."
-              ></textarea>
-            </div>
-            <div className="m-4">
-              <label
-                className={`cursor-pointer flex items-center gap-2
-                } rounded-md max-w-fit`}
-              >
-                Update profile picture
-                <input
-                  type="file"
-                  accept="image/*"
-                  multiple
-                  className="hidden"
-                />
-              </label>
-            </div>
-            <div className="m-4">
-              <label
-                className={`cursor-pointer flex items-center gap-2
-                } rounded-md max-w-fit`}
-              >
-                Update cover picture
-                <input
-                  type="file"
-                  accept="image/*"
-                  multiple
-                  className="hidden"
-                />
-              </label>
-            </div>
-            <button>Submit</button>
-          </form>
+          <UpdateProfileForm />
         </section>
       )}
       {page === "changePassword" && (
         <section className="px-20 w-3/4">
           <h2 className="text-2xl m-8 ml-4 mt-20">Change Password</h2>
-          <form className="flex flex-col m-4 w-2/3">
-            <input type="text" />
-            <input type="file" />
-            <input type="file" />
-            <button>Submit</button>
-          </form>
+          <ChangePasswordForm
+            form={form}
+            isPending={isPending}
+            onSubmit={onSubmit}
+            responseError={responseError}
+            setResponseError={setResponseError}
+          />
         </section>
       )}
     </main>
