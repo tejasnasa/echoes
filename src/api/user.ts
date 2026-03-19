@@ -8,6 +8,10 @@ interface User {
   profile_pic: string | null;
   bio: string | null;
   cover_pic: string | null;
+  isMe: boolean;
+  isFollowing: boolean;
+  followersCount: number;
+  postsCount: number;
   post: Post[];
 }
 
@@ -22,7 +26,7 @@ export const fetchUsers = async (): Promise<User[]> => {
     `${import.meta.env.VITE_BASE_URL}/user/recommended/10`,
     {
       credentials: "include",
-    },
+    }
   ).then((res) => res.json());
   return response.responseObject;
 };
@@ -32,9 +36,20 @@ export const fetchUser = async (userSerId: number): Promise<User> => {
     `${import.meta.env.VITE_BASE_URL}/user/get/${userSerId}`,
     {
       credentials: "include",
-    },
+    }
   ).then((res) => res.json());
   return response.responseObject;
+};
+
+export const followUser = async (userSerId: number) => {
+  const response = await fetch(
+    `${import.meta.env.VITE_BASE_URL}/user/follow/${userSerId}`,
+    {
+      method: "POST",
+      credentials: "include",
+    }
+  ).then((res) => res.json());
+  return response.responseObject.message;
 };
 
 export const useAllUsers = () => {
@@ -48,22 +63,11 @@ export const useAllUsers = () => {
 export const useUser = (userSerId: number) => {
   return useQuery<User>({
     queryKey: ["user", userSerId],
-    queryFn: async () => {
-      const response = await fetchUser(userSerId);
-      return response;
-    },
-    staleTime: 5 * 60 * 1000,
-    initialData: () => {
+    queryFn: () => fetchUser(userSerId),
+
+    placeholderData: () => {
       const usersData = queryClient.getQueryData<User[]>(["users"]);
-
-      if (!usersData) return undefined;
-
-      const post = usersData.find((user) => user.serialId === userSerId);
-
-      if (post) {
-        return post;
-      }
-      return undefined;
+      return usersData?.find((user) => user.serialId === userSerId);
     },
   });
 };

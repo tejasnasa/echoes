@@ -20,7 +20,7 @@ export const login = async (data: LoginFormInputs) => {
     },
   }).then((res) => res.json());
 
-  if (response.statusCode === 409) {
+  if (response.ok == false) {
     throw new Error(response.message);
   }
 
