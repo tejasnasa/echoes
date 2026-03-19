@@ -1,7 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { followUser, useUser } from "../../api/user";
-import coverimg from "../../assets/pfp/cover.jpg";
-import pfp from "../../assets/logos/logo.png";
 import { useEffect, useState } from "react";
 import { Ellipsis } from "lucide-react";
 import { Link } from "@tanstack/react-router";
@@ -55,7 +53,10 @@ function RouteComponent() {
   return (
     <main className="min-h-dvh">
       <img
-        src={coverimg}
+        src={
+          data?.cover_pic ??
+          "https://book.gettimely.com/images/default-cover-image.jpg"
+        }
         alt=""
         className="h-[220px] w-4/5 object-cover absolute top-0 -z-0"
       />
@@ -63,7 +64,10 @@ function RouteComponent() {
         <div className="h-20 w-[30%] mt-4 text-justify">{data?.bio}</div>
         <div className="flex flex-col justify-center items-center">
           <img
-            src={pfp}
+            src={
+              data?.profile_pic ??
+              "https://i.pinimg.com/736x/f2/01/1b/f2011bfb4e87a2e5219bd4c2fb02a5e9.jpg"
+            }
             alt=""
             className="h-[220px] rounded-full z-10 relative border-[2px] border-white min-w-[220px]"
           />
