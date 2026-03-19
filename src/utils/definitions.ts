@@ -73,3 +73,9 @@ export const newPasswordSchema = z.object({
     })
     .trim(),
 });
+
+export const updateProfileSchema = z.object({
+  profile_pic: z.string().optional(),
+  cover_pic: z.string().optional(),
+  bio: z.string().max(160).optional(),
+});
