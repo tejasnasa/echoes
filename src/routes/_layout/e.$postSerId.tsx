@@ -100,7 +100,7 @@ function RouteComponent() {
             byUser={data?.likedByUser}
             postSerId={data?.serialId}
           />
-          <Reply postSerId={data?.serialId} />
+          <Reply postSerId={data?.serialId} count={data?.replyCount} />
           <Repost
             count={data?.repostCount}
             byUser={data?.repostedByUser}
