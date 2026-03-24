@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { logout } from "../../api/auth";
 import { useState } from "react";
 import UpdateProfileForm from "../../components/UpdateProfileForm";
@@ -15,10 +15,16 @@ export const Route = createFileRoute("/_layout/settings")({
 });
 
 function RouteComponent() {
+  const navigate = useNavigate();
   const [page, setPage] = useState<"editProfile" | "changePassword">(
-    "editProfile"
+    "editProfile",
   );
   const [responseError, setResponseError] = useState<string | null>(null);
+
+  const handleLogout = async () => {
+    await logout();
+    navigate({ to: "/login", replace: true });
+  };
 
   const { mutate, isPending } = useMutation({
     mutationFn: changePassword,
@@ -59,7 +65,7 @@ function RouteComponent() {
         >
           Change Password
         </button>
-        <button className="text-red-500 m-8" onClick={logout}>
+        <button className="text-red-500 m-8" onClick={handleLogout}>
           Logout
         </button>
       </section>
