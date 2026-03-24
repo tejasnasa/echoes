@@ -40,7 +40,7 @@ function RouteComponent() {
 
   if (isLoading)
     return (
-      <main className="mx-auto mt-8 min-h-dvh">
+      <main className="max-w-2xl mx-auto px-4 w-full mt-8 min-h-dvh flex justify-center">
         <Loader />
       </main>
     );
@@ -50,12 +50,12 @@ function RouteComponent() {
   }
 
   return (
-    <main className="min-h-dvh">
-      <div className="mx-64">{parentPost && <Echo post={parentPost} />}</div>
+    <main className="min-h-dvh pb-10">
+      <div className="max-w-2xl mx-auto px-4 w-full">{parentPost && <Echo post={parentPost} />}</div>
 
       <section
         ref={mainRef}
-        className={`flex mt-4 flex-col ${parentPost ? "mx-80" : "mx-64"}`}
+        className={`flex mt-4 flex-col max-w-2xl mx-auto px-4 w-full`}
       >
         {parentPost && (
           <div className="text-md mb-2 text-gray-400">Replying to...</div>
