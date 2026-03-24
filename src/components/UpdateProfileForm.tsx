@@ -14,14 +14,14 @@ const UpdateProfileForm = ({ onClose }: { onClose?: () => void }) => {
   } = useUpdateProfile({ onClose });
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col m-4 w-2/3">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col m-4 w-full md:w-2/3 max-w-[600px]">
       <div className="flex flex-col">
         <label htmlFor="bio" className="my-1 mr-4">
           Bio
         </label>
         <textarea
           {...register("bio")}
-          className="w-[600px] h-32 bg-inherit focus:outline-none min-h-32 max-h-32 border-[1px] border-gray-600 p-4"
+          className="w-full h-32 bg-inherit focus:outline-none min-h-32 max-h-32 border-[1px] border-gray-600 p-4 rounded-xl"
           placeholder="Echo your feelings to the world..."
         />
       </div>
@@ -69,7 +69,7 @@ const UpdateProfileForm = ({ onClose }: { onClose?: () => void }) => {
       <button
         type="submit"
         disabled={isPending || uploadingImages}
-        className="disabled:opacity-50"
+        className="disabled:opacity-50 mt-6 bg-gradient-to-r from-green-400 to-indigo-600 px-6 py-3 rounded-2xl w-fit font-semibold"
       >
         {isPending
           ? "Updating..."
