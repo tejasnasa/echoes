@@ -17,7 +17,7 @@ function RouteComponent() {
 
   if (isLoading)
     return (
-      <main className="mx-72 mt-4 h-dvh">
+      <main className="max-w-2xl mx-auto px-4 w-full mt-4 h-dvh flex justify-center items-center">
         <div className="loader">
           <div className="inner-circle"></div>
         </div>
@@ -25,7 +25,7 @@ function RouteComponent() {
     );
 
   return (
-    <main className="min-h-dvh mx-72 mt-4">
+    <main className="min-h-dvh max-w-2xl mx-auto px-4 w-full mt-4">
       <section className="flex items-center mb-8">
         <input
           type="text"
