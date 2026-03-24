@@ -7,6 +7,7 @@ import { z } from "zod";
 import { loginSchema } from "./../utils/definitions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import { queryClient } from "../main";
 
 export const Route = createFileRoute("/login")({
   component: RouteComponent,
@@ -19,6 +20,7 @@ function RouteComponent() {
   const { mutate, isPending } = useMutation({
     mutationFn: login,
     onSuccess: () => {
+      queryClient.removeQueries({ queryKey: ["auth"], exact: true });
       navigate({ to: "/" });
     },
     onError: (error) => {

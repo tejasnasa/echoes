@@ -43,14 +43,11 @@ export const Route = createFileRoute("/_layout")({
   beforeLoad: async () => {
     const cachedAuth = queryClient.getQueryData<Authresult>(["auth"]);
 
-    if (cachedAuth) {
-      if (cachedAuth.success === false) {
-        throw redirect({
-          to: "/login",
-        });
-      }
+    // Only trust cached authenticated state; revalidate stale unauthenticated state.
+    if (cachedAuth?.success === true) {
       return;
     }
+
     const auth = await isAuthenticated();
     queryClient.setQueryData(["auth"], auth);
 

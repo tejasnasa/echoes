@@ -114,7 +114,10 @@ const SignupForm = ({
         </div>
       </form>
       <div className="mx-auto">
-        Don't have an account? <Link to="/signup">Sign up</Link>
+        ALready have an account?{" "}
+        <Link to="/login" className="text-green-400">
+          Login
+        </Link>
       </div>
     </section>
   );
