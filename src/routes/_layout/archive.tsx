@@ -57,14 +57,14 @@ function RouteComponent() {
 
   if (captureLoading || resonateLoading)
     return (
-      <main className="mx-72 mt-4 h-dvh">
+      <main className="max-w-2xl mx-auto px-4 w-full mt-4 h-dvh flex justify-center">
         <Loader />
       </main>
     );
 
   return (
-    <main className="mx-72 mt-4 flex flex-col min-h-dvh">
-      <div className="flex justify-around text-2xl">
+    <main className="max-w-2xl mx-auto px-4 w-full mt-4 flex flex-col min-h-dvh">
+      <div className="flex justify-around text-xl md:text-2xl mt-4">
         <button
           onClick={viewCaptures}
           className={`w-5/12 pb-2 ${tab === "captures" ? "border-b-4 " : "border-b-[1px]"}`}

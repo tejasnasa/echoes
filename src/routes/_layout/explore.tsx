@@ -12,14 +12,14 @@ function RouteComponent() {
 
   if (isLoading)
     return (
-      <main className="mx-80 mt-8 h-dvh">
+      <main className="max-w-2xl mx-auto px-4 w-full mt-8 h-dvh flex justify-center">
         <Loader />
       </main>
     );
 
   return (
-    <div className="mx-72 mt-4">
-      {data?.map((post) => <Echo post={post} />)}
+    <div className="max-w-2xl mx-auto px-4 w-full mt-4">
+      {data?.map((post) => <Echo key={post.serialId} post={post} />)}
     </div>
   );
 }

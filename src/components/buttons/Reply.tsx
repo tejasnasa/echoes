@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { AudioLines } from "lucide-react";
 
-const Reply = ({ postSerId }: { postSerId?: number }) => {
+const Reply = ({ postSerId, count }: { postSerId?: number, count: number }) => {
   return (
     <Link
       params={{ postSerId: String(postSerId) }}
@@ -14,9 +14,9 @@ const Reply = ({ postSerId }: { postSerId?: number }) => {
         strokeWidth={2}
         className="transition-transform duration-200"
       />{" "}
-      &nbsp;
+      &nbsp; {count}
       <span className="absolute bottom-8 left-1/4 opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-sm bg-gray-600">
-        &nbsp;echo&nbsp;
+        &nbsp;echo back&nbsp;
       </span>
     </Link>
   );

@@ -1,95 +1,92 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { logout } from "../../api/auth";
 import { useState } from "react";
+import UpdateProfileForm from "../../components/UpdateProfileForm";
+import ChangePasswordForm from "../../components/ChangePasswordForm";
+import { useMutation } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import { newPasswordSchema } from "../../utils/definitions";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { changePassword } from "../../api/self";
 
 export const Route = createFileRoute("/_layout/settings")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
+  const navigate = useNavigate();
   const [page, setPage] = useState<"editProfile" | "changePassword">(
-    "editProfile"
+    "editProfile",
   );
+  const [responseError, setResponseError] = useState<string | null>(null);
+
+  const handleLogout = async () => {
+    await logout();
+    navigate({ to: "/login", replace: true });
+  };
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: changePassword,
+    onSuccess: () => {
+      alert("Password updated!");
+    },
+    onError: (error) => {
+      setResponseError(error.message);
+    },
+  });
+
+  const form = useForm<z.infer<typeof newPasswordSchema>>({
+    resolver: zodResolver(newPasswordSchema),
+    defaultValues: { oldPassword: "", newPassword1: "", newPassword2: "" },
+  });
+
+  const onSubmit = (values: z.infer<typeof newPasswordSchema>) => {
+    mutate(values);
+  };
 
   return (
-    <main className="min-h-dvh flex">
-      <section className=" w-1/4 border-r-[1px] border-gray-700">
-        <h1 className="text-3xl m-8 mt-16">Settings</h1>
+    <main className="min-h-dvh flex flex-col md:flex-row">
+      <section className="w-full md:w-1/4 border-b-[1px] md:border-b-0 md:border-r-[1px] border-gray-700">
+        <h1 className="text-2xl md:text-3xl m-4 md:m-8 mt-8 md:mt-16">Settings</h1>
+        <div className="flex md:flex-col overflow-x-auto md:overflow-visible">
+          <button
+            className={`p-4 md:p-6 py-2 my-2 w-max md:w-full text-left ${page === "editProfile" ? "border-white border-b-4 md:border-b-0 md:border-r-4" : undefined}`}
+            onClick={() => {
+              setPage("editProfile");
+            }}
+          >
+            Edit Profile
+          </button>
         <button
-          className={`p-6 py-2 my-2 w-full text-left ${page === "editProfile" ? "border-white border-r-4" : undefined}`}
-          onClick={() => {
-            setPage("editProfile");
-          }}
-        >
-          Edit Profile
-        </button>
-        <button
-          className={`p-6 py-2 my-2 w-full text-left ${page === "changePassword" ? "border-white border-r-4" : undefined}`}
-          onClick={() => {
-            setPage("changePassword");
-          }}
-        >
-          Change Password
-        </button>
-        <button className="text-red-500 m-8" onClick={logout}>
-          Logout
-        </button>
+            className={`p-4 md:p-6 py-2 my-2 w-max md:w-full text-left ${page === "changePassword" ? "border-white border-b-4 md:border-b-0 md:border-r-4" : undefined}`}
+            onClick={() => {
+              setPage("changePassword");
+            }}
+          >
+            Change Password
+          </button>
+          <button className="text-red-500 m-4 md:m-8 w-max whitespace-nowrap" onClick={handleLogout}>
+            Logout
+          </button>
+        </div>
       </section>
       {page === "editProfile" && (
-        <section className="px-20 w-3/4">
-          <h2 className="text-2xl m-8 ml-4 mt-20">Edit Profile</h2>
-          <form className="flex flex-col m-4 w-2/3">
-            <div className="flex flex-col">
-              <label htmlFor="bio" className="my-1 mr-4">
-                Bio
-              </label>
-              <textarea
-                name="text"
-                className="w-[600px] h-32 bg-inherit focus:outline-none min-h-32 max-h-32 border-[1px] border-gray-600 p-4"
-                placeholder="Echo your feelings to the world..."
-              ></textarea>
-            </div>
-            <div className="m-4">
-              <label
-                className={`cursor-pointer flex items-center gap-2
-                } rounded-md max-w-fit`}
-              >
-                Update profile picture
-                <input
-                  type="file"
-                  accept="image/*"
-                  multiple
-                  className="hidden"
-                />
-              </label>
-            </div>
-            <div className="m-4">
-              <label
-                className={`cursor-pointer flex items-center gap-2
-                } rounded-md max-w-fit`}
-              >
-                Update cover picture
-                <input
-                  type="file"
-                  accept="image/*"
-                  multiple
-                  className="hidden"
-                />
-              </label>
-            </div>
-            <button>Submit</button>
-          </form>
+        <section className="p-4 md:px-20 w-full md:w-3/4">
+          <h2 className="text-xl md:text-2xl mb-4 md:m-8 md:ml-4 md:mt-20">Edit Profile</h2>
+          <UpdateProfileForm />
         </section>
       )}
       {page === "changePassword" && (
-        <section className="px-20 w-3/4">
-          <h2 className="text-2xl m-8 ml-4 mt-20">Change Password</h2>
-          <form className="flex flex-col m-4 w-2/3">
-            <input type="text" />
-            <input type="file" />
-            <input type="file" />
-            <button>Submit</button>
-          </form>
+        <section className="p-4 md:px-20 w-full md:w-3/4">
+          <h2 className="text-xl md:text-2xl mb-4 md:m-8 md:ml-4 md:mt-20">Change Password</h2>
+          <ChangePasswordForm
+            form={form}
+            isPending={isPending}
+            onSubmit={onSubmit}
+            responseError={responseError}
+            setResponseError={setResponseError}
+          />
         </section>
       )}
     </main>

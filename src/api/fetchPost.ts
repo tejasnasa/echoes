@@ -27,6 +27,7 @@ export interface Post {
   likeCount: number;
   repostCount: number;
   bookmarkCount: number;
+  replyCount: number;
   likedByUser: boolean;
   repostedByUser: boolean;
   bookmarkedByUser: boolean;
@@ -45,7 +46,7 @@ export const fetchPost = async (postSerId: number): Promise<Post> => {
     `${import.meta.env.VITE_BASE_URL}/post/get/${postSerId}`,
     {
       credentials: "include",
-    },
+    }
   ).then((res) => res.json());
   console.log(response.responseObject);
   return response.responseObject;
@@ -131,7 +132,7 @@ export const useCreatePost = ({
 
         try {
           const uploadPromises = fileList.current.map((file) =>
-            uploadToCloudinary(file),
+            uploadToCloudinary(file)
           );
 
           const imageUrls = await Promise.all(uploadPromises);

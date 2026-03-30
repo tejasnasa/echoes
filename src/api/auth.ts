@@ -20,7 +20,7 @@ export const login = async (data: LoginFormInputs) => {
     },
   }).then((res) => res.json());
 
-  if (response.statusCode === 409) {
+  if (response.success === false) {
     throw new Error(response.message);
   }
 
@@ -68,5 +68,9 @@ export const logout = async () => {
     credentials: "include",
   }).then((res) => res.json());
 
-  console.log(response);
+  if (response.success === false) {
+    throw new Error(response.message ?? "Failed to log out");
+  }
+
+  return response;
 };

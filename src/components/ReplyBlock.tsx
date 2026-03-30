@@ -96,7 +96,7 @@ const ReplyBlock = ({ postId }: { postId: string }) => {
           </div>
         </div>
       </form>
-      <div className="mt-4 mx-16">{posts?.map((post) => <Echo post={post} />)}</div>
+      <div className="mt-4">{posts?.map((post) => <Echo key={post.serialId} post={post} />)}</div>
     </section>
   );
 };

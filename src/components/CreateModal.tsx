@@ -35,13 +35,13 @@ const CreateModal = ({ isOpen, onClose }: CreateModalProps) => {
       />
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-fit flex flex-col items-center justify-center relative z-50"
+        className="w-full max-w-[600px] flex flex-col items-center justify-center relative z-50 px-4"
       >
-        <div className="bg-[#111628] rounded-lg z-40 mx-4 relative w-fit p-4">
+        <div className="bg-[#111628] rounded-xl z-40 relative w-full p-6 shadow-2xl border-[1px] border-gray-800">
           <textarea
             {...register("text")}
             name="text"
-            className="w-[500px] h-64 m-4 bg-inherit focus:outline-none min-h-32"
+            className="w-full h-48 sm:h-64 mb-16 bg-transparent focus:outline-none min-h-32 resize-none text-xl md:text-2xl placeholder-gray-500"
             placeholder="Echo your feelings to the world..."
           ></textarea>
 
@@ -71,11 +71,11 @@ const CreateModal = ({ isOpen, onClose }: CreateModalProps) => {
             </div>
           )}
 
-          <div className="m-4 absolute left-0 bottom-0">
+          <div className="absolute left-6 bottom-4">
             <label
               className={`cursor-pointer flex items-center gap-2 ${
-                previews.length >= 4 ? "bg-gray-500 opacity-50" : "bg-gray-700 "
-              } p-2 rounded-md max-w-fit`}
+                previews.length >= 4 ? "bg-gray-500 opacity-50" : "bg-gray-700 hover:bg-gray-600 transition-colors"
+              } p-2 rounded-xl max-w-fit`}
             >
               <ImageUp size={24} />
               <input
@@ -91,7 +91,7 @@ const CreateModal = ({ isOpen, onClose }: CreateModalProps) => {
           </div>
 
           <div
-            className={`m-4 text-xl absolute right-0 bottom-0 ${watchText?.length && watchText?.length >= 100 ? "text-red-500" : "text-gray-400"}`}
+            className={`absolute right-8 bottom-6 text-xl font-medium ${watchText?.length && watchText?.length >= 100 ? "text-red-500" : "text-gray-400"}`}
           >
             {watchText?.length || 0}
           </div>
