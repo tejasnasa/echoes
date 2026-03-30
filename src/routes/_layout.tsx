@@ -24,6 +24,7 @@ import { useAuth } from "../api/self";
 import { queryClient } from "../main";
 import { usePreloadImage } from "../api/misc";
 import logo2 from ".././assets/logos/logo2.jpg";
+import randomPic from "../utils/temp/randomPic";
 
 interface Authresult {
   success: boolean;
@@ -96,7 +97,7 @@ function RouteComponent() {
         <div className="w-full flex flex-col items-center lg:items-stretch lg:pl-6 xl:pl-10 lg:pr-4 xl:pr-8 mt-4">
           <Link
             to="/"
-            className="w-full flex justify-center lg:justify-start mb-6 lg:mb-10"
+            className="w-full flex justify-center lg:justify-start mb-6 lg:mb-10 lg:ml-4"
           >
             <img
               src={logo}
@@ -151,7 +152,7 @@ function RouteComponent() {
 
           <div className="w-full flex justify-center lg:justify-start lg:ml-2 xl:ml-4 mt-2 mb-4">
             <button
-              className="flex items-center justify-center hover:bg-white/90 rounded-full lg:rounded-lg transition duration-200 bg-gradient-to-r from-green-400 to-indigo-600 text-white font-semibold w-12 h-12 lg:w-[80%] lg:h-auto lg:py-2 lg:px-4"
+              className="flex items-center justify-start hover:text-indigo-100 transition-colors rounded-full lg:rounded-lg duration-200 bg-gradient-to-r from-green-400 to-indigo-600 text-white font-semibold w-12 h-12 lg:w-[80%] lg:h-auto lg:py-2 lg:px-4"
               onClick={handleOpenCreateModal}
             >
               <AudioLines size={28} className="shrink-0 lg:mr-3" />{" "}
@@ -173,10 +174,10 @@ function RouteComponent() {
           <Link
             to="/u/$userSerId"
             params={{ userSerId: data.responseObject.serialId }}
-            className="flex items-center group"
+            className="flex items-center group lg:ml-8"
           >
             <img
-              src={logo}
+              src={data.responseObject.profile_pic || randomPic()}
               alt="Echoes"
               className="h-10 w-10 lg:h-12 lg:w-12 rounded-full border-white border-2 object-cover"
             />

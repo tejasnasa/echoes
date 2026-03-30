@@ -5,6 +5,7 @@ import { useAllPosts } from "../../api/fetchPost";
 import { useAllUsers } from "../../api/user";
 import randomPic from "../../utils/temp/randomPic";
 import { prefetchUser } from "../../api/misc";
+import Loader from "../../components/Loader";
 
 export const Route = createFileRoute("/_layout/search")({
   component: RouteComponent,
@@ -17,10 +18,8 @@ function RouteComponent() {
 
   if (isLoading)
     return (
-      <main className="max-w-2xl mx-auto px-4 w-full mt-4 h-dvh flex justify-center items-center">
-        <div className="loader">
-          <div className="inner-circle"></div>
-        </div>
+      <main className="max-w-2xl mx-auto px-4 w-full mt-8 h-dvh flex justify-center">
+        <Loader />
       </main>
     );
 

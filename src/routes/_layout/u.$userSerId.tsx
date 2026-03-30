@@ -5,6 +5,7 @@ import { Ellipsis } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { useAllPosts } from "../../api/fetchPost";
 import Echo from "../../components/home/Echo";
+import Loader from "../../components/Loader";
 
 export const Route = createFileRoute("/_layout/u/$userSerId")({
   component: RouteComponent,
@@ -48,7 +49,12 @@ function RouteComponent() {
     }
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <main className="max-w-2xl mx-auto px-4 w-full mt-8 h-dvh flex justify-center">
+        <Loader />
+      </main>
+    );
 
   return (
     <main className="min-h-dvh">
