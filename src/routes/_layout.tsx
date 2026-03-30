@@ -94,7 +94,7 @@ function RouteComponent() {
   }
 
   return (
-    <div className=" text-lg flex -z-20">
+    <div className="text-lg flex relative">
       <section className="w-[20%] h-dvh fixed pr-8 flex flex-col justify-between pl-10 border-r-[1px] border-gray-600">
         <div>
           <Link to="/">
@@ -143,15 +143,6 @@ function RouteComponent() {
           >
             <AudioLines size={32} /> &ensp;&ensp; Echo
           </button>
-
-          <CreateModal
-            isOpen={isCreateModalOpen}
-            onClose={handleCloseCreateModal}
-          />
-          <SearchModal
-            isOpen={isSearchModalOpen}
-            onClose={handleCloseSearchModal}
-          />
         </div>
 
         <div>
@@ -180,6 +171,15 @@ function RouteComponent() {
       <section className="w-[80%] ml-auto">
         <Outlet />
       </section>
+
+      <CreateModal
+        isOpen={isCreateModalOpen}
+        onClose={handleCloseCreateModal}
+      />
+      <SearchModal
+        isOpen={isSearchModalOpen}
+        onClose={handleCloseSearchModal}
+      />
     </div>
   );
 }

@@ -15,7 +15,7 @@ const SearchModal = ({ isOpen, onClose }: CreateModalProps) => {
   if (!isOpen) return null;
 
   return (
-    <section className="fixed inset-0 z-100">
+    <section className="fixed inset-0 z-[100]">
       <div className="fixed w-full h-full" onClick={onClose}></div>
 
       <div

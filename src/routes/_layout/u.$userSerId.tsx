@@ -30,21 +30,15 @@ function RouteComponent() {
       <img
         src={coverimg}
         alt=""
-        className="h-[220px] w-4/5 object-cover absolute top-0 -z-0"
+        className="h-[220px] w-4/5 object-cover absolute top-0 z-10"
       />
       <section className="mt-20 z-1 mx-36 flex items-center justify-between border-b-[1px] border-gray-600 pb-6">
-        <div className="h-20 w-[30%] mt-4 text-justify">
-          {data?.bio}
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Delectus
-          velit, possimus ut earum dolore, neque nulla eos, iusto ab obcaecati
-          inventore itaque odio doloremque iste qui? Assumenda distinctio
-          consectetur velit.
-        </div>
+        <div className="h-20 w-[30%] mt-4 text-justify">{data?.bio}</div>
         <div className="flex flex-col justify-center items-center">
           <img
             src={pfp}
             alt=""
-            className="h-[220px] rounded-full z-10 relative border-[2px] border-white min-w-[220px]"
+            className="h-[220px] rounded-full relative border-[2px] border-white min-w-[220px] z-20"
           />
           <h2 className="text-4xl mt-2">{data?.fullname}</h2>
           <h3 className="text-gray-300 text-xl mt-1">@{data?.username}</h3>
