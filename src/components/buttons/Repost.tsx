@@ -20,9 +20,7 @@ const Repost = ({
 
     fetch(`${import.meta.env.VITE_BASE_URL}/repost/${postSerId}`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       credentials: "include",
     });
 
@@ -32,19 +30,18 @@ const Repost = ({
 
   return (
     <button
-      className={`flex items-center group ${active ? "text-[#4CA5A6]" : undefined} px-4 py-2`}
+      className={`relative flex items-center gap-1.5 px-3 py-2 rounded-xl transition-all duration-200 hover:bg-white/[0.04] hover:scale-105 active:scale-95 cursor-pointer ${
+        active ? "text-echo-accent" : "text-gray-500 hover:text-gray-300"
+      }`}
       onClick={toggle}
     >
       <Waves
-        size={24}
+        size={20}
         fill={active ? "#4CA5A6" : "transparent"}
         strokeWidth={2}
-        className="transition-transform duration-200"
-      />{" "}
-      &nbsp; {value}
-      <span className="absolute bottom-8 opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-sm bg-gray-600">
-        &nbsp;reverberate&nbsp;
-      </span>
+        className="transition-all duration-200"
+      />
+      <span className="text-xs font-medium">{value}</span>
     </button>
   );
 };

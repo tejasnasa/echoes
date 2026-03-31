@@ -1,4 +1,5 @@
-// ShareMenu.tsx
+
+
 import { useState, useRef, useEffect } from "react";
 import { Share2, Link, Check } from "lucide-react";
 
@@ -29,26 +30,26 @@ const ShareOptions = ({ serialId }: { serialId: number | string }) => {
   return (
     <div ref={menuRef} className="relative">
       <button
-        className="hover:bg-white/10 rounded-full m-2 flex items-center justify-center transition mr-0"
+        className="hover:bg-white/[0.06] rounded-lg p-1.5 flex items-center justify-center transition-all duration-200 cursor-pointer"
         onClick={() => setOpen((prev) => !prev)}
       >
-        <Share2 size={24} className="m-3" />
+        <Share2 size={16} className="text-gray-500" />
       </button>
 
       {open && (
-        <div className="absolute left-4 top-12 mb-2 w-32 rounded-xl bg-[#111628] border border-white/10 shadow-xl overflow-hidden z-50">
+        <div className="absolute right-0 top-10 w-36 rounded-xl bg-echo-bg/95 backdrop-blur-xl border border-white/[0.08] shadow-xl overflow-hidden z-50 animate-modal-in">
           <button
             onClick={handleCopy}
-            className="w-full flex items-center gap-3 px-4 py-3 text-sm text-white hover:bg-white/10 transition"
+            className="w-full flex items-center gap-3 px-4 py-3 text-xs text-white hover:bg-white/[0.06] transition-all duration-200 cursor-pointer"
           >
             {copied ? (
               <>
-                <Check size={16} className="text-green-400 shrink-0" />
+                <Check size={14} className="text-green-400 shrink-0" />
                 <span className="text-green-400">Copied!</span>
               </>
             ) : (
               <>
-                <Link size={16} className="shrink-0" />
+                <Link size={14} className="shrink-0" />
                 <span>Copy link</span>
               </>
             )}

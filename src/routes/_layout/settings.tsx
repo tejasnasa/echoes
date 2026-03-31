@@ -47,39 +47,53 @@ function RouteComponent() {
 
   return (
     <main className="min-h-dvh flex flex-col md:flex-row">
-      <section className="w-full md:w-1/4 border-b-[1px] md:border-b-0 md:border-r-[1px] border-gray-700">
-        <h1 className="text-2xl md:text-3xl m-4 md:m-8 mt-8 md:mt-16">Settings</h1>
-        <div className="flex md:flex-col overflow-x-auto md:overflow-visible">
+
+
+      <section className="w-full md:w-64 lg:w-72 border-b md:border-b-0 md:border-r border-white/[0.04] shrink-0">
+        <h1 className="text-2xl font-bold m-6 mt-8 md:mt-10 bg-gradient-to-r from-green-400 to-indigo-500 bg-clip-text text-transparent">
+          Settings
+        </h1>
+        <nav className="flex md:flex-col overflow-x-auto md:overflow-visible px-2 md:px-0">
           <button
-            className={`p-4 md:p-6 py-2 my-2 w-max md:w-full text-left ${page === "editProfile" ? "border-white border-b-4 md:border-b-0 md:border-r-4" : undefined}`}
-            onClick={() => {
-              setPage("editProfile");
-            }}
+            className={`relative px-5 py-3 text-sm font-medium text-left transition-all duration-200 rounded-lg md:rounded-none cursor-pointer whitespace-nowrap ${
+              page === "editProfile"
+                ? "settings-active text-white bg-white/[0.03]"
+                : "text-gray-500 hover:text-white hover:bg-white/[0.02]"
+            }`}
+            onClick={() => setPage("editProfile")}
           >
             Edit Profile
           </button>
-        <button
-            className={`p-4 md:p-6 py-2 my-2 w-max md:w-full text-left ${page === "changePassword" ? "border-white border-b-4 md:border-b-0 md:border-r-4" : undefined}`}
-            onClick={() => {
-              setPage("changePassword");
-            }}
+          <button
+            className={`relative px-5 py-3 text-sm font-medium text-left transition-all duration-200 rounded-lg md:rounded-none cursor-pointer whitespace-nowrap ${
+              page === "changePassword"
+                ? "settings-active text-white bg-white/[0.03]"
+                : "text-gray-500 hover:text-white hover:bg-white/[0.02]"
+            }`}
+            onClick={() => setPage("changePassword")}
           >
             Change Password
           </button>
-          <button className="text-red-500 m-4 md:m-8 w-max whitespace-nowrap" onClick={handleLogout}>
+          <button
+            className="px-5 py-3 text-sm font-medium text-left text-red-400 hover:text-red-300 hover:bg-red-500/[0.05] transition-all duration-200 rounded-lg md:rounded-none cursor-pointer whitespace-nowrap"
+            onClick={handleLogout}
+          >
             Logout
           </button>
-        </div>
+        </nav>
       </section>
+
+
+
       {page === "editProfile" && (
-        <section className="p-4 md:px-20 w-full md:w-3/4">
-          <h2 className="text-xl md:text-2xl mb-4 md:m-8 md:ml-4 md:mt-20">Edit Profile</h2>
+        <section className="flex-1 p-6 md:p-10 animate-fade-in-up">
+          <h2 className="text-xl font-semibold mb-6">Edit Profile</h2>
           <UpdateProfileForm />
         </section>
       )}
       {page === "changePassword" && (
-        <section className="p-4 md:px-20 w-full md:w-3/4">
-          <h2 className="text-xl md:text-2xl mb-4 md:m-8 md:ml-4 md:mt-20">Change Password</h2>
+        <section className="flex-1 p-6 md:p-10 animate-fade-in-up">
+          <h2 className="text-xl font-semibold mb-6">Change Password</h2>
           <ChangePasswordForm
             form={form}
             isPending={isPending}

@@ -44,7 +44,6 @@ export const Route = createFileRoute("/_layout")({
   beforeLoad: async () => {
     const cachedAuth = queryClient.getQueryData<Authresult>(["auth"]);
 
-    // Only trust cached authenticated state; revalidate stale unauthenticated state.
     if (cachedAuth?.success === true) {
       return;
     }
@@ -67,144 +66,128 @@ function RouteComponent() {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
 
-  const handleOpenCreateModal = () => {
-    setIsCreateModalOpen(true);
-  };
-
-  const handleCloseCreateModal = () => {
-    setIsCreateModalOpen(false);
-  };
-
-  const handleOpenSearchModal = () => {
-    setIsSearchModalOpen(true);
-  };
-
-  const handleCloseSearchModal = () => {
-    setIsSearchModalOpen(false);
-  };
+  const handleOpenCreateModal = () => setIsCreateModalOpen(true);
+  const handleCloseCreateModal = () => setIsCreateModalOpen(false);
+  const handleOpenSearchModal = () => setIsSearchModalOpen(true);
+  const handleCloseSearchModal = () => setIsSearchModalOpen(false);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center items-center h-dvh">
+        <div className="loader-ring w-9 h-9 rounded-full"></div>
+      </div>
+    );
   }
 
   if (isError || !data) {
     return <div>Error loading authentication data</div>;
   }
 
+  const navItems = [
+    { to: "/" as const, icon: House, label: "Home" },
+    { to: "/explore" as const, icon: Compass, label: "Explore" },
+    { to: "/archive" as const, icon: Bookmark, label: "Archive" },
+    { to: "/settings" as const, icon: Bolt, label: "Settings" },
+  ];
+
   return (
-    <div className="text-lg flex -z-20 min-h-screen w-full">
-      <section className="w-[15%] sm:w-20 lg:w-[25%] xl:w-[20%] xl:min-w-[250px] h-dvh fixed flex flex-col justify-between border-r-[1px] border-gray-600 z-10 transition-all duration-300">
-        <div className="w-full flex flex-col items-center lg:items-stretch lg:pl-6 xl:pl-10 lg:pr-4 xl:pr-8 mt-4">
-          <Link
-            to="/"
-            className="w-full flex justify-center lg:justify-start mb-6 lg:mb-10 lg:ml-4"
-          >
+
+    <div className="text-lg flex min-h-screen w-full relative">
+
+      <div className="ambient-orbs">
+        <div className="ambient-orb-3"></div>
+      </div>
+
+      <aside className="sidebar-island w-16 sm:w-20 lg:w-64 fixed flex flex-col justify-between z-10 backdrop-blur-xl">
+        <div className="flex flex-col items-center lg:items-stretch lg:px-4 mt-6">
+
+          <Link to="/" className="flex justify-center lg:justify-start lg:px-3 mb-8 group">
             <img
               src={logo}
               alt="Echoes"
-              className="h-8 sm:h-10 lg:h-14 xl:h-16"
+              className="h-8 sm:h-9 lg:h-12 transition-transform duration-300 group-hover:scale-105"
             />
           </Link>
 
-          <Link
-            to="/"
-            className={`flex m-2 lg:ml-2 xl:ml-4 p-2 items-center justify-center lg:justify-start hover:bg-white/5 rounded-xl transition duration-200 ${location.pathname === "/" && "font-black text-xl"}`}
-          >
-            <House size={28} className="shrink-0 lg:mr-3" />{" "}
-            <span className="hidden lg:inline">Home</span>
-          </Link>
-          <button
-            onClick={handleOpenSearchModal}
-            className={`flex m-2 lg:ml-2 xl:ml-4 p-2 items-center justify-center lg:justify-start hover:bg-white/5 rounded-xl transition duration-200 lg:w-[90%] ${isSearchModalOpen && "font-black text-xl"}`}
-          >
-            <Search size={28} className="shrink-0 lg:mr-3" />{" "}
-            <span className="hidden lg:inline">Search</span>
-          </button>
-          <Link
-            to="/explore"
-            className={`flex m-2 lg:ml-2 xl:ml-4 p-2 items-center justify-center lg:justify-start hover:bg-white/5 rounded-xl transition duration-200 ${location.pathname === "/explore" && "font-black text-xl"}`}
-          >
-            <Compass size={28} className="shrink-0 lg:mr-3" />{" "}
-            <span className="hidden lg:inline">Explore</span>
-          </Link>
-          <a className="flex m-2 lg:ml-2 xl:ml-4 p-2 items-center justify-center lg:justify-start hover:bg-white/5 rounded-xl transition duration-200 cursor-pointer">
-            <Bell size={28} className="shrink-0 lg:mr-3" />{" "}
-            <span className="hidden lg:inline">Pings</span>
-          </a>
-          <a className="flex m-2 lg:ml-2 xl:ml-4 p-2 items-center justify-center lg:justify-start hover:bg-white/5 rounded-xl transition duration-200 cursor-pointer">
-            <Mail size={28} className="shrink-0 lg:mr-3" />{" "}
-            <span className="hidden lg:inline">Whispers</span>
-          </a>
-          <Link
-            to="/archive"
-            className={`flex m-2 lg:ml-2 xl:ml-4 p-2 items-center justify-center lg:justify-start hover:bg-white/5 rounded-xl transition duration-200 ${location.pathname === "/archive" && "font-black text-xl"}`}
-          >
-            <Bookmark size={28} className="shrink-0 lg:mr-3" />{" "}
-            <span className="hidden lg:inline">Archive</span>
-          </Link>
-          <Link
-            to="/settings"
-            className={`flex m-2 lg:ml-2 xl:ml-4 p-2 items-center justify-center lg:justify-start hover:bg-white/5 rounded-xl transition duration-200 ${location.pathname === "/settings" && "font-black text-xl"}`}
-          >
-            <Bolt size={28} className="shrink-0 lg:mr-3" />{" "}
-            <span className="hidden lg:inline">Settings</span>
-          </Link>
+          <nav className="flex flex-col gap-0.5">
+            {navItems.map((item) => {
+              const isActive = location.pathname === item.to;
+              const Icon = item.icon;
+              return (
+                <Link
+                  key={item.label}
+                  to={item.to}
+                  className={`relative flex items-center justify-center lg:justify-start gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 hover:bg-white/[0.04] ${
+                    isActive ? "nav-active-bar bg-white/[0.03] font-bold" : "text-gray-400 hover:text-white"
+                  }`}
+                >
+                  <Icon size={20} className="shrink-0" />
+                  <span className="hidden lg:inline text-sm">{item.label}</span>
+                </Link>
+              );
+            })}
 
-          <div className="w-full flex justify-center lg:justify-start lg:ml-2 xl:ml-4 mt-2 mb-4">
             <button
-              className="flex items-center justify-start hover:text-indigo-100 transition-colors rounded-full lg:rounded-lg duration-200 bg-gradient-to-r from-green-400 to-indigo-600 text-white font-semibold w-12 h-12 lg:w-[80%] lg:h-auto lg:py-2 lg:px-4"
+              onClick={handleOpenSearchModal}
+              className={`relative flex items-center justify-center lg:justify-start gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 hover:bg-white/[0.04] cursor-pointer ${
+                isSearchModalOpen ? "nav-active-bar bg-white/[0.03] font-bold" : "text-gray-400 hover:text-white"
+              }`}
+            >
+              <Search size={20} className="shrink-0" />
+              <span className="hidden lg:inline text-sm">Search</span>
+            </button>
+
+            <a className="flex items-center justify-center lg:justify-start gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 hover:bg-white/[0.04] text-gray-400 hover:text-white cursor-pointer">
+              <Bell size={20} className="shrink-0" />
+              <span className="hidden lg:inline text-sm">Pings</span>
+            </a>
+            <a className="flex items-center justify-center lg:justify-start gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 hover:bg-white/[0.04] text-gray-400 hover:text-white cursor-pointer">
+              <Mail size={20} className="shrink-0" />
+              <span className="hidden lg:inline text-sm">Whispers</span>
+            </a>
+          </nav>
+
+          <div className="mt-5 flex justify-center lg:justify-stretch">
+            <button
+              className="pulse-ring btn-glow bg-gradient-to-r from-green-400 to-indigo-600 flex items-center justify-center gap-2.5 rounded-full lg:rounded-2xl text-white font-semibold w-11 h-11 lg:w-full lg:h-auto lg:py-2 cursor-pointer shadow-lg shadow-green-500/10 hover:shadow-green-500/25 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.97] transition-all duration-200"
               onClick={handleOpenCreateModal}
             >
-              <AudioLines size={28} className="shrink-0 lg:mr-3" />{" "}
-              <span className="hidden lg:inline">Echo</span>
+              <AudioLines size={20} className="shrink-0" />
+              <span className="hidden lg:inline text-sm">Echo</span>
             </button>
           </div>
-
-          <CreateModal
-            isOpen={isCreateModalOpen}
-            onClose={handleCloseCreateModal}
-          />
-          <SearchModal
-            isOpen={isSearchModalOpen}
-            onClose={handleCloseSearchModal}
-          />
         </div>
 
-        <div className="mb-4 lg:pl-6 w-full flex justify-center lg:justify-start">
+        <div className="mb-4 flex justify-center lg:justify-stretch lg:px-3">
           <Link
             to="/u/$userSerId"
             params={{ userSerId: data.responseObject.serialId }}
-            className="flex items-center group lg:ml-8"
+            className="flex items-center gap-3 p-2 rounded-xl transition-all duration-200 hover:bg-white/[0.04] group w-full justify-center lg:justify-start"
           >
             <img
               src={data.responseObject.profile_pic || randomPic()}
-              alt="Echoes"
-              className="h-10 w-10 lg:h-12 lg:w-12 rounded-full border-white border-2 object-cover"
+              alt="You"
+              className="h-9 w-9 rounded-full border border-white/10 object-cover transition-all duration-300 group-hover:border-green-400/40"
             />
-            <div className="hidden lg:block text-sm ml-3">
-              <div className="font-semibold group-hover:underline">
+            <div className="hidden lg:block text-sm min-w-0">
+              <div className="font-semibold truncate text-xs group-hover:text-green-400 transition-colors duration-200">
                 @{data.responseObject.username}
               </div>
-              <div className="text-gray-400 truncate max-w-[120px] xl:max-w-[150px]">
+              <div className="text-gray-500 text-xs truncate">
                 {data.responseObject.fullname}
               </div>
             </div>
           </Link>
         </div>
-      </section>
+      </aside>
 
-      <section className="ml-[15%] sm:ml-20 lg:ml-[25%] xl:ml-[20%] w-[85%] sm:w-[calc(100%-5rem)] lg:w-[75%] xl:w-[80%] pb-20 md:pb-0 flex-1 min-h-screen">
+      <main className="ml-[calc(4rem+12px)] sm:ml-[calc(5rem+12px)] lg:ml-[calc(16rem+12px)] flex-1 min-h-screen pb-20 md:pb-0 relative z-[1]">
         <Outlet />
-      </section>
+      </main>
 
-      <CreateModal
-        isOpen={isCreateModalOpen}
-        onClose={handleCloseCreateModal}
-      />
-      <SearchModal
-        isOpen={isSearchModalOpen}
-        onClose={handleCloseSearchModal}
-      />
+
+      <CreateModal isOpen={isCreateModalOpen} onClose={handleCloseCreateModal} />
+      <SearchModal isOpen={isSearchModalOpen} onClose={handleCloseSearchModal} />
     </div>
   );
 }

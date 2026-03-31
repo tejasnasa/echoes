@@ -47,14 +47,6 @@ function RouteComponent() {
 
   const [tab, setTab] = useState<"captures" | "resonates">("captures");
 
-  const viewCaptures = () => {
-    setTab("captures");
-  };
-
-  const viewresonates = () => {
-    setTab("resonates");
-  };
-
   if (captureLoading || resonateLoading)
     return (
       <main className="max-w-2xl mx-auto px-4 w-full mt-4 h-dvh flex justify-center">
@@ -62,94 +54,88 @@ function RouteComponent() {
       </main>
     );
 
+  const posts = tab === "captures" ? captures : resonates;
+
   return (
-    <main className="max-w-2xl mx-auto px-4 w-full mt-4 flex flex-col min-h-dvh">
-      <div className="flex justify-around text-xl md:text-2xl mt-4">
+    <main className="max-w-2xl mx-auto px-4 sm:px-6 w-full pt-6 flex flex-col min-h-dvh">
+      <div className="wave-header pb-4 mb-6">
+        <h1 className="text-2xl font-bold bg-gradient-to-r from-green-400 to-indigo-500 bg-clip-text text-transparent">
+          Archive
+        </h1>
+        <p className="text-xs text-gray-600 mt-1">Your saved echoes and resonances</p>
+      </div>
+
+
+
+      <div className="flex gap-1 bg-white/[0.03] rounded-xl p-1 mb-6">
         <button
-          onClick={viewCaptures}
-          className={`w-5/12 pb-2 ${tab === "captures" ? "border-b-4 " : "border-b-[1px]"}`}
+          onClick={() => setTab("captures")}
+          className={`flex-1 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer ${
+            tab === "captures"
+              ? "bg-white/[0.08] text-white shadow-sm"
+              : "text-gray-500 hover:text-gray-300"
+          }`}
         >
           Captures
         </button>
         <button
-          onClick={viewresonates}
-          className={`w-5/12 pb-2 ${tab === "resonates" ? "border-b-4 " : "border-b-[1px]"}`}
+          onClick={() => setTab("resonates")}
+          className={`flex-1 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer ${
+            tab === "resonates"
+              ? "bg-white/[0.08] text-white shadow-sm"
+              : "text-gray-500 hover:text-gray-300"
+          }`}
         >
           Resonates
         </button>
       </div>
-      <section>
-        {tab === "captures" &&
-          captures?.map((post) => (
-            <section className="mt-8">
-              {post.postAboveId && (
-                <div className="text-md mb-2 text-gray-400">Replying to...</div>
-              )}
-              <div className="flex justify-between items-center">
-                <Link
-                  to="/u/$userSerId"
-                  params={{ userSerId: String(post.user.serialId) }}
-                  onMouseEnter={() => prefetchUser(post.user.serialId)}
-                  className="flex items-center"
-                >
-                  <img
-                    src={post.user.profile_pic || randomPic()}
-                    alt=""
-                    className="h-16 rounded-full mr-4 hover:opacity-85 transition duration-300"
-                  />
-                  <h4>@{post.user.username}</h4>
-                </Link>
+
+
+
+      <div className="echo-stagger flex flex-col gap-4">
+        {posts?.map((post) => (
+          <article
+            key={post.serialId}
+            className="bg-white/[0.02] hover:bg-white/[0.04] border border-white/[0.04] hover:border-white/[0.08] rounded-2xl p-5 transition-all duration-300"
+          >
+            {post.postAboveId && (
+              <div className="text-xs text-gray-500 mb-3 flex items-center gap-2 uppercase tracking-wider">
+                <span className="w-4 h-px bg-gray-600"></span>
+                Replying to a thread
               </div>
-              <Link
-                params={{ postSerId: String(post.serialId) }}
-                to="/e/$postSerId"
-                onMouseEnter={() => prefetchPost(post.serialId)}
-                className="text-lg"
-                key={post.serialId}
-              >
-                <div className="mt-4 break-words">{post.text}</div>
+            )}
+            <Link
+              to="/u/$userSerId"
+              params={{ userSerId: String(post.user.serialId) }}
+              onMouseEnter={() => prefetchUser(post.user.serialId)}
+              className="flex items-center gap-3 mb-3 group"
+            >
+              <img
+                src={post.user.profile_pic || randomPic()}
+                alt=""
+                className="h-9 w-9 rounded-full object-cover border border-white/10 group-hover:border-green-400/40 transition-all duration-200"
+              />
+              <span className="text-sm text-gray-400 group-hover:text-green-400 transition-colors">
+                @{post.user.username}
+              </span>
+            </Link>
+            <Link
+              params={{ postSerId: String(post.serialId) }}
+              to="/e/$postSerId"
+              onMouseEnter={() => prefetchPost(post.serialId)}
+              key={post.serialId}
+              className="block"
+            >
+              <p className="text-[1.05rem] leading-relaxed text-gray-200 break-words">
+                {post.text}
+              </p>
+              <div className="mt-3">
                 <ImageGrid images={post.images} />
-              </Link>
-            </section>
-          ))}
-        {tab === "resonates" &&
-          resonates?.map((post) => (
-            <section className="mt-8">
-              {post.postAboveId && (
-                <div className="text-md mb-2 text-gray-400">Replying to...</div>
-              )}
-              <div className="flex justify-between items-center">
-                <Link
-                  to="/u/$userSerId"
-                  params={{ userSerId: String(post.user.serialId) }}
-                  onMouseEnter={() => prefetchUser(post.user.serialId)}
-                  className="flex items-center"
-                >
-                  <img
-                    src={post.user.profile_pic || randomPic()}
-                    alt=""
-                    className="h-16 rounded-full mr-4 hover:opacity-85 transition duration-300"
-                  />
-                  <div>
-                    <h4 className="text-gray-300">@{post.user.username}</h4>
-                  </div>
-                </Link>
               </div>
-              <Link
-                params={{ postSerId: String(post.serialId) }}
-                to="/e/$postSerId"
-                onMouseEnter={() => prefetchPost(post.serialId)}
-                className="text-lg"
-                key={post.serialId}
-              >
-                <div className="mt-4 break-words">
-                  {post.text}
-                  <ImageGrid images={post.images} />
-                </div>
-              </Link>
-            </section>
-          ))}
-      </section>
+            </Link>
+          </article>
+        ))}
+      </div>
     </main>
   );
 }

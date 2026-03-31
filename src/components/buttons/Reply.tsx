@@ -1,23 +1,16 @@
 import { Link } from "@tanstack/react-router";
 import { AudioLines } from "lucide-react";
 
-const Reply = ({ postSerId, count }: { postSerId?: number, count: number }) => {
+const Reply = ({ postSerId, count }: { postSerId?: number; count: number }) => {
   return (
     <Link
       params={{ postSerId: String(postSerId) }}
       to="/e/$postSerId"
       hash="reply"
-      className={`flex items-center group px-4 py-2`}
+      className="relative flex items-center gap-1.5 px-3 py-2 rounded-xl transition-all duration-200 hover:bg-white/[0.04] hover:scale-105 active:scale-95 text-gray-500 hover:text-gray-300"
     >
-      <AudioLines
-        size={24}
-        strokeWidth={2}
-        className="transition-transform duration-200"
-      />{" "}
-      &nbsp; {count}
-      <span className="absolute bottom-8 left-1/4 opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-sm bg-gray-600">
-        &nbsp;echo back&nbsp;
-      </span>
+      <AudioLines size={20} strokeWidth={2} className="transition-all duration-200" />
+      <span className="text-xs font-medium">{count}</span>
     </Link>
   );
 };

@@ -39,10 +39,17 @@ function RouteComponent() {
 
   return (
     <main className="min-h-screen flex justify-center items-center p-4">
-      <section className="hidden md:block bg-gradient-to-br from-green-400 to-indigo-600 h-[600px] w-full max-w-[500px] rounded-l-3xl shadow-2xl relative overflow-hidden">
-        <div className="absolute inset-0 bg-black/10 backdrop-blur-sm" />
+
+
+      <section className="auth-orb hidden md:flex bg-gradient-to-br from-green-400 to-indigo-600 h-[600px] w-full max-w-[500px] rounded-l-3xl shadow-2xl relative overflow-hidden items-center justify-center">
+        <div className="relative z-10 text-center px-10">
+          <h2 className="text-4xl font-bold text-white/90 mb-3">Welcome Back</h2>
+          <p className="text-white/60 text-lg">Your echoes are waiting</p>
+        </div>
       </section>
-      <div className="bg-[#111628] w-full max-w-[500px] md:h-[600px] py-10 md:py-0 rounded-3xl md:rounded-l-none md:rounded-r-3xl shadow-2xl flex justify-center items-center border-[1px] md:border-l-0 border-gray-800">
+
+
+      <div className="bg-echo-bg w-full max-w-[500px] md:h-[600px] py-10 md:py-0 rounded-3xl md:rounded-l-none md:rounded-r-3xl shadow-2xl flex justify-center items-center border border-white/[0.06] md:border-l-0">
         <LoginForm
           form={form}
           isPending={isPending}
